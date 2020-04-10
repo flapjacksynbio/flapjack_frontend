@@ -19,16 +19,12 @@ module.exports = {
         'sourceType': 'module'
     },
     'plugins': [
-        'react'
+        'react',
     ],
     'rules': {
         'indent': [
             'error',
             2
-        ],
-        'linebreak-style': [
-            'error',
-            'unix'
         ],
         'quotes': [
             'error',
