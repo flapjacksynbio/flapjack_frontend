@@ -3,28 +3,32 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from 'react-router-dom'
-import Home from './Components/Home'
+import { Layout } from 'antd'
+import FlapHeader from './Components/Header'
+import routes from './routes'
+import './App.scss'
+
+const { Content } = Layout
 
 function App() {
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
 
-      <Switch>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <Layout className="layout">
+        <FlapHeader routes={routes} />
+        <Content id="flapjack-content">
+          <div className="site-layout-content">
+            <Switch>
+              {[...routes].reverse().map(({ route, viewRenderer: Renderer }) => (
+                <Route path={route} key={`route-${route}`}>
+                  <Renderer />
+                </Route>
+              ))}
+            </Switch>
+          </div>
+        </Content>
+      </Layout>
     </Router>
   )
 }

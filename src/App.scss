@@ -1,0 +1,38 @@
+$contentPadding: 10px;
+$headerHeight: 64px;
+
+.site-layout-content {
+  background: #fff;
+  padding: 24px;
+  min-height: calc(100vh - 84px);
+  border-radius: 10px;
+}
+
+#flapjack-header {
+  height: $headerHeight;
+  display: flex;
+  justify-content: space-between;
+}
+
+#flapjack-content {
+  padding: $contentPadding;
+}
+
+#components-layout-demo-top .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 16px 16px 0;
+  align-items: center;
+  float: left;
+}
+
+.logo img {
+  width: 24px;
+  height: 31px;
+}
+
+.logo .logo-title {
+  color: #fff;
+  margin-left: 15px;
+}

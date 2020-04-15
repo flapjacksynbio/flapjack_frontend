@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  react-service:
+  web:
     container_name: flapjack_front
     build: ./
     ports:
