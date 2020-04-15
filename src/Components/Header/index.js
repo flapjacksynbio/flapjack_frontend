@@ -1,14 +1,16 @@
 import React from 'react'
-import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import { Layout } from 'antd'
-import logo from '../assets/images/logo.png'
+import { Layout, Menu } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import logo from '~/src/assets/images/logo.png'
 import PropTypes from 'prop-types'
 
-const FlapHeader = ({ routes=[] }) => {
+const FlapHeader = ({ routes = [] }) => {
   const [current, setCurrent] = React.useState(routes[0].key)
 
   const handleClick = e => setCurrent(e.key)
+
+  const menuButtons = routes.filter(({ navbarRenderer }) => navbarRenderer)
 
   return (
     <Layout.Header id="flapjack-header">
@@ -19,11 +21,24 @@ const FlapHeader = ({ routes=[] }) => {
         </Link>
       </div>
       <Menu theme='dark' className="navbar" onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
-        {routes.map(({ label, route, renderer }) => 
-          <Menu.Item key={`menu-${label}`}>
-            <Link to={route}>{ renderer ? renderer(label) : label }</Link>
+        {menuButtons.map(route =>
+          <Menu.Item key={`menu-${route.label}`}>
+            {route.navbarRenderer(route)}
           </Menu.Item>
         )}
+        <Menu.SubMenu
+          title={<span><UserOutlined />MrEarle</span>}
+        >
+          <Menu.Item key='upload'>
+            <Link to='/upload'>Upload</Link>
+          </Menu.Item>
+          <Menu.Item key='massive-upload'>
+            <Link to='/massive-upload'>Massive Upload</Link>
+          </Menu.Item>
+          <Menu.Item key='sign-out'>
+            Sign Out
+          </Menu.Item>
+        </Menu.SubMenu>
       </Menu>
     </Layout.Header>
   )
