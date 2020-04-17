@@ -9,7 +9,7 @@ import FlapHeader from './Components/Header'
 import routes from './routes'
 import './App.scss'
 
-const { Content } = Layout
+const { Content, Footer } = Layout
 
 function App() {
   return (
@@ -28,6 +28,9 @@ function App() {
             </Switch>
           </div>
         </Content>
+        <Footer className='footer' theme='dark'>
+          <span>© 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a></span>
+        </Footer>
       </Layout>
     </Router>
   )

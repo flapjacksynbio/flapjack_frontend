@@ -1,14 +1,32 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Layout, Drawer, Button } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
 import logo from '~/src/assets/images/logo.png'
 import PropTypes from 'prop-types'
+import NavMenu from './NavMenu'
+import './Header.scss'
 
 const FlapHeader = ({ routes = [] }) => {
-  const [current, setCurrent] = React.useState(routes[0].key)
+  const [smallScreen, setSmallScreen] = React.useState(false)
+  const [drawerVisible, setDrawerVisible] = React.useState(false)
 
-  const handleClick = e => setCurrent(e.key)
+  React.useEffect(() => {
+    updateSmallScreen()
+    window.addEventListener('resize', updateSmallScreen)
+    return () => {
+      window.removeEventListener('resize', updateSmallScreen)
+    }
+  })
+
+  const updateSmallScreen = () => {
+    const windowWidth = window.innerWidth
+    setSmallScreen(windowWidth < 720)
+  }
+
+  const onToggleDrawer = () => {
+    setDrawerVisible(visible => !visible)
+  }
 
   const menuButtons = routes.filter(({ navbarRenderer }) => navbarRenderer)
 
@@ -20,26 +38,23 @@ const FlapHeader = ({ routes = [] }) => {
           <span className="logo-title">FlapJack</span>
         </Link>
       </div>
-      <Menu theme='dark' className="navbar" onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
-        {menuButtons.map(route =>
-          <Menu.Item key={`menu-${route.label}`}>
-            {route.navbarRenderer(route)}
-          </Menu.Item>
-        )}
-        <Menu.SubMenu
-          title={<span><UserOutlined />MrEarle</span>}
+      { smallScreen && (
+        <Button className="drawer-button" onClick={onToggleDrawer}>
+          <MenuOutlined className="drawer-button-icon" />
+        </Button>
+      )}
+      { smallScreen && (
+        <Drawer
+          placement="right"
+          onClose={onToggleDrawer}
+          visible={drawerVisible}
+          theme='dark'
+          bodyStyle={{ padding: 0, backgroundColor: '#001529' }}
         >
-          <Menu.Item key='upload'>
-            <Link to='/upload'>Upload</Link>
-          </Menu.Item>
-          <Menu.Item key='massive-upload'>
-            <Link to='/massive-upload'>Massive Upload</Link>
-          </Menu.Item>
-          <Menu.Item key='sign-out'>
-            Sign Out
-          </Menu.Item>
-        </Menu.SubMenu>
-      </Menu>
+          <NavMenu menuButtons={menuButtons} mode='vertical' />
+        </Drawer>
+      )}
+      { !smallScreen && <NavMenu menuButtons={menuButtons} /> }
     </Layout.Header>
   )
 }
