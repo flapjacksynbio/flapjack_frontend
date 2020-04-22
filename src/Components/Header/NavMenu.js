@@ -6,8 +6,7 @@ import PropTypes from 'prop-types'
 
 const NavMenu = ({ menuButtons, mode = 'horizontal' }) => {
   const isHorizontal = mode === 'horizontal'
-
-
+  
   return (
     <Menu
       theme='dark'

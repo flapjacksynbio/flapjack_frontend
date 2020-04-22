@@ -23,7 +23,7 @@ const Home = () => {
           <Link to='/authentication?initialTab=signup'>
             <Card
               hoverable
-              cover={<UserAddOutlined style={{ fontSize: '8em', color: '#007bff', padding: 10 }} />}
+              cover={<UserAddOutlined style={{ fontSize: '8em', color: '#00f', padding: 10 }} />}
               className='home-cards'
             >
               <div>Ready to get started?</div>
@@ -35,7 +35,7 @@ const Home = () => {
           <Link to='/authentication'>
             <Card
               hoverable
-              cover={<LoginOutlined style={{ fontSize: '8em', color: '#007bff', padding: 10 }} />}
+              cover={<LoginOutlined style={{ fontSize: '8em', color: '#00f', padding: 10 }} />}
               className='home-cards'
             >
               <div>Already have an account?</div>
