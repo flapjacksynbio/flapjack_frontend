@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, Row, Col } from 'antd'
-import { UserAddOutlined, LoginOutlined } from '@ant-design/icons'
 import './Home.scss'
 import logo from '~/src/assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import NotLoggedInCards from './NotLoggedInCards'
+import LoggedInCards from './LoggedInCards'
 
 const Home = () => {
   return (
@@ -18,32 +18,8 @@ const Home = () => {
           </Col>
         </Row>
       </Card>
-      <Row style={{ width: '100%' }} justify="space-between">
-        <Col xs={20} md={12} style={{ padding: 5 }}>
-          <Link to='/authentication?initialTab=signup'>
-            <Card
-              hoverable
-              cover={<UserAddOutlined style={{ fontSize: '8em', color: '#00f', padding: 10 }} />}
-              className='home-cards'
-            >
-              <div>Ready to get started?</div>
-              <div>Sign Up!</div>
-            </Card>
-          </Link>
-        </Col>
-        <Col xs={20} md={12} style={{ padding: 5 }}>
-          <Link to='/authentication'>
-            <Card
-              hoverable
-              cover={<LoginOutlined style={{ fontSize: '8em', color: '#00f', padding: 10 }} />}
-              className='home-cards'
-            >
-              <div>Already have an account?</div>
-              <div>Log In!</div>
-            </Card>
-          </Link>
-        </Col>
-      </Row>
+      <NotLoggedInCards />
+      <LoggedInCards />
     </div>
   )
 }

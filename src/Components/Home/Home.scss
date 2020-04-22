@@ -13,8 +13,12 @@ $header-padding: 5rem;
   .ant-card-body {
     text-align: center;
 
-    div {
+    .home-card-title {
       font-size: 2em;
+    }
+
+    .home-card-content {
+      font-size: 1.3em;
     }
   }
 }
