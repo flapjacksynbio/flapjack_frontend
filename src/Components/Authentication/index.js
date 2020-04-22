@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tabs } from 'antd'
 import Login from './Login'
+import Signup from './Signup'
 
 const Authentication = () => {
   const params = new URLSearchParams(window.location.search)
@@ -12,7 +13,7 @@ const Authentication = () => {
         <Login />
       </Tabs.TabPane>
       <Tabs.TabPane tab='Sign Up' key='signup'>
-        Sign Up!
+        <Signup />
       </Tabs.TabPane>
     </Tabs>
   )

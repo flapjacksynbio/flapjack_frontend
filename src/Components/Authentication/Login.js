@@ -7,18 +7,18 @@ import './Authentication.scss'
 const Login = () => {
   const fields = [
     {
-      name: 'Email',
+      name: 'email',
       label: 'Email',
       type: 'email',
       PrefixComponent: MailOutlined,
-      rules: { required: true, type: 'email' }
+      rules: [{ required: true, type: 'email' }]
     },
     {
-      name: 'Password',
+      name: 'password',
       label: 'Password',
       type:'password',
       PrefixComponent: LockOutlined,
-      rules: { required: true }
+      rules: [{ required: true }]
     }
   ]
 
@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <Row align='middle' className='auth-form-container'>
       <Col xs={22} md={16} lg={12}>
-        <Card>
+        <Card title="Login to FlapJack">
           <FormFactory
             name='Login'
             onSubmit={onSubmit}
