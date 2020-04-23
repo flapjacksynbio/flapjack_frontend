@@ -50,9 +50,10 @@ const Signup = () => {
       rules: [{
         type: 'url',
         transform(value) {
-          if (!value.match(/^http(s?):\/\//i)) return `http://${value}`
+          if (value && !value.match(/^http(s?):\/\//i)) return `http://${value}`
           return value
-        }
+        },
+        required: false,
       }]
     },
     {
@@ -61,6 +62,7 @@ const Signup = () => {
       RenderField: ImageInput,
       rules: [{
         validator(rule, value) {
+          if (!value) return Promise.resolve()
           const { file } = value
           if (file.type === 'image/jpeg' || file.type === 'image/png') {
             return Promise.resolve()
