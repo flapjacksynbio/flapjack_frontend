@@ -21,7 +21,7 @@ const LoggedInCards = () => {
         </Link>
       </Col>
       <Col xs={20} md={8} style={{ padding: 5 }}>
-        <Link to='/authentication'>
+        <Link to='/massive-upload'>
           <Card
             hoverable
             className='home-cards'

@@ -1,11 +1,13 @@
+import { Card, Col, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { Card, Row, Col } from 'antd'
-import './Home.scss'
+import { connect } from 'react-redux'
 import logo from '~/src/assets/images/logo.png'
-import NotLoggedInCards from './NotLoggedInCards'
+import './Home.scss'
 import LoggedInCards from './LoggedInCards'
+import NotLoggedInCards from './NotLoggedInCards'
 
-const Home = () => {
+const Home = ({ loggedIn }) => {
   return (
     <div className='container'>
       <Card className="home-header">
@@ -18,13 +20,17 @@ const Home = () => {
           </Col>
         </Row>
       </Card>
-      <NotLoggedInCards />
-      <LoggedInCards />
+      { loggedIn ? <LoggedInCards /> : <NotLoggedInCards />}
     </div>
   )
 }
 
-Home.propTypes = {}
+Home.propTypes = {
+  loggedIn: PropTypes.bool.isRequired
+}
 
+const mapStateToProps = state => ({
+  loggedIn: !!state.session
+})
 
-export default Home
+export default connect(mapStateToProps)(Home)
