@@ -11,7 +11,7 @@ const Signup = () => {
       name: 'username',
       label: 'Username',
       PrefixComponent: UserOutlined,
-      rules: [{ required: true }]
+      rules: [{ required: true, max: 80, min: 3, whitespace: true }]
     },
     {
       name: 'email',
@@ -23,14 +23,14 @@ const Signup = () => {
     {
       name: 'password',
       label: 'Password',
-      type:'password',
+      type: 'password',
       PrefixComponent: LockOutlined,
-      rules: [{ required: true }]
+      rules: [{ required: true, min: 5, whitespace: true }]
     },
     {
       name: 'password_confirmation',
       label: 'Password Confirmation',
-      type:'password',
+      type: 'password',
       PrefixComponent: LockOutlined,
       rules: [
         { required: true },
@@ -47,7 +47,13 @@ const Signup = () => {
       label: 'Portfolio Site',
       type: 'url',
       PrefixComponent: GlobalOutlined,
-      rules: [{ type: 'url' }]
+      rules: [{
+        type: 'url',
+        transform(value) {
+          if (!value.match(/^http(s?):\/\//i)) return `http://${value}`
+          return value
+        }
+      }]
     },
     {
       name: 'profile_pic',
