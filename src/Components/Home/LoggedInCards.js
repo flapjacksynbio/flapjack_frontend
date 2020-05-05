@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Card } from 'antd'
-import { DesktopOutlined, LineChartOutlined } from '@ant-design/icons'
+import { CloudUploadOutlined, LineChartOutlined, ReadOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 const LoggedInCards = () => {
@@ -12,7 +12,7 @@ const LoggedInCards = () => {
             hoverable
             className='home-cards'
           >
-            <DesktopOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <CloudUploadOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
             <div className='home-card-title'>Upload</div>
             <div className='home-card-content'>
               Store your kinetic data from microplate reader and other sources
@@ -21,7 +21,19 @@ const LoggedInCards = () => {
         </Link>
       </Col>
       <Col xs={20} md={8} style={{ padding: 5 }}>
-        <Link to='/massive-upload'>
+        <Link to='/browse'>
+          <Card
+            hoverable
+            className='home-cards'
+          >
+            <ReadOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <div className='home-card-title'>Browse</div>
+            <div className='home-card-content'>Browse published studies, assays and available DNA</div>
+          </Card>
+        </Link>
+      </Col>
+      <Col xs={20} md={8} style={{ padding: 5 }}>
+        <Link to='/view'>
           <Card
             hoverable
             className='home-cards'

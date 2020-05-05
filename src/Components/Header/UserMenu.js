@@ -14,9 +14,6 @@ const UserMenu = (isHorizontal, username, onLogOut) => {
         <Menu.Item key='upload'>
           <Link to='/upload'>Upload</Link>
         </Menu.Item>
-        <Menu.Item key='massive-upload'>
-          <Link to='/massive-upload'>Massive Upload</Link>
-        </Menu.Item>
         <Menu.Item key='sign-out'>
           <Link to='/' onClick={onLogOut}>Sign Out</Link>
         </Menu.Item>
@@ -27,9 +24,6 @@ const UserMenu = (isHorizontal, username, onLogOut) => {
   return [
     <Menu.Item key='upload'>
       <Link to='/upload'>Upload</Link>
-    </Menu.Item>,
-    <Menu.Item key='massive-upload'>
-      <Link to='/massive-upload'>Massive Upload</Link>
     </Menu.Item>,
     <Menu.Item key='sign-out'>
       <Link to='/' onClick={onLogOut}>Sign Out</Link>
