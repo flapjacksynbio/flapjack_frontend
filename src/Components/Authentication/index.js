@@ -10,18 +10,19 @@ const Authentication = ({ user }) => {
   const params = new URLSearchParams(window.location.search)
   const queryTab = params.get('initialTab')
   const initialTab = ['login', 'signup'].includes(queryTab) ? queryTab : 'login'
+  const [activeKey, setActiveKey] = React.useState(initialTab)
 
   if (user) {
     return <Redirect to="/" />
   }
 
   return (
-    <Tabs defaultActiveKey={initialTab}>
+    <Tabs defaultActiveKey={initialTab} activeKey={activeKey} onTabClick={key => setActiveKey(key)}>
       <Tabs.TabPane tab='Log In' key='login'>
-        <Login />
+        <Login goToSignUp={() => setActiveKey('signup')} />
       </Tabs.TabPane>
       <Tabs.TabPane tab='Sign Up' key='signup'>
-        <Signup />
+        <Signup goToLogin={() => setActiveKey('login')} />
       </Tabs.TabPane>
     </Tabs>
   )

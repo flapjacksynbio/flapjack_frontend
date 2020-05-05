@@ -1,17 +1,18 @@
 import React from 'react'
 import FormFactory from '../Forms/Form'
-import { Card, Row, Col } from 'antd'
-import { MailOutlined, LockOutlined } from '@ant-design/icons'
+import { Card, Row, Col, Typography, Button, message } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './Authentication.scss'
+import PropTypes from 'prop-types'
+import api from '~/src/api'
 
-const Login = () => {
+const Login = ({ goToSignUp }) => {
   const fields = [
     {
-      name: 'email',
-      label: 'Email',
-      type: 'email',
-      PrefixComponent: MailOutlined,
-      rules: [{ required: true, type: 'email' }]
+      name: 'username',
+      label: 'Username',
+      PrefixComponent: UserOutlined,
+      rules: [{ required: true }]
     },
     {
       name: 'password',
@@ -22,8 +23,12 @@ const Login = () => {
     }
   ]
 
-  const onSubmit = (...args) => {
-    console.log(args)
+  const onSubmit = async ({ username, password}) => {
+    try {
+      await api.logIn({ username, password })
+    } catch (e) {
+      message.error('Credentials are invalid! Please try again.')
+    }
   }
 
   return (
@@ -34,11 +39,19 @@ const Login = () => {
             name='Login'
             onSubmit={onSubmit}
             fields={fields}
+            submitText="Login"
           />
+          <Typography.Text>
+            {'Don\'t have an account? '}<Button type="link" onClick={goToSignUp}>Register here!</Button>
+          </Typography.Text>
         </Card>
       </Col>
     </Row>
   )
+}
+
+Login.propTypes = {
+  goToSignUp: PropTypes.func.isRequired
 }
 
 export default Login

@@ -1,11 +1,12 @@
 import React from 'react'
 import FormFactory from '../Forms/Form'
-import { Card, Row, Col } from 'antd'
-import { MailOutlined, LockOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons'
+import { Card, Row, Col, Typography, Button, message } from 'antd'
+import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
 import './Authentication.scss'
-import ImageInput from '../Forms/ImageInput'
+import PropTypes from 'prop-types'
+import api from '../../api'
 
-const Signup = () => {
+const Signup = ({ goToLogin }) => {
   const fields = [
     {
       name: 'username',
@@ -42,39 +43,48 @@ const Signup = () => {
         })
       ]
     },
-    {
-      name: 'web_site',
-      label: 'Portfolio Site',
-      type: 'url',
-      PrefixComponent: GlobalOutlined,
-      rules: [{
-        type: 'url',
-        transform(value) {
-          if (value && !value.match(/^http(s?):\/\//i)) return `http://${value}`
-          return value
-        },
-        required: false,
-      }]
-    },
-    {
-      name: 'profile_pic',
-      label: 'Profile Picture',
-      RenderField: ImageInput,
-      rules: [{
-        validator(rule, value) {
-          if (!value) return Promise.resolve()
-          const { file } = value
-          if (file.type === 'image/jpeg' || file.type === 'image/png') {
-            return Promise.resolve()
-          }
-          return Promise.reject('')
-        }
-      }]
-    }
+    // {
+    //   name: 'web_site',
+    //   label: 'Portfolio Site',
+    //   type: 'url',
+    //   PrefixComponent: GlobalOutlined,
+    //   rules: [{
+    //     type: 'url',
+    //     transform(value) {
+    //       if (value && !value.match(/^http(s?):\/\//i)) return `http://${value}`
+    //       return value
+    //     },
+    //     required: false,
+    //   }]
+    // },
+    // {
+    //   name: 'profile_pic',
+    //   label: 'Profile Picture',
+    //   RenderField: ImageInput,
+    //   rules: [{
+    //     validator(rule, value) {
+    //       if (!value) return Promise.resolve()
+    //       const { file } = value
+    //       if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    //         return Promise.resolve()
+    //       }
+    //       return Promise.reject('')
+    //     }
+    //   }]
+    // }
   ]
 
-  const onSubmit = (...args) => {
-    console.log(args)
+  const onSubmit = async ({ username, email, password, password_confirmation }) => {
+    if (password !== password_confirmation) {
+      message.error('Passwords don\'t match')
+      return
+    }
+
+    try {
+      await api.register({ username, email, password, password2: password_confirmation })
+    } catch (e) {
+      message.error('There was an error with registration, please try again.')
+    }
   }
 
   return (
@@ -87,10 +97,17 @@ const Signup = () => {
             fields={fields}
             submitText="Register"
           />
+          <Typography.Text>
+            {'Already have an account? '}<Button type="link" onClick={goToLogin}>Log in here!</Button>
+          </Typography.Text>
         </Card>
       </Col>
     </Row>
   )
+}
+
+Signup.propTypes = {
+  goToLogin: PropTypes.func.isRequired,
 }
 
 export default Signup
