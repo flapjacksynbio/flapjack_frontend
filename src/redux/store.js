@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux'
+import { devToolsEnhancer } from 'redux-devtools-extension'
 import sessionReducer, { session } from './reducers/session'
 
 const model = {
@@ -9,6 +10,6 @@ const reducer = combineReducers({
   session: sessionReducer,
 })
 
-const store = createStore(reducer, model)
+const store = createStore(reducer, model, devToolsEnhancer())
 
 export default store
