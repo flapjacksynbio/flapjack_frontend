@@ -1,5 +1,5 @@
 import store from '../redux/store'
-import { receiveAccessTokens, logoutCurrentUser } from '../redux/actions/session'
+import { receiveAccessTokens, logoutCurrentUser, finishedLoggingIn } from '../redux/actions/session'
 
 class Api {
   constructor(baseUrl) {
@@ -10,7 +10,6 @@ class Api {
     this.authedHeaders = {
       ...this.baseHeaders
     }
-    this.store = store
   }
 
   url(path) {
@@ -45,7 +44,7 @@ class Api {
       throw new Error('API error')
     }
 
-    this.store.dispatch(receiveAccessTokens(response))
+    store.dispatch(receiveAccessTokens(response))
     return response
   }
 
@@ -60,12 +59,36 @@ class Api {
       throw new Error('API error')
     }
 
-    this.store.dispatch(receiveAccessTokens(response))
+    store.dispatch(receiveAccessTokens(response))
+    return response
+  }
+
+  async refresh(refresh) {
+    if (!refresh && (!store.session || !store.session.refresh)) {
+      throw new Error('No refresh token stored')
+    }
+
+    const response = await fetch(this.url('refresh/'), {
+      method: 'POST',
+      headers: this.baseHeaders,
+      body: JSON.stringify({ refresh: refresh || store.session.refresh }),
+    })
+      .then(resp => resp.json())
+      .finally(resp => {
+        store.dispatch(finishedLoggingIn())
+        return resp
+      })
+    
+    if (!response || !response.access) {
+      throw new Error('API error')
+    }
+
+    store.dispatch(receiveAccessTokens({ refresh, access: response.access }))
     return response
   }
 
   async logOut() {
-    return this.store.dispatch(logoutCurrentUser())
+    return store.dispatch(logoutCurrentUser())
   }
 }
 

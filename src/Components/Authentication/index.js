@@ -6,13 +6,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 
-const Authentication = ({ user }) => {
+const Authentication = ({ isLoggedIn }) => {
   const params = new URLSearchParams(window.location.search)
   const queryTab = params.get('initialTab')
   const initialTab = ['login', 'signup'].includes(queryTab) ? queryTab : 'login'
   const [activeKey, setActiveKey] = React.useState(initialTab)
 
-  if (user) {
+  if (isLoggedIn) {
     return <Redirect to="/" />
   }
 
@@ -29,11 +29,11 @@ const Authentication = ({ user }) => {
 }
 
 Authentication.propTypes = {
-  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
-  user: state.session
+  isLoggedIn: !!state.session.access
 })
 
 export default connect(mapStateToProps)(Authentication)

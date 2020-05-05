@@ -1,5 +1,6 @@
 import React from 'react'
 import { Menu } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UserMenu from './UserMenu'
@@ -10,7 +11,10 @@ const NavMenu = ({ menuButtons, mode = 'horizontal', user, onLogout }) => {
   const isHorizontal = mode === 'horizontal'
   let SubMenu = null
 
-  if (user) {
+  if (user.isLoggingIn) {
+    SubMenu = <Menu.Item><LoadingOutlined spin /></Menu.Item>
+  }
+  else if (user.access) {
     SubMenu = UserMenu(isHorizontal, user.username, onLogout)
   } else {
     SubMenu = (
