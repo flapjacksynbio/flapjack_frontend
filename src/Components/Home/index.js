@@ -30,7 +30,7 @@ Home.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: !!state.session
+  loggedIn: !!state.session.access
 })
 
 export default connect(mapStateToProps)(Home)

@@ -20,7 +20,7 @@ export const logoutCurrentUser = () => {
   }
 }
 
-export const finishedLoggingIn = () => ({
+export const loggingIn = isLoggingIn => ({
   type: FINISHED_LOGIN,
-  payload: { isLoggingIn: false }
+  payload: { isLoggingIn }
 })

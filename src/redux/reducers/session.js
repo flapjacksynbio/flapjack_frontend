@@ -7,7 +7,7 @@ export const session = {
   user: null,
   access: null,
   refresh: null,
-  isLoggingIn: true,
+  isLoggingIn: false,
 }
 
 const sessionReducer = (state={}, { type, payload }) => {

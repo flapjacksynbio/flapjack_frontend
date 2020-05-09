@@ -1,12 +1,14 @@
 import React from 'react'
 import FormFactory from '../Forms/Form'
-import { Card, Row, Col, Typography, Button, message } from 'antd'
+import { Card, Row, Col, Typography, Button, Alert } from 'antd'
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
 import './Authentication.scss'
 import PropTypes from 'prop-types'
 import api from '../../api'
 
 const Signup = ({ goToLogin }) => {
+  const [errors, setErrors] = React.useState([])
+
   const fields = [
     {
       name: 'username',
@@ -43,47 +45,30 @@ const Signup = ({ goToLogin }) => {
         })
       ]
     },
-    // {
-    //   name: 'web_site',
-    //   label: 'Portfolio Site',
-    //   type: 'url',
-    //   PrefixComponent: GlobalOutlined,
-    //   rules: [{
-    //     type: 'url',
-    //     transform(value) {
-    //       if (value && !value.match(/^http(s?):\/\//i)) return `http://${value}`
-    //       return value
-    //     },
-    //     required: false,
-    //   }]
-    // },
-    // {
-    //   name: 'profile_pic',
-    //   label: 'Profile Picture',
-    //   RenderField: ImageInput,
-    //   rules: [{
-    //     validator(rule, value) {
-    //       if (!value) return Promise.resolve()
-    //       const { file } = value
-    //       if (file.type === 'image/jpeg' || file.type === 'image/png') {
-    //         return Promise.resolve()
-    //       }
-    //       return Promise.reject('')
-    //     }
-    //   }]
-    // }
   ]
+
+  const showAlerts = messages => (
+    <div style={{ marginBottom: 12 }}>
+      {messages.map((msg, i) =>
+        <Alert
+          key={`login-err-${i}`}
+          message={msg}
+          type="error"
+          closable />)
+      }
+    </div>
+  )
 
   const onSubmit = async ({ username, email, password, password_confirmation }) => {
     if (password !== password_confirmation) {
-      message.error('Passwords don\'t match')
+      setErrors(['Passwords don\'t match.'])
       return
     }
 
-    try {
-      await api.register({ username, email, password, password2: password_confirmation })
-    } catch (e) {
-      message.error('There was an error with registration, please try again.')
+    const response = await api.register({ username, email, password, password2: password_confirmation })
+    
+    if (response.errors) {
+      setErrors([...Object.values(response.errors)])
     }
   }
 
@@ -91,6 +76,7 @@ const Signup = ({ goToLogin }) => {
     <Row align='middle' className='auth-form-container'>
       <Col xs={22} md={16} lg={12}>
         <Card title="Register on FlapJack">
+          {errors.length > 0 && showAlerts(errors)}
           <FormFactory
             name='Signup'
             onSubmit={onSubmit}

@@ -1,5 +1,7 @@
 import store from '../redux/store'
-import { receiveAccessTokens, logoutCurrentUser, finishedLoggingIn } from '../redux/actions/session'
+import { receiveAccessTokens, logoutCurrentUser, loggingIn } from '../redux/actions/session'
+
+// TODO: Handle errors in this class, and return error messages
 
 class Api {
   constructor(baseUrl) {
@@ -40,8 +42,10 @@ class Api {
       body: JSON.stringify(body)
     }).then(resp => resp.json())
 
+    console.log(response)
+
     if (!response || !response.access || !response.refresh) {
-      throw new Error('API error')
+      return { errors: response }
     }
 
     store.dispatch(receiveAccessTokens(response))
@@ -68,6 +72,8 @@ class Api {
       throw new Error('No refresh token stored')
     }
 
+    store.dispatch(loggingIn(true))
+
     const response = await fetch(this.url('refresh/'), {
       method: 'POST',
       headers: this.baseHeaders,
@@ -75,11 +81,12 @@ class Api {
     })
       .then(resp => resp.json())
       .finally(resp => {
-        store.dispatch(finishedLoggingIn())
+        store.dispatch(loggingIn(false))
         return resp
       })
     
     if (!response || !response.access) {
+      store.dispatch(logoutCurrentUser())
       throw new Error('API error')
     }
 
