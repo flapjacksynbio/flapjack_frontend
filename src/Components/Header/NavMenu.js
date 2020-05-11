@@ -1,12 +1,28 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Menu } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import UserMenu from './UserMenu'
+import NavButton from './NavButton'
+import { logoutCurrentUser } from '../../redux/actions/session'
 
-const NavMenu = ({ menuButtons, mode = 'horizontal' }) => {
+const NavMenu = ({ menuButtons, mode = 'horizontal', user, onLogout }) => {
   const isHorizontal = mode === 'horizontal'
+  let SubMenu = null
 
+  if (user.isLoggingIn) {
+    SubMenu = <Menu.Item><LoadingOutlined spin /></Menu.Item>
+  }
+  else if (user.access) {
+    SubMenu = UserMenu(isHorizontal, user.username, onLogout)
+  } else {
+    SubMenu = (
+      <Menu.Item key='menu-login'>
+        <NavButton route="/authentication" label="Log In" />
+      </Menu.Item>
+    )
+  }
 
   return (
     <Menu
@@ -20,36 +36,7 @@ const NavMenu = ({ menuButtons, mode = 'horizontal' }) => {
           {route.navbarRenderer(route)}
         </Menu.Item>
       )}
-      {isHorizontal &&
-        <Menu.SubMenu
-          title={<span><UserOutlined />MrEarle</span>}
-        >
-          <Menu.Item key='upload'>
-            <Link to='/upload'>Upload</Link>
-          </Menu.Item>
-          <Menu.Item key='massive-upload'>
-            <Link to='/massive-upload'>Massive Upload</Link>
-          </Menu.Item>
-          <Menu.Item key='sign-out'>
-            Sign Out
-          </Menu.Item>
-        </Menu.SubMenu>
-      }
-      {!isHorizontal && (
-        <Menu.Item key='upload'>
-          <Link to='/upload'>Upload</Link>
-        </Menu.Item>
-      )}
-      {!isHorizontal && (
-        <Menu.Item key='massive-upload'>
-          <Link to='/massive-upload'>Massive Upload</Link>
-        </Menu.Item>
-      )}
-      {!isHorizontal && (
-        <Menu.Item key='sign-out'>
-          Sign Out
-        </Menu.Item>
-      )}
+      {SubMenu}
     </Menu>
   )
 }
@@ -62,7 +49,17 @@ NavMenu.propTypes = {
       navbarRenderer: PropTypes.func
     }),
   ).isRequired,
-  mode: PropTypes.oneOf(['horizontal', 'vertical']).isRequired
+  mode: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
+  user: PropTypes.object,
+  onLogout: PropTypes.func,
 }
 
-export default NavMenu
+const mapStateToProps = state => ({
+  user: state.session
+})
+
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logoutCurrentUser())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)

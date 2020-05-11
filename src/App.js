@@ -1,39 +1,45 @@
-import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom'
 import { Layout } from 'antd'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+import './App.scss'
 import FlapHeader from './Components/Header'
 import routes from './routes'
-import './App.scss'
 
 const { Content, Footer } = Layout
 
-function App() {
-  return (
-    <Router>
+function App({ loggedIn }) {
+  const availableRoutes = routes(loggedIn)
 
-      <Layout className="layout">
-        <FlapHeader routes={routes} />
-        <Content id="flapjack-content">
-          <div className="site-layout-content">
-            <Switch>
-              {[...routes].reverse().map(({ route, viewRenderer: Renderer }) => (
-                <Route path={route} key={`route-${route}`}>
-                  <Renderer />
-                </Route>
-              ))}
-            </Switch>
-          </div>
-        </Content>
-        <Footer className='footer' theme='dark'>
-          <span>© 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a></span>
-        </Footer>
-      </Layout>
-    </Router>
+  return (
+    <Layout className="layout">
+      <FlapHeader routes={availableRoutes} />
+      <Content id="flapjack-content">
+        <div className="site-layout-content">
+          <Switch>
+            {[...availableRoutes].reverse().map(({ route, viewRenderer: Renderer }) => (
+              <Route path={route} key={`route-${route}`}>
+                <Renderer />
+              </Route>
+            ))}
+          </Switch>
+        </div>
+      </Content>
+      <Footer className='footer' theme='dark'>
+        <span>© 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a></span>
+      </Footer>
+    </Layout>
   )
 }
 
-export default App
+App.propTypes = {
+  loggedIn: PropTypes.bool.isRequired
+}
+
+const mapStateToProps = state => ({
+  loggedIn: !!state.session.access
+})
+
+export default connect(mapStateToProps)(App)
+

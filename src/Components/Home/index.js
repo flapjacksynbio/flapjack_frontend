@@ -1,11 +1,13 @@
+import { Card, Col, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { Card, Row, Col } from 'antd'
-import { UserAddOutlined, LoginOutlined } from '@ant-design/icons'
-import './Home.scss'
+import { connect } from 'react-redux'
 import logo from '~/src/assets/images/logo.png'
-import { Link } from 'react-router-dom'
+import './Home.scss'
+import LoggedInCards from './LoggedInCards'
+import NotLoggedInCards from './NotLoggedInCards'
 
-const Home = () => {
+const Home = ({ loggedIn }) => {
   return (
     <div className='container'>
       <Card className="home-header">
@@ -18,37 +20,17 @@ const Home = () => {
           </Col>
         </Row>
       </Card>
-      <Row style={{ width: '100%' }} justify="space-between">
-        <Col xs={20} md={12} style={{ padding: 5 }}>
-          <Link to='/authentication?initialTab=signup'>
-            <Card
-              hoverable
-              cover={<UserAddOutlined style={{ fontSize: '8em', color: '#007bff', padding: 10 }} />}
-              className='home-cards'
-            >
-              <div>Ready to get started?</div>
-              <div>Sign Up!</div>
-            </Card>
-          </Link>
-        </Col>
-        <Col xs={20} md={12} style={{ padding: 5 }}>
-          <Link to='/authentication'>
-            <Card
-              hoverable
-              cover={<LoginOutlined style={{ fontSize: '8em', color: '#007bff', padding: 10 }} />}
-              className='home-cards'
-            >
-              <div>Already have an account?</div>
-              <div>Log In!</div>
-            </Card>
-          </Link>
-        </Col>
-      </Row>
+      { loggedIn ? <LoggedInCards /> : <NotLoggedInCards />}
     </div>
   )
 }
 
-Home.propTypes = {}
+Home.propTypes = {
+  loggedIn: PropTypes.bool.isRequired
+}
 
+const mapStateToProps = state => ({
+  loggedIn: !!state.session.access
+})
 
-export default Home
+export default connect(mapStateToProps)(Home)

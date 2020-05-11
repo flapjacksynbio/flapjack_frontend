@@ -54,7 +54,7 @@ const FlapHeader = ({ routes = [] }) => {
           <NavMenu menuButtons={menuButtons} mode='vertical' />
         </Drawer>
       )}
-      { !smallScreen && <NavMenu menuButtons={menuButtons} /> }
+      { !smallScreen && <NavMenu menuButtons={menuButtons} mode='horizontal' /> }
     </Layout.Header>
   )
 }

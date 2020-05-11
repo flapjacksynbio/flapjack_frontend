@@ -2,21 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
-const Field = ({
-  label,
-  name,
-  PrefixComponent=null,
-  type=null,
-  placeholder=null,
-  rules={}
-}) => {
+const Field = (props) => {
+
+  const { RenderField = null } = props
+
+  if (RenderField) {
+    return <RenderField {...props} />
+  }
+
+  const {
+    label,
+    name,
+    PrefixComponent = null,
+    type = null,
+    placeholder = null,
+    rules = [],
+  } = props
+
   return (
     <Form.Item
       hasFeedback
       name={name}
-      rules={[{ ...rules }]}
+      rules={rules}
     >
-      <Input 
+      <Input
         prefix={PrefixComponent && <PrefixComponent />}
         type={type}
         placeholder={placeholder || label}
@@ -29,9 +38,10 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
-  PrefixComponent: PropTypes.element,
+  PrefixComponent: PropTypes.elementType,
   placeholder: PropTypes.string,
-  rules: PropTypes.object
+  rules: PropTypes.array,
+  RenderField: PropTypes.func,
 }
 
 export default Field

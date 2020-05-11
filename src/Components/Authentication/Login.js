@@ -1,44 +1,72 @@
 import React from 'react'
 import FormFactory from '../Forms/Form'
-import { Card, Row, Col } from 'antd'
-import { MailOutlined, LockOutlined } from '@ant-design/icons'
+import { Card, Row, Col, Typography, Button, Alert } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './Authentication.scss'
+import PropTypes from 'prop-types'
+import api from '~/src/api'
 
-const Login = () => {
+const Login = ({ goToSignUp }) => {
+  const [errors, setErrors] = React.useState([])
+
   const fields = [
     {
-      name: 'Email',
-      label: 'Email',
-      type: 'email',
-      PrefixComponent: MailOutlined,
-      rules: { required: true, type: 'email' }
+      name: 'username',
+      label: 'Username',
+      PrefixComponent: UserOutlined,
+      rules: [{ required: true }]
     },
     {
-      name: 'Password',
+      name: 'password',
       label: 'Password',
-      type:'password',
+      type: 'password',
       PrefixComponent: LockOutlined,
-      rules: { required: true }
+      rules: [{ required: true }]
     }
   ]
 
-  const onSubmit = (...args) => {
-    console.log(args)
+  const showAlerts = messages => (
+    <div style={{ marginBottom: 12 }}>
+      {messages.map((msg, i) =>
+        <Alert
+          key={`login-err-${i}`}
+          message={msg}
+          type="error"
+          closable />)
+      }
+    </div>
+  )
+
+  const onSubmit = async ({ username, password }) => {
+    try {
+      await api.logIn({ username, password })
+    } catch (e) {
+      setErrors(['Credentials are invalid! Please try again.'])
+    }
   }
 
   return (
     <Row align='middle' className='auth-form-container'>
       <Col xs={22} md={16} lg={12}>
-        <Card>
+        <Card title="Login to FlapJack">
+          {errors.length > 0 && showAlerts(errors)}
           <FormFactory
             name='Login'
             onSubmit={onSubmit}
             fields={fields}
+            submitText="Login"
           />
+          <Typography.Text>
+            {'Don\'t have an account? '}<Button type="link" onClick={goToSignUp}>Register here!</Button>
+          </Typography.Text>
         </Card>
       </Col>
     </Row>
   )
+}
+
+Login.propTypes = {
+  goToSignUp: PropTypes.func.isRequired
 }
 
 export default Login
