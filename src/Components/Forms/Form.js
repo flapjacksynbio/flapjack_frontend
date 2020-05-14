@@ -18,7 +18,7 @@ const FormFactory = ({
       onFinish={onSubmit}
       style={style}
       className='flapjack-form'
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 6 }}
       initialValues={initialValues}
     >
       {fields.map(field => <Field {...field} key={`form-${name}-${field.name}`} />)}

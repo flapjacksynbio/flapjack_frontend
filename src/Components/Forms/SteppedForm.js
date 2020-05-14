@@ -26,6 +26,14 @@ const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit
     }
   }
 
+  const goTo = async i => {
+    for (let j = 0; j < i; j++) {
+      const valid = await validateStep(j)
+      if (!valid) return
+    }
+    setCurrent(i)
+  } 
+
 
   const renderStep = (i) => {
     const { fields, title } = steps[i]
@@ -63,11 +71,11 @@ const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit
       onFinish={onSubmit}
       style={style}
       className='flapjack-form'
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 6 }}
       form={form}
     >
       <div>
-        <Steps current={current}>
+        <Steps current={current} onChange={goTo}>
           {steps.map(({ title, icon }) => <Steps.Step key={title} title={title} icon={icon} />)}
         </Steps>
         <div className="form-step-content">

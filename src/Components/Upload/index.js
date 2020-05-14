@@ -1,10 +1,10 @@
 import React from 'react'
-import { ExperimentOutlined, FileMarkdownOutlined, ReconciliationOutlined, FileAddOutlined } from '@ant-design/icons'
+import { ExperimentOutlined, FileMarkdownOutlined, ReconciliationOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 import Multiselect from '~/src/Components/Forms/Multiselect'
 import TextArea from '~/src/Components/Forms/TextArea'
-import './index.scss'
 import SteppedFormFactory from '../Forms/SteppedForm'
+import FileInput from '../Forms/FileInput'
 
 const Upload = () => {
   const studies = ['S1', 'S2']
@@ -35,8 +35,7 @@ const Upload = () => {
           name: 'data_file',
           label: 'Data File',
           showLabel: true,
-          type: 'file',
-          PrefixComponent: FileAddOutlined,
+          RenderField: FileInput,
           rules: [{ required: true }]
         }
       ]

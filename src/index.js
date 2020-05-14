@@ -8,13 +8,25 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import Loading from './Components/Loading/Index'
+import { ConfigProvider } from 'antd'
+
+
+const validateMessages = {
+  // eslint-disable-next-line
+  required: '${name} is required',
+  default: 'Invalid value in field',
+  // eslint-disable-next-line
+  whitespace: '${name} cannot be empty',
+}
 
 ReactDOM.render(
   // <React.StrictMode>
   <Provider store={store}>
     <PersistGate loading={<Loading />} persistor={persistor}>
       <Router>
-        <App />
+        <ConfigProvider  form={{ validateMessages }}>
+          <App />
+        </ConfigProvider>
       </Router>
     </PersistGate>
   </Provider>,

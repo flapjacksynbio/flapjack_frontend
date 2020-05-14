@@ -33,6 +33,7 @@ module.exports = {
         'semi': [
             'error',
             'never'
-        ]
+        ],
+        'no-template-curly-in-string': 'off'
     }
 }
