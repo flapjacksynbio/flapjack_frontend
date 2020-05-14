@@ -1,73 +1,132 @@
 import React from 'react'
-import { Steps, Card } from 'antd'
-import { ExperimentOutlined, FileMarkdownOutlined, ReconciliationOutlined } from '@ant-design/icons'
-import FileUpload from './FileUpload'
+import { ExperimentOutlined, FileMarkdownOutlined, ReconciliationOutlined, FileAddOutlined } from '@ant-design/icons'
+import { Typography } from 'antd'
+import Multiselect from '~/src/Components/Forms/Multiselect'
+import TextArea from '~/src/Components/Forms/TextArea'
 import './index.scss'
-import Metadata from './Metadata'
-import Signals from './Signals'
+import SteppedFormFactory from '../Forms/SteppedForm'
 
 const Upload = () => {
-  const [current, setCurrent] = React.useState(0)
-  const [uploadData, setUploadData] = React.useState(null)
-  const [metadata, setMetadata] = React.useState(null)
-  const [signals, setSignals] = React.useState(null)
-
+  const studies = ['S1', 'S2']
   const steps = [
     {
       title: 'Upload File',
-      content: FileUpload,
       icon: <ExperimentOutlined />,
-      getData: () => uploadData,
-      getProps: () => ({
-        onSubmit(data) {
-          setUploadData(data)
-          setCurrent(curr => curr + 1)
+      fields: [
+        {
+          name: 'study',
+          label: 'Study Name',
+          showLabel: true,
+          placeholder: 'Study',
+          options: studies,
+          RenderField: Multiselect,
+          rules: [{ required: true }]
+        },
+        {
+          name: 'machine',
+          label: 'Machine',
+          showLabel: true,
+          placeholder: 'Machine',
+          options: ['HTX Synergy', 'BMG', 'FluoPi'],
+          RenderField: Multiselect,
+          rules: [{ required: true }]
+        },
+        {
+          name: 'data_file',
+          label: 'Data File',
+          showLabel: true,
+          type: 'file',
+          PrefixComponent: FileAddOutlined,
+          rules: [{ required: true }]
         }
-      })
+      ]
     },
     {
       title: 'Metadata',
-      content: Metadata,
       icon: <FileMarkdownOutlined />,
-      getData: () => metadata,
-      getProps: () => ({
-        study: uploadData.study,
-        onSubmit(data) {
-          setMetadata(data)
-          setCurrent(curr => curr + 1)
+      fields: [
+        {
+          name: 'mock_title',
+          label: 'mock_title',
+          RenderField() {
+            return <Typography.Title level={3}>Study Description</Typography.Title>
+          }
+        },
+        {
+          name: 'study_description',
+          label: 'Description',
+          showLabel: true,
+          RenderField: TextArea
+        },
+        {
+          name: 'doi',
+          label: 'DOI',
+          showLabel: true,
+          RenderField: TextArea
+        },
+        {
+          name: 'mock_title2',
+          label: 'mock_title2',
+          RenderField() {
+            return <Typography.Title level={3}>Assays description and temperature</Typography.Title>
+          }
+        },
+        {
+          name: 'assay_description',
+          label: 'Description',
+          showLabel: true,
+          RenderField: TextArea
+        },
+        {
+          name: 'temperature',
+          label: 'Temperature',
+          showLabel: true,
+          type: 'number',
+          rules: [{ required: true }],
+          addonAfter: '°C'
         }
-      })
+      ]
     },
     {
       title: 'Signals',
-      content: Signals,
       icon: <ReconciliationOutlined />,
-      getData: () => signals,
-      getProps: () => ({
-        onSubmit(data) {
-          setSignals(data)
-          console.log([uploadData, metadata, signals])
+      fields: [
+        {
+          name: 'mock_title',
+          label: 'mock_title',
+          RenderField() {
+            return <Typography.Title level={3}>Name your signals</Typography.Title>
+          }
+        },
+        {
+          name: 'b',
+          label: 'B',
+          showLabel: true,
+          rules: [{ required: true }],
+        },
+        {
+          name: 'g',
+          label: 'G',
+          showLabel: true,
+          rules: [{ required: true }],
+        },
+        {
+          name: 'r',
+          label: 'R',
+          showLabel: true,
+          rules: [{ required: true }],
         }
-      })
+      ]
     }
   ]
 
-  const renderStep = (i) => {
-    const { content: Component, getProps } = steps[i]
-    return (
-      <Component {...getProps()} />
-    )
-  }
-
   return (
-    <div>
-      <Steps current={current}>
-        {steps.map(({ title, icon }) => <Steps.Step key={title} title={title} icon={icon} />)}
-      </Steps>
-      <div className="step-container">
-        <Card className="card">{renderStep(current)}</Card>
-      </div>
-    </div>
+    <SteppedFormFactory
+      name='UpladForm'
+      steps={steps}
+      onSubmit={console.log}
+      submitText="Submit"
+    />
   )
 }
 
