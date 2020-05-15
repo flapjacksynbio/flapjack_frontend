@@ -36,13 +36,11 @@ class Api {
   }
 
   async register(body) {
-    const response = await fetch(this.url('jwtauth/register/'), {
+    const response = await fetch(this.url('auth/register/'), {
       method: 'POST',
       headers: this.baseHeaders,
       body: JSON.stringify(body)
     }).then(resp => resp.json())
-
-    console.log(response)
 
     if (!response || !response.access || !response.refresh) {
       return { errors: response }
@@ -53,7 +51,7 @@ class Api {
   }
 
   async logIn(body) {
-    const response = await fetch(this.url('token/'), {
+    const response = await fetch(this.url('auth/token/'), {
       method: 'POST',
       headers: this.baseHeaders,
       body: JSON.stringify(body),
@@ -74,7 +72,7 @@ class Api {
 
     store.dispatch(loggingIn(true))
 
-    const response = await fetch(this.url('refresh/'), {
+    const response = await fetch(this.url('auth/refresh/'), {
       method: 'POST',
       headers: this.baseHeaders,
       body: JSON.stringify({ refresh: refresh || store.session.refresh }),
@@ -99,4 +97,4 @@ class Api {
   }
 }
 
-export default new Api('http://localhost:8989/api/')
+export default new Api('http://localhost:8000/api/')
