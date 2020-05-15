@@ -9,10 +9,18 @@ const FormFactory = ({
   onSubmit=()=>null,
   fields,
   style={},
-  submitText='Submit'
+  submitText='Submit',
+  initialValues={}
 }) => {
   return (
-    <Form name={name} onFinish={onSubmit} style={style} className='flapjack-form'>
+    <Form
+      name={name}
+      onFinish={onSubmit}
+      style={style}
+      className='flapjack-form'
+      labelCol={{ span: 6 }}
+      initialValues={initialValues}
+    >
       {fields.map(field => <Field {...field} key={`form-${name}-${field.name}`} />)}
       <Form.Item>
         <Button type='primary' htmlType='submit'>
@@ -30,7 +38,8 @@ FormFactory.propTypes = {
     PropTypes.shape(Field.propTypes)
   ),
   style: PropTypes.object,
-  submitText: PropTypes.string
+  submitText: PropTypes.string,
+  initialValues: PropTypes.object
 }
 
 export default FormFactory
