@@ -14,24 +14,24 @@ class Api {
     }
   }
 
-  url(path) {
-    return `${this.baseUrl}${path}`
+  url(path, query={}) {
+    const url = new URL(`${this.baseUrl}${path}`)
+    Object.entries(query).forEach(([k, v]) => url.searchParams.append(k, v))
+    return url
   }
 
   async get(path, headers, query) {
-    return fetch(this.url(path), {
+    return fetch(this.url(path, query), {
       method: 'GET',
       headers: { ...this.authedHeaders, ...headers }, // TODO: Add auth header
-      query
     }).then(resp => resp.json())
   }
 
   async post(path, body, headers, query) {
-    return fetch(this.url(path), {
+    return fetch(this.url(path, query), {
       method: 'POST',
       headers: { ...this.authedHeaders, ...headers }, // TODO: Add auth header
       body: JSON.stringify(body),
-      query
     }).then(resp => resp.json())
   }
 

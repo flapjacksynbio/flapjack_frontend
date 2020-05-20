@@ -10,13 +10,13 @@ import CreateStudy from './CreateStudy'
 import { useHistory } from 'react-router-dom'
 
 const Upload = () => {
-  const [studies, setStudies] = React.useState(null)
+  const [studies, setStudies] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const history = useHistory()
 
   const loadStudies = async () => {
-    api.get('study')
-      .then(setStudies)
+    const { results: data } = await api.get('study/')
+    setStudies(data)
   }
 
   React.useEffect(() => {
@@ -125,15 +125,17 @@ const Upload = () => {
   ]
 
   const onSubmit = async (data) => {
-    console.log(data)
     const { name, machine, description, temperature, study: studyId } = data
     setLoading(true)
+    let success = false
     const study = studies.find(({ id }) => id === studyId)
-    const success = await api.post('assay/', {
-      name, machine, description, temperature, study: study.url
-    })
-      .then(({ id }) => !!id)
-      .catch(() => false)
+    if (study) {
+      success = await api.post('assay/', {
+        name, machine, description, temperature, study: study.id
+      })
+        .then(({ id }) => !!id)
+        .catch(() => false)
+    }
     setLoading(false)
 
     if (success) {

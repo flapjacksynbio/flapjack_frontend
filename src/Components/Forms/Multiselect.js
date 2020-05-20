@@ -15,7 +15,10 @@ const Multiselect = ({
   const renderOption = (option, i) => {
     const label = typeof option === 'string' ? option : option[optionLabel]
     return (
-      <Select.Option value={option.id} key={`${name}-opt-${i}`}>
+      <Select.Option
+        value={typeof option === 'string' ? option : option.id}
+        key={`${name}-opt-${i}`}
+      >
         {label}
       </Select.Option>
     )
