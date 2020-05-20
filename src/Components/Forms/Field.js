@@ -18,7 +18,8 @@ const Field = (props) => {
     type = null,
     placeholder = null,
     rules = [],
-    addonAfter = null
+    addonAfter = null,
+    disabled = false
   } = props
 
   return (
@@ -33,6 +34,7 @@ const Field = (props) => {
         type={type}
         placeholder={placeholder || label}
         addonAfter={addonAfter}
+        disabled={disabled}
       />
     </Form.Item>
   )
@@ -47,7 +49,8 @@ Field.propTypes = {
   placeholder: PropTypes.string,
   rules: PropTypes.array,
   RenderField: PropTypes.func,
-  addonAfter: PropTypes.string
+  addonAfter: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
 export default Field

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Form, Steps, Card, Button } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import Field from './Field'
 
-const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit' }) => {
+const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit', loading = false }) => {
   const [current, setCurrent] = React.useState(0)
   const [form] = Form.useForm()
 
@@ -32,7 +33,7 @@ const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit
       if (!valid) return
     }
     setCurrent(i)
-  } 
+  }
 
 
   const renderStep = (i) => {
@@ -50,7 +51,7 @@ const SteppedFormFactory = ({ name, steps, onSubmit, style, submitText = 'Submit
               )}
               {i === steps.length - 1 && (
                 <Button type='primary' htmlType='submit'>
-                  {submitText}
+                  {loading ? <LoadingOutlined spin /> : submitText}
                 </Button>
               )}
               {i > 0 && (
@@ -96,7 +97,8 @@ SteppedFormFactory.propTypes = {
   })).isRequired,
   onSubmit: PropTypes.func.isRequired,
   style: PropTypes.object,
-  submitText: PropTypes.string
+  submitText: PropTypes.string,
+  loading: PropTypes.bool
 }
 
 export default SteppedFormFactory
