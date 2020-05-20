@@ -9,11 +9,6 @@ const DNAs = () => {
   React.useEffect(() => {
     api.get('dna').then(data => {
       const parsed = data.map(d => ({ ...d, key: d.url }))
-      parsed.push({
-        names: ['asdf', 'qwert', 'erty'],
-        sboluris: ['1234', '1234'],
-        key: 1
-      })
       setDataSource(parsed)
     })
   }, [])
