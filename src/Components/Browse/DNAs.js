@@ -1,33 +1,31 @@
 import React from 'react'
-import api from '../../api'
-import { Table } from 'antd'
-const { Column } = Table
+import BrowseTable from './BrowseTable'
 
 const DNAs = () => {
-  const [dataSource, setDataSource] = React.useState('')
+  const renderUris = uris => (
+    <div style={{ display: 'block' }}>
+      {uris.map((uri, i) => <div key={i}><a href={uri}>{uri}</a></div>)}
+    </div>
+  )
 
-  React.useEffect(() => {
-    api.get('dna').then(data => {
-      const parsed = data.map(d => ({ ...d, key: d.url }))
-      setDataSource(parsed)
-    })
-  }, [])
+  const columns = [
+    {
+      title: 'Names',
+      dataIndex: 'names',
+      render: names => names.join(', ')
+    },
+    {
+      title: 'Sbol Uris',
+      dataIndex: 'sboluris',
+      render: renderUris
+    }
+  ]
 
   return (
-    <div>
-      <Table dataSource={dataSource}>
-        <Column title="Names" dataIndex="names" key="names" render={names => names.join(', ')} />
-        <Column
-          title="Sbol Uris"
-          dataIndex="sboluris"
-          key="sboluris"
-          render={uris => (
-            <div style={{ display: 'block' }}>
-              {uris.map((uri, i) => <div key={i}><a href={uri}>{uri}</a></div>)}
-            </div>
-          )} />
-      </Table>
-    </div>
+    <BrowseTable
+      dataUrl="dna/"
+      columns={columns}
+    />
   )
 }
 

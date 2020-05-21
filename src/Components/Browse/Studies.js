@@ -1,16 +1,10 @@
 import React from 'react'
-import api from '../../api'
-import { Table } from 'antd'
+import BrowseTable from './BrowseTable'
 
 const Studies = () => {
-  const [dataSource, setDataSource] = React.useState('')
-
-  React.useEffect(() => {
-    api.get('study').then(data => {
-      const parsed = data.map(d => ({ ...d, key: d.url }))
-      setDataSource(parsed)
-    })
-  }, [])
+  const renderUri = uri => (
+    <a href={uri} target="_blank" rel="noopener noreferrer">{uri}</a>
+  )
 
   const columns = [
     {
@@ -28,14 +22,17 @@ const Studies = () => {
       title: 'DOI',
       dataIndex: 'doi',
       key: 'doi',
-      sorter: (a, b) => a.name.localeCompare(b.name)
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      render: renderUri
     },
   ]
 
   return (
-    <div>
-      <Table dataSource={dataSource} columns={columns} />
-    </div>
+    <BrowseTable
+      columns={columns}
+      dataUrl="study/"
+      searchFields={['name']}
+    />
   )
 }
 
