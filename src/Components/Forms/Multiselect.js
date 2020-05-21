@@ -10,11 +10,15 @@ const Multiselect = ({
   placeholder = '',
   options = [],
   filterOption = false,
+  optionLabel = ''
 }) => {
   const renderOption = (option, i) => {
-    const label = typeof option === 'string' ? option : option.label
+    const label = typeof option === 'string' ? option : option[optionLabel]
     return (
-      <Select.Option value={option} key={`${name}-opt-${i}`}>
+      <Select.Option
+        value={typeof option === 'string' ? option : option.id}
+        key={`${name}-opt-${i}`}
+      >
         {label}
       </Select.Option>
     )
@@ -28,7 +32,7 @@ const Multiselect = ({
       label={showLabel ? label : null}
     >
       <Select
-        showSearch
+        showSearch={filterOption}
         placeholder={placeholder}
         filterOption={filterOption}
         defaultActiveFirstOption={true}
@@ -54,7 +58,8 @@ Multiselect.propTypes = {
   filterOption: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
-  ])
+  ]),
+  optionLabel: PropTypes.string,
 }
 
 export default Multiselect

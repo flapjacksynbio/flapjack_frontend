@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Button } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import Field from './Field'
 import './Form.scss'
 
 const FormFactory = ({
   name,
-  onSubmit=()=>null,
+  onSubmit = () => null,
   fields,
-  style={},
-  submitText='Submit',
-  initialValues={}
+  style = {},
+  submitText = 'Submit',
+  initialValues = {},
+  loading = false
 }) => {
   return (
     <Form
@@ -23,8 +25,8 @@ const FormFactory = ({
     >
       {fields.map(field => <Field {...field} key={`form-${name}-${field.name}`} />)}
       <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          {submitText}
+        <Button type='primary' htmlType='submit' disabled={loading}>
+          {loading ? <LoadingOutlined spin /> : submitText}
         </Button>
       </Form.Item>
     </Form>
@@ -39,7 +41,8 @@ FormFactory.propTypes = {
   ),
   style: PropTypes.object,
   submitText: PropTypes.string,
-  initialValues: PropTypes.object
+  initialValues: PropTypes.object,
+  loading: PropTypes.bool
 }
 
 export default FormFactory
