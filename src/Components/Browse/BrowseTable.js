@@ -39,7 +39,7 @@ const BrowseTable = ({
   return (
     <div>
       <div className='search-bar'>
-        <Input.Search enterButton loading={loading} onSearch={val => handleTableChange(pagination, val)} />
+        <Input.Search placeholder="Search" enterButton loading={loading} onSearch={val => handleTableChange(pagination, val)} />
       </div>
       <Table
         dataSource={dataSource}
