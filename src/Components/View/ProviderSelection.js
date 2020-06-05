@@ -25,7 +25,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
     setLoading(true)
     setData([])
 
-    api.get(url, null, { search })
+    api.get(url, null, { search, limit: 20 })
       .then(({ results }) => {
         if (fetchId !== lastFetchId) return
         setData(results.map(({ id, name }) => ({ id, name })))
