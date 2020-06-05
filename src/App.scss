@@ -1,5 +1,6 @@
-$contentPadding: 10px;
+$contentPadding: 16px;
 $headerHeight: 64px;
+$sides-padding: calc(max(24px, 50vw - 576px));
 
 .site-layout-content {
   background: #fff;
@@ -12,10 +13,11 @@ $headerHeight: 64px;
   height: $headerHeight;
   display: flex;
   justify-content: space-between;
+  padding: 0 $sides-padding;
 }
 
 #flapjack-content {
-  padding: $contentPadding;
+  padding: $contentPadding $sides-padding;
 }
 
 #components-layout-demo-top .logo {
