@@ -12,7 +12,7 @@ const NotLoggedInCards = () => {
             hoverable
             className='home-cards'
           >
-            <UserAddOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <UserAddOutlined style={{ fontSize: '6em', color: '#1890ff', padding: 10 }} />
             <div className='home-card-title'>Ready to get started?</div>
             <div className='home-card-content'>Sign Up!</div>
           </Card>
@@ -24,7 +24,7 @@ const NotLoggedInCards = () => {
             hoverable
             className='home-cards'
           >
-            <LoginOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <LoginOutlined style={{ fontSize: '6em', color: '#1890ff', padding: 10 }} />
             <div className='home-card-title'>Already have an account?</div>
             <div className='home-card-content'>Log In!</div>
           </Card>

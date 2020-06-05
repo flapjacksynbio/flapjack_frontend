@@ -1,4 +1,4 @@
-import { Card, Col, Row } from 'antd'
+import { Card, Col, Row, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -6,6 +6,8 @@ import logo from '~/src/assets/images/logo.png'
 import './Home.scss'
 import LoggedInCards from './LoggedInCards'
 import NotLoggedInCards from './NotLoggedInCards'
+
+const {Title} = Typography
 
 const Home = ({ loggedIn }) => {
   return (
@@ -16,7 +18,7 @@ const Home = ({ loggedIn }) => {
             <img alt="FlapJack Logo" src={logo} />
           </Col>
           <Col sm={24} md={16}>
-            <span className='home-title'>FlapJack</span>
+            <Title className={'home-title'}>FlapJack</Title>
           </Col>
         </Row>
       </Card>

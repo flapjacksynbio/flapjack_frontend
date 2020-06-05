@@ -31,7 +31,7 @@ $header-padding: 5rem;
   align-items: center;
   padding-top: $header-padding;
   padding-bottom: $header-padding;
-  background-color: #f88;
+  background-color:#e6f7ff;
   border-radius: 1rem;
   margin-bottom: 3rem;
 
@@ -47,7 +47,7 @@ $header-padding: 5rem;
     }
 
     .home-title {
-      color: whitesmoke;
+      color: rgba(0, 0, 0, .9);
       font-size: 5em;
     }
   }
