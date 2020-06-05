@@ -1,28 +1,32 @@
 $header-padding: 5rem;
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: -16px -24px;
 }
 
-.home-cards {
-  width: 100%;
-  height: 100%;
-  border-color: #e0e0e0;
 
-  .ant-card-body {
-    text-align: center;
+.home-row-cards {
+  padding: 48px;
 
-    .home-card-title {
-      font-size: 2em;
-    }
-
-    .home-card-content {
-      font-size: 1.3em;
+  .home-cards {
+    width: 100%;
+    height: 100%;
+    border-color: #e0e0e0;
+  
+    .ant-card-body {
+      text-align: center;
+  
+      .home-card-title {
+        font-size: 2em;
+      }
+  
+      .home-card-content {
+        font-size: 1.3em;
+      }
     }
   }
 }
+
 
 .home-header {
   width: 100%;
@@ -32,10 +36,10 @@ $header-padding: 5rem;
   padding-top: $header-padding;
   padding-bottom: $header-padding;
   background-color:#e6f7ff;
-  border-radius: 1rem;
-  margin-bottom: 3rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
 
-  .home-content .ant-col{
+  .home-content .ant-col {
     width: 100%;
     display: flex;
     flex-direction: row;

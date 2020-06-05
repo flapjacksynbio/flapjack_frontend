@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const NotLoggedInCards = () => {
   return (
-    <Row style={{ width: '100%' }} justify="center">
+    <Row style={{ width: '100%' }} justify="center" className="home-row-cards">
       <Col xs={20} md={8} style={{ padding: 5 }}>
         <Link to='/authentication?initialTab=signup'>
           <Card
