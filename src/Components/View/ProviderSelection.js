@@ -18,20 +18,20 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
     }
   }
 
-  const fetchData = debounce(search => {
+  const fetchData = React.useCallback(debounce(search => {
     const fetchId = lastFetchId
     setLastFetchId(idx => idx + 1)
 
     setLoading(true)
     setData([])
 
-    api.get(url, null, { name: search })
+    api.get(url, null, { search })
       .then(({ results }) => {
         if (fetchId !== lastFetchId) return
         setData(results.map(({ id, name }) => ({ id, name })))
         setLoading(false)
       })
-  })
+  }))
 
   const renderOptions = () => (
     <Row>
@@ -52,6 +52,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
     loading ? <Spin size="small" /> : <Empty description={`No ${label || 'results'} were found`}/>
   )
 
+  // eslint-disable-next-line
   React.useEffect(() => { fetchData('') }, [])
 
   const checked = new Set(selected.map(({ id }) => id))

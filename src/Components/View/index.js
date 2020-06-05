@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tabs, Empty } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import './View.scss'
 import AddTab from './AddTab'
 import DataView from './DataView'
 
