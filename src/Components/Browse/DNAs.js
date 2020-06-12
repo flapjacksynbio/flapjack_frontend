@@ -18,7 +18,7 @@ const DNAs = () => {
     <Link
       to={{
         pathname: '/view',
-        study: { id: record.id, name: record.name },
+        dna: { id: record.id, name: record.name },
         tabType: 'data',
       }}
     >

@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Row, Col, Empty } from 'antd'
 import Selection from './Selection'
 import Plotly from 'plotly.js'
 import createPlotlyComponent from 'react-plotly.js/factory'
 const Plot = createPlotlyComponent(Plotly)
 
-const DataView = ({ initialValues }) => {
+const DataView = () => {
   const [showPlot, setShowPlot] = React.useState(false)
 
   const onPlot = (values) => {
@@ -17,7 +16,7 @@ const DataView = ({ initialValues }) => {
   return (
     <Row gutter={20}>
       <Col span={6}>
-        <Selection onSubmit={onPlot} initialValues={initialValues} />
+        <Selection onSubmit={onPlot} />
       </Col>
       <Col span={18} style={{ padding: 20 }}>
         {!showPlot && <Empty description="Select data to plot" />}
@@ -42,8 +41,6 @@ const DataView = ({ initialValues }) => {
   )
 }
 
-DataView.propTypes = {
-  initialValues: PropTypes.object,
-}
+DataView.propTypes = {}
 
 export default DataView

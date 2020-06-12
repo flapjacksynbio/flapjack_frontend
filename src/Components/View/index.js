@@ -40,19 +40,12 @@ const View = ({ location }) => {
       setAnalysisTabCount(i)
     }
 
-    const { study, assay, dna } = location
-    const initialValues = {
-      study: study ? [study] : [],
-      assay: assay ? [assay] : [],
-      dna: dna ? [dna] : [],
-    }
-
     setTabs((tabs) => [
       ...tabs,
       {
         title: `${name} ${i}`,
         key: `${tabs.length}`,
-        content: <DataView initialValues={initialValues} />,
+        content: <DataView />,
         closable: true,
       },
     ])

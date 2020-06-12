@@ -1,14 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 import { Collapse, Button, Layout, message } from 'antd'
 import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
 
-const Selection = ({ isAnalysis = false, onSubmit, initialValues }) => {
+const Selection = ({ isAnalysis = false, onSubmit }) => {
+  const location = useLocation()
+
   // Query
-  const [selectedStudies, setSelectedStudies] = React.useState(initialValues.study)
-  const [selectedAssays, setSelectedAssays] = React.useState(initialValues.assay)
-  const [selectedDna, setSelectedDna] = React.useState(initialValues.dna)
+  const [selectedStudies, setSelectedStudies] = React.useState([])
+  const [selectedAssays, setSelectedAssays] = React.useState([])
+  const [selectedDna, setSelectedDna] = React.useState([])
+
+  React.useEffect(() => {
+    const { study, assay, dna } = location
+    if (study) setSelectedStudies([study])
+    if (assay) setSelectedAssays([assay])
+    if (dna) setSelectedDna([dna])
+  }, [location])
 
   const queryFields = [
     {
@@ -150,11 +160,6 @@ const Selection = ({ isAnalysis = false, onSubmit, initialValues }) => {
 Selection.propTypes = {
   isAnalysis: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape({
-    study: PropTypes.array,
-    assay: PropTypes.array,
-    dna: PropTypes.array,
-  }),
 }
 
 export default Selection
