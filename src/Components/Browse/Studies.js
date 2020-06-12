@@ -2,8 +2,8 @@ import React from 'react'
 import BrowseTable from './BrowseTable'
 
 const Studies = () => {
-  const renderUri = uri => (
-    <a href={uri} target="_blank" rel="noopener noreferrer">{uri}</a>
+  const renderUri = (uri, item) => (
+    <a key={`uri-${item.id}`} href={uri} target="_blank" rel="noopener noreferrer">{uri}</a>
   )
 
   const columns = [
@@ -31,7 +31,6 @@ const Studies = () => {
     <BrowseTable
       columns={columns}
       dataUrl="study/"
-      searchFields={['name']}
     />
   )
 }

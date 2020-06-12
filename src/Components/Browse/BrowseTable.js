@@ -7,11 +7,10 @@ import './Browse.scss'
 const BrowseTable = ({
   dataUrl,
   columns,
-  searchFields=[]
 }) => {
   const [dataSource, setDataSource] = React.useState([])
   const [loading, setLoading] = React.useState(true)
-  const [pagination, setPagination] = React.useState({ current: 1, pageSize: 100, total: 0 })
+  const [pagination, setPagination] = React.useState({ current: 1, pageSize: 20, total: 0, hideOnSinglePage: true })
 
   const loadData = async (query) => {
     setLoading(true)
@@ -21,7 +20,6 @@ const BrowseTable = ({
     setPagination(pag => ({
       ...pag,
       total,
-      current: query.page || pag.current 
     }))
 
     setLoading(false)
@@ -30,16 +28,17 @@ const BrowseTable = ({
   // eslint-disable-next-line
   React.useEffect(() => { loadData({ page: 1 }) }, [])
 
-  const handleTableChange = ({ current }, search) => {
-    const searchQuery = {}
-    searchFields.forEach(s => searchQuery[s] = search)
-    loadData({ page: current, ...searchQuery })
+  const handleTableChange = ({ current, pageSize }, search) => {
+    setPagination(pag => ({ ...pag, pageSize, current }))
+    const query = { limit: pageSize, offset: pageSize * (current - 1) }
+    if (typeof search === 'string') query.search = search
+    loadData(query)
   }
 
   return (
     <div>
       <div className='search-bar'>
-        <Input.Search enterButton loading={loading} onSearch={val => handleTableChange(pagination, val)} />
+        <Input.Search placeholder="Search" enterButton loading={loading} onSearch={val => handleTableChange(pagination, val)} />
       </div>
       <Table
         dataSource={dataSource}
@@ -62,8 +61,7 @@ BrowseTable.propTypes = {
       key: PropTypes.string,
       sorter: PropTypes.func,
     })
-  ),
-  searchFields: PropTypes.arrayOf(PropTypes.string)
+  )
 }
 
 export default BrowseTable
