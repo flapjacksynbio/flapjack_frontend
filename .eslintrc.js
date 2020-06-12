@@ -5,7 +5,8 @@ module.exports = {
     },
     'extends': [
         'eslint:recommended',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'prettier',
     ],
     'globals': {
         'Atomics': 'readonly',
@@ -20,20 +21,10 @@ module.exports = {
     },
     'plugins': [
         'react',
+        'prettier'
     ],
     'rules': {
-        'indent': [
-            'error',
-            2
-        ],
-        'quotes': [
-            'error',
-            'single'
-        ],
-        'semi': [
-            'error',
-            'never'
-        ],
-        'no-template-curly-in-string': 'off'
+        'no-template-curly-in-string': 'off',
+        "prettier/prettier": "error"    
     }
 }
