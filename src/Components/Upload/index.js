@@ -1,7 +1,7 @@
 import React from 'react'
-import { ExperimentOutlined, FileMarkdownOutlined, /*ReconciliationOutlined*/ } from '@ant-design/icons'
+import { ExperimentOutlined, FileMarkdownOutlined, /*ReconciliationOutlined,*/ } from '@ant-design/icons'
 import { Typography, message } from 'antd'
-import Multiselect from '~/src/Components/Forms/Multiselect'
+import RadioGroup from '~/src/Components/Forms/RadioGroup'
 import TextArea from '~/src/Components/Forms/TextArea'
 import SteppedFormFactory from '../Forms/SteppedForm'
 // import FileInput from '../Forms/FileInput'
@@ -31,7 +31,7 @@ const Upload = () => {
           showLabel: true,
           placeholder: 'Machine',
           options: ['HTX Synergy', 'BMG', 'FluoPi'],
-          RenderField: Multiselect,
+          RenderField: RadioGroup,
           rules: [{ required: true }]
         },
         // {

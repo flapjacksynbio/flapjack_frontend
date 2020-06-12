@@ -46,6 +46,7 @@ const BrowseTable = ({
         pagination={pagination}
         loading={loading}
         onChange={handleTableChange}
+        bordered
       />
     </div>
   )

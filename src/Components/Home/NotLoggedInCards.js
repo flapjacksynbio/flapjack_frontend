@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 
 const NotLoggedInCards = () => {
   return (
-    <Row style={{ width: '100%' }} justify="center">
+    <Row style={{ width: '100%' }} justify="center" className="home-row-cards">
       <Col xs={20} md={8} style={{ padding: 5 }}>
         <Link to='/authentication?initialTab=signup'>
           <Card
             hoverable
             className='home-cards'
           >
-            <UserAddOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <UserAddOutlined style={{ fontSize: '6em', color: '#1890ff', padding: 10 }} />
             <div className='home-card-title'>Ready to get started?</div>
             <div className='home-card-content'>Sign Up!</div>
           </Card>
@@ -24,7 +24,7 @@ const NotLoggedInCards = () => {
             hoverable
             className='home-cards'
           >
-            <LoginOutlined style={{ fontSize: '6em', color: '#00f', padding: 10 }} />
+            <LoginOutlined style={{ fontSize: '6em', color: '#1890ff', padding: 10 }} />
             <div className='home-card-title'>Already have an account?</div>
             <div className='home-card-content'>Log In!</div>
           </Card>
