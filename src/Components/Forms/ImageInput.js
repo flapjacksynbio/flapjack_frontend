@@ -4,11 +4,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import { getBase64 } from '../../utils/imageUtils'
 
-const ImageInput = ({
-  label,
-  name,
-  rules = {},
-}) => {
+const ImageInput = ({ label, name, rules = {} }) => {
   const [loading, setLoading] = React.useState(false)
   const [imageUrl, setImageUrl] = React.useState(null)
 
@@ -19,7 +15,7 @@ const ImageInput = ({
     }
     if (file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(file.originFileObj, imageUrl => {
+      getBase64(file.originFileObj, (imageUrl) => {
         setImageUrl(imageUrl)
         setLoading(false)
       })
@@ -33,7 +29,6 @@ const ImageInput = ({
   }
 
   function beforeUpload(file) {
-
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!')
@@ -42,7 +37,7 @@ const ImageInput = ({
     if (!isLt2M) {
       message.error('Image must smaller than 2MB!')
     }
-    
+
     if (isJpgOrPng && isLt2M) {
       return true
     }
@@ -54,34 +49,31 @@ const ImageInput = ({
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className='ant-upload-text'>Upload</div>
+      <div className="ant-upload-text">Upload</div>
     </div>
   )
 
   return (
-    <Form.Item
-      hasFeedback
-      name={name}
-      rules={rules}
-      label={label}
-      valuePropName='file'
-    >
+    <Form.Item hasFeedback name={name} rules={rules} label={label} valuePropName="file">
       <Upload
         name={name}
         accept=".jpg,.jpeg,.png"
-        listType='picture-card'
-        className='avatar-uploader'
+        listType="picture-card"
+        className="avatar-uploader"
         showUploadList={false}
         beforeUpload={beforeUpload}
         customRequest={dummyRequest}
         onChange={handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        {imageUrl ? (
+          <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+        ) : (
+          uploadButton
+        )}
       </Upload>
     </Form.Item>
   )
 }
-
 
 ImageInput.propTypes = {
   name: PropTypes.string.isRequired,

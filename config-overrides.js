@@ -7,5 +7,5 @@ module.exports = override(
     libraryDirectory: 'es',
     style: 'css',
   }),
-  addBabelPlugin('babel-plugin-root-import')
+  addBabelPlugin('babel-plugin-root-import'),
 )

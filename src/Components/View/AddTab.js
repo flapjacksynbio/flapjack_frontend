@@ -17,13 +17,15 @@ const AddTab = ({ actions }) => {
 
   return (
     <Dropdown overlay={menu}>
-      <Button>Add Tab <PlusOutlined /></Button>
-    </Dropdown>  
+      <Button>
+        Add Tab <PlusOutlined />
+      </Button>
+    </Dropdown>
   )
 }
 
 AddTab.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.func).isRequired
+  actions: PropTypes.arrayOf(PropTypes.func).isRequired,
 }
 
 export default AddTab

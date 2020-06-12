@@ -8,26 +8,27 @@ import debounce from 'lodash/debounce'
 import './Upload.scss'
 import api from '../../api'
 
-const CreateStudy = props => {
+const CreateStudy = (props) => {
   const [studies, setStudies] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [visible, setVisible] = React.useState(false)
 
-  const fetchStudies = React.useCallback(debounce(search => {
-    const fetchId = lastFetchId
-    setLastFetchId(idx => idx + 1)
-    setStudies([])
-    setFetching(true)
+  const fetchStudies = React.useCallback(
+    debounce((search) => {
+      const fetchId = lastFetchId
+      setLastFetchId((idx) => idx + 1)
+      setStudies([])
+      setFetching(true)
 
-    api.get('study/', null, { search })
-      .then(({ results }) => {
+      api.get('study/', null, { search }).then(({ results }) => {
         if (fetchId !== lastFetchId) return
         setStudies(results.map(({ id, name }) => ({ value: id, label: name })))
         setFetching(false)
       })
-  }))
+    }),
+  )
 
   React.useEffect(() => fetchStudies(''), [])
 
@@ -37,26 +38,27 @@ const CreateStudy = props => {
       label: 'Name',
       placeholder: 'Name',
       showLabel: true,
-      rules: [{ required: true, max: 80, min: 3, whitespace: false }]
+      rules: [{ required: true, max: 80, min: 3, whitespace: false }],
     },
     {
       name: 'description',
       label: 'Description',
       showLabel: true,
-      RenderField: TextArea
+      RenderField: TextArea,
     },
     {
       name: 'doi',
       label: 'DOI',
       placeholder: 'DOI',
       showLabel: true,
-      rules: [{ required: true, type: 'url' }]
-    }
+      rules: [{ required: true, type: 'url' }],
+    },
   ]
 
   const onSubmit = async ({ name, description, doi }) => {
     setLoading(true)
-    const success = await api.post('study/', { name, description, doi })
+    const success = await api
+      .post('study/', { name, description, doi })
       .then(({ id }) => !!id)
       .catch(() => false)
     setLoading(false)

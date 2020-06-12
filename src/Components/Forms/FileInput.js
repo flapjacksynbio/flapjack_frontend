@@ -3,13 +3,8 @@ import { Upload, Form, Button } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 
-const FileInput = ({
-  label,
-  name,
-  rules = {},
-}) => {
+const FileInput = ({ label, name, rules = {} }) => {
   const [fileList, setFileList] = React.useState([])
-
 
   const dummyRequest = ({ onSuccess }) => {
     setTimeout(() => {
@@ -17,18 +12,20 @@ const FileInput = ({
     }, 0)
   }
 
-  const baseRules = [{
-    validator(rule, value) {
-      if (!value) return Promise.reject('No files selected.')
-      const { fileList } = value
-      if (fileList.length === 0) {
-        return Promise.reject('No files selected.')
-      } else if (fileList.length > 1) {
-        return Promise.reject('Too many files.')
-      }
-      return Promise.resolve()
-    }
-  }]
+  const baseRules = [
+    {
+      validator(rule, value) {
+        if (!value) return Promise.reject('No files selected.')
+        const { fileList } = value
+        if (fileList.length === 0) {
+          return Promise.reject('No files selected.')
+        } else if (fileList.length > 1) {
+          return Promise.reject('Too many files.')
+        }
+        return Promise.resolve()
+      },
+    },
+  ]
 
   const onChange = ({ fileList }) => {
     if (!fileList) {
@@ -43,7 +40,7 @@ const FileInput = ({
       name={name}
       rules={[...baseRules, ...rules]}
       label={label}
-      valuePropName='file'
+      valuePropName="file"
     >
       <Upload
         name={name}
@@ -61,7 +58,6 @@ const FileInput = ({
     </Form.Item>
   )
 }
-
 
 FileInput.propTypes = {
   name: PropTypes.string.isRequired,

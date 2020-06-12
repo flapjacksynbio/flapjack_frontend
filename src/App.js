@@ -18,22 +18,15 @@ function App({ loggedIn }) {
       <Content id="flapjack-content">
         <div className="site-layout-content">
           <Switch>
-            {[...availableRoutes]
-              .reverse()
-              .map(({ route, viewRenderer: Renderer }) => (
-                <Route
-                  path={route}
-                  key={`route-${route}`}
-                  component={Renderer}
-                />
-              ))}
+            {[...availableRoutes].reverse().map(({ route, viewRenderer: Renderer }) => (
+              <Route path={route} key={`route-${route}`} component={Renderer} />
+            ))}
           </Switch>
         </div>
       </Content>
       <Footer className="footer" theme="dark">
         <span>
-          © 2019 Copyright:{' '}
-          <a href="https://rudge-lab.org/">Flapjack Technologies</a>
+          © 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a>
         </span>
       </Footer>
     </Layout>

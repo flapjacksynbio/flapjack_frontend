@@ -10,18 +10,18 @@ const persistSessionConfig = {
   storage,
   blacklist: ['access', '_persist'],
   stateReconciler: autoMergeLevel2,
-  transforms: [sessionTransform]
+  transforms: [sessionTransform],
 }
 
 const persistConfig = {
   key: 'root',
   storage,
   blacklist: ['_persist', 'session'],
-  stateReconciler: autoMergeLevel2
+  stateReconciler: autoMergeLevel2,
 }
 
 const model = {
-  session
+  session,
 }
 
 const rootReducer = combineReducers({

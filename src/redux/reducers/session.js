@@ -1,5 +1,9 @@
 /* eslint-disable indent */
-import { LOGOUT_CURRENT_USER, RECEIVE_ACCESS_TOKENS, FINISHED_LOGIN } from '../actions/session'
+import {
+  LOGOUT_CURRENT_USER,
+  RECEIVE_ACCESS_TOKENS,
+  FINISHED_LOGIN,
+} from '../actions/session'
 import { createTransform } from 'redux-persist'
 import api from '../../api'
 
@@ -10,14 +14,14 @@ export const session = {
   isLoggingIn: false,
 }
 
-const sessionReducer = (state={}, { type, payload }) => {
+const sessionReducer = (state = {}, { type, payload }) => {
   Object.freeze(state)
   switch (type) {
     case RECEIVE_ACCESS_TOKENS:
       return {
         ...state,
         access: payload.access,
-        refresh: payload.refresh
+        refresh: payload.refresh,
       }
     case LOGOUT_CURRENT_USER:
       return {
@@ -28,7 +32,7 @@ const sessionReducer = (state={}, { type, payload }) => {
     case FINISHED_LOGIN:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     default:
       return state
@@ -36,13 +40,13 @@ const sessionReducer = (state={}, { type, payload }) => {
 }
 
 export const sessionTransform = createTransform(
-  inbound => inbound,
+  (inbound) => inbound,
   async (outbound, key) => {
     if (key === 'refresh') {
-      api.refresh(outbound).catch(() => null) 
+      api.refresh(outbound).catch(() => null)
     }
     return null
-  }
+  },
 )
 
 export default sessionReducer

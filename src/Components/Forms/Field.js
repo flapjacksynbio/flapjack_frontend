@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
 const Field = (props) => {
-
   const { RenderField = null } = props
 
   if (RenderField) {
@@ -19,16 +18,11 @@ const Field = (props) => {
     placeholder = null,
     rules = [],
     addonAfter = null,
-    disabled = false
+    disabled = false,
   } = props
 
   return (
-    <Form.Item
-      hasFeedback
-      name={name}
-      rules={rules}
-      label={showLabel ? label : null}
-    >
+    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
       <Input
         prefix={PrefixComponent && <PrefixComponent />}
         type={type}
@@ -50,7 +44,7 @@ Field.propTypes = {
   rules: PropTypes.array,
   RenderField: PropTypes.func,
   addonAfter: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 }
 
 export default Field
