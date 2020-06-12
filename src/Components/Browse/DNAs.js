@@ -22,7 +22,7 @@ const DNAs = () => {
         tabType: 'data',
       }}
     >
-      <Button>View assay</Button>
+      <Button>View DNA</Button>
     </Link>
   )
 
