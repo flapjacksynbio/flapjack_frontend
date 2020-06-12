@@ -10,7 +10,7 @@ const Multiselect = ({
   placeholder = '',
   options = [],
   filterOption = false,
-  optionLabel = ''
+  optionLabel = '',
 }) => {
   const renderOption = (option, i) => {
     const label = typeof option === 'string' ? option : option[optionLabel]
@@ -25,12 +25,7 @@ const Multiselect = ({
   }
 
   return (
-    <Form.Item
-      hasFeedback
-      name={name}
-      rules={rules}
-      label={showLabel ? label : null}
-    >
+    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
       <Select
         showSearch={filterOption}
         placeholder={placeholder}
@@ -50,15 +45,9 @@ Multiselect.propTypes = {
   rules: PropTypes.array,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.shape({ label: PropTypes.string })
-    ])
+    PropTypes.oneOfType([PropTypes.string, PropTypes.shape({ label: PropTypes.string })]),
   ),
-  filterOption: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
+  filterOption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   optionLabel: PropTypes.string,
 }
 

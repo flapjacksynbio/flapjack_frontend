@@ -16,82 +16,93 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 
   const addSelected = (value, checked) => {
     if (checked) {
-      setSelected(selected => [...selected.filter(({ id }) => id !== value.id), value])
+      setSelected((selected) => [...selected.filter(({ id }) => id !== value.id), value])
     } else {
-      setSelected(selected => selected.filter(({ id }) => id !== value.id))
+      setSelected((selected) => selected.filter(({ id }) => id !== value.id))
     }
   }
 
-  const onSearch = React.useCallback(debounce(() => {
-    const fetchId = lastFetchId
-    setLastFetchId(idx => idx + 1)
+  const onSearch = React.useCallback(
+    debounce(() => {
+      const fetchId = lastFetchId
+      setLastFetchId((idx) => idx + 1)
 
-    setLoading(true)
-    setData([])
+      setLoading(true)
+      setData([])
 
-    api.get(url, null, { search, limit })
-      .then(({ results, count }) => {
+      api.get(url, null, { search, limit }).then(({ results, count }) => {
         if (fetchId !== lastFetchId) return
         setData(results.map(({ id, name }) => ({ id, name })))
         setTotalResults(count)
         setLoading(false)
       })
-  }))
+    }),
+  )
 
-  const onClickMore = () => setLimit(lim => lim + 10)
+  const onClickMore = () => setLimit((lim) => lim + 10)
 
   const renderOptions = () => (
     <Row className="provider-select-options">
-      {data.length > 0 && data.map(value =>
-        <Col span={24} key={value.id}>
-          <Checkbox
-            checked={checked.has(value.id)}
-            onChange={e => addSelected(value, e.target.checked)}
-          >
-            {value.name}
-          </Checkbox>
-        </Col>
-      )}
-      { renderMore() }
+      {data.length > 0 &&
+        data.map((value) => (
+          <Col span={24} key={value.id}>
+            <Checkbox
+              checked={checked.has(value.id)}
+              onChange={(e) => addSelected(value, e.target.checked)}
+            >
+              {value.name}
+            </Checkbox>
+          </Col>
+        ))}
+      {renderMore()}
     </Row>
   )
-  
+
   const renderMore = () => {
     if (!loading && !data.length) {
-      return <Empty description={`No ${label || 'results'} were found`}/>
+      return <Empty description={`No ${label || 'results'} were found`} />
     } else if (loading) {
       return <Spin size="small" />
     }
-    return limit < totalResults ? <Button type="link" onClick={onClickMore}>More...</Button> : null
+    return limit < totalResults ? (
+      <Button type="link" onClick={onClickMore}>
+        More...
+      </Button>
+    ) : null
   }
 
   // eslint-disable-next-line
   React.useEffect(() => { onSearch(search) }, [search])
   React.useEffect(() => {
     const fetchId = lastFetchId
-    setLastFetchId(idx => idx + 1)
+    setLastFetchId((idx) => idx + 1)
 
     setLoading(true)
 
-    api.get(url, null, { search, limit, offset: data.length })
+    api
+      .get(url, null, { search, limit, offset: data.length })
       .then(({ results, count }) => {
         if (fetchId !== lastFetchId) return
-        setData(data => [...data, ...results.map(({ id, name }) => ({ id, name }))])
+        setData((data) => [...data, ...results.map(({ id, name }) => ({ id, name }))])
         setTotalResults(count)
         setLoading(false)
       })
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [limit])
 
   const checked = new Set(selected.map(({ id }) => id))
 
   return (
     <div>
-      {selected.map(value => <Tag onClose={() => addSelected(value, false)} closable key={value.id}>{value.name}</Tag>)}
+      {selected.map((value) => (
+        <Tag onClose={() => addSelected(value, false)} closable key={value.id}>
+          {value.name}
+        </Tag>
+      ))}
       <Input.Search
         placeholder="Search"
         loading={loading}
-        onChange={e => setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         onSearch={onSearch}
         style={{ marginTop: 10, marginBottom: 10 }}
       />
@@ -103,11 +114,13 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 ProviderSelect.propTypes = {
   url: PropTypes.string.isRequired,
   label: PropTypes.string,
-  selected: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
-  })).isRequired,
-  setSelected: PropTypes.func.isRequired
+  selected: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+  setSelected: PropTypes.func.isRequired,
 }
 
 export default ProviderSelect

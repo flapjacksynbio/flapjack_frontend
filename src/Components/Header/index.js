@@ -25,7 +25,7 @@ const FlapHeader = ({ routes = [] }) => {
   }
 
   const onToggleDrawer = () => {
-    setDrawerVisible(visible => !visible)
+    setDrawerVisible((visible) => !visible)
   }
 
   const menuButtons = routes.filter(({ navbarRenderer }) => navbarRenderer)
@@ -38,23 +38,23 @@ const FlapHeader = ({ routes = [] }) => {
           <span className="logo-title">FlapJack</span>
         </Link>
       </div>
-      { smallScreen && (
+      {smallScreen && (
         <Button className="drawer-button" onClick={onToggleDrawer}>
           <MenuOutlined className="drawer-button-icon" />
         </Button>
       )}
-      { smallScreen && (
+      {smallScreen && (
         <Drawer
           placement="right"
           onClose={onToggleDrawer}
           visible={drawerVisible}
-          theme='dark'
+          theme="dark"
           bodyStyle={{ padding: 0, backgroundColor: '#001529' }}
         >
-          <NavMenu menuButtons={menuButtons} mode='vertical' />
+          <NavMenu menuButtons={menuButtons} mode="vertical" />
         </Drawer>
       )}
-      { !smallScreen && <NavMenu menuButtons={menuButtons} mode='horizontal' /> }
+      {!smallScreen && <NavMenu menuButtons={menuButtons} mode="horizontal" />}
     </Layout.Header>
   )
 }
@@ -64,7 +64,7 @@ FlapHeader.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       route: PropTypes.string.isRequired,
-      navbarRenderer: PropTypes.func
+      navbarRenderer: PropTypes.func,
     }),
   ).isRequired,
 }

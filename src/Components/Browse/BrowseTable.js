@@ -4,20 +4,23 @@ import { Table, Input } from 'antd'
 import api from '../../api'
 import './Browse.scss'
 
-const BrowseTable = ({
-  dataUrl,
-  columns,
-}) => {
+const BrowseTable = ({ dataUrl, columns }) => {
   const [dataSource, setDataSource] = React.useState([])
   const [loading, setLoading] = React.useState(true)
-  const [pagination, setPagination] = React.useState({ current: 1, pageSize: 20, total: 0, hideOnSinglePage: true })
+  const [pagination, setPagination] = React.useState({
+    current: 1,
+    pageSize: 20,
+    total: 0,
+    hideOnSinglePage: true,
+  })
 
   const loadData = async (query) => {
     setLoading(true)
-    const { count: total, results: data} = await api.get(dataUrl, {}, query)
+    const { count: total, results: data } = await api.get(dataUrl, {}, query)
+    data.forEach((d) => (d.key = d.id))
 
     setDataSource(data)
-    setPagination(pag => ({
+    setPagination((pag) => ({
       ...pag,
       total,
     }))
@@ -29,7 +32,7 @@ const BrowseTable = ({
   React.useEffect(() => { loadData({ page: 1 }) }, [])
 
   const handleTableChange = ({ current, pageSize }, search) => {
-    setPagination(pag => ({ ...pag, pageSize, current }))
+    setPagination((pag) => ({ ...pag, pageSize, current }))
     const query = { limit: pageSize, offset: pageSize * (current - 1) }
     if (typeof search === 'string') query.search = search
     loadData(query)
@@ -37,8 +40,13 @@ const BrowseTable = ({
 
   return (
     <div>
-      <div className='search-bar'>
-        <Input.Search placeholder="Search" enterButton loading={loading} onSearch={val => handleTableChange(pagination, val)} />
+      <div className="search-bar">
+        <Input.Search
+          placeholder="Search"
+          enterButton
+          loading={loading}
+          onSearch={(val) => handleTableChange(pagination, val)}
+        />
       </div>
       <Table
         dataSource={dataSource}
@@ -57,11 +65,11 @@ BrowseTable.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      dataIndex: PropTypes.string.isRequired,
+      dataIndex: PropTypes.string,
       key: PropTypes.string,
       sorter: PropTypes.func,
-    })
-  )
+    }),
+  ),
 }
 
 export default BrowseTable

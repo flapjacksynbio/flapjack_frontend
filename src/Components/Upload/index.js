@@ -1,5 +1,8 @@
 import React from 'react'
-import { ExperimentOutlined, FileMarkdownOutlined, /*ReconciliationOutlined,*/ } from '@ant-design/icons'
+import {
+  ExperimentOutlined,
+  FileMarkdownOutlined /*ReconciliationOutlined,*/,
+} from '@ant-design/icons'
 import { Typography, message } from 'antd'
 import RadioGroup from '~/src/Components/Forms/RadioGroup'
 import TextArea from '~/src/Components/Forms/TextArea'
@@ -23,7 +26,7 @@ const Upload = () => {
           label: 'Study Name',
           showLabel: true,
           RenderField: CreateStudy,
-          rules: [{ required: true }]
+          rules: [{ required: true }],
         },
         {
           name: 'machine',
@@ -32,7 +35,7 @@ const Upload = () => {
           placeholder: 'Machine',
           options: ['HTX Synergy', 'BMG', 'FluoPi'],
           RenderField: RadioGroup,
-          rules: [{ required: true }]
+          rules: [{ required: true }],
         },
         // {
         //   name: 'data_file',
@@ -41,7 +44,7 @@ const Upload = () => {
         //   RenderField: FileInput,
         //   rules: [{ required: true }]
         // }
-      ]
+      ],
     },
     {
       title: 'Metadata',
@@ -51,21 +54,25 @@ const Upload = () => {
           name: 'mock_title2',
           label: 'mock_title2',
           RenderField() {
-            return <Typography.Title level={3}>Assays description and temperature</Typography.Title>
-          }
+            return (
+              <Typography.Title level={3}>
+                Assays description and temperature
+              </Typography.Title>
+            )
+          },
         },
         {
           name: 'name',
           label: 'Name',
           showLabel: true,
-          rules: [{ required: true, max: 80, min: 3 }]
+          rules: [{ required: true, max: 80, min: 3 }],
         },
         {
           name: 'description',
           label: 'Description',
           showLabel: true,
           RenderField: TextArea,
-          rules: [{ required: true }]
+          rules: [{ required: true }],
         },
         {
           name: 'temperature',
@@ -73,9 +80,9 @@ const Upload = () => {
           showLabel: true,
           type: 'number',
           rules: [{ required: true }],
-          addonAfter: '°C'
-        }
-      ]
+          addonAfter: '°C',
+        },
+      ],
     },
     // {
     //   title: 'Signals',
@@ -114,9 +121,14 @@ const Upload = () => {
     const { name, machine, description, temperature, study } = data
     setLoading(true)
 
-    const success = await api.post('assay/', {
-      name, machine, description, temperature, study: study.value
-    })
+    const success = await api
+      .post('assay/', {
+        name,
+        machine,
+        description,
+        temperature,
+        study: study.value,
+      })
       .then(({ id }) => !!id)
       .catch(() => false)
     setLoading(false)
@@ -131,7 +143,7 @@ const Upload = () => {
 
   return (
     <SteppedFormFactory
-      name='UpladForm'
+      name="UpladForm"
       steps={steps}
       onSubmit={onSubmit}
       submitText="Submit"

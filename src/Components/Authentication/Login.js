@@ -14,26 +14,22 @@ const Login = ({ goToSignUp }) => {
       name: 'username',
       label: 'Username',
       PrefixComponent: UserOutlined,
-      rules: [{ required: true }]
+      rules: [{ required: true }],
     },
     {
       name: 'password',
       label: 'Password',
       type: 'password',
       PrefixComponent: LockOutlined,
-      rules: [{ required: true }]
-    }
+      rules: [{ required: true }],
+    },
   ]
 
-  const showAlerts = messages => (
+  const showAlerts = (messages) => (
     <div style={{ marginBottom: 12 }}>
-      {messages.map((msg, i) =>
-        <Alert
-          key={`login-err-${i}`}
-          message={msg}
-          type="error"
-          closable />)
-      }
+      {messages.map((msg, i) => (
+        <Alert key={`login-err-${i}`} message={msg} type="error" closable />
+      ))}
     </div>
   )
 
@@ -46,18 +42,21 @@ const Login = ({ goToSignUp }) => {
   }
 
   return (
-    <Row align='middle' className='auth-form-container'>
+    <Row align="middle" className="auth-form-container">
       <Col xs={22} md={16} lg={12}>
         <Card title="Login to FlapJack">
           {errors.length > 0 && showAlerts(errors)}
           <FormFactory
-            name='Login'
+            name="Login"
             onSubmit={onSubmit}
             fields={fields}
             submitText="Login"
           />
           <Typography.Text>
-            {'Don\'t have an account? '}<Button type="link" onClick={goToSignUp}>Register here!</Button>
+            {"Don't have an account? "}
+            <Button type="link" onClick={goToSignUp}>
+              Register here!
+            </Button>
           </Typography.Text>
         </Card>
       </Col>
@@ -66,7 +65,7 @@ const Login = ({ goToSignUp }) => {
 }
 
 Login.propTypes = {
-  goToSignUp: PropTypes.func.isRequired
+  goToSignUp: PropTypes.func.isRequired,
 }
 
 export default Login

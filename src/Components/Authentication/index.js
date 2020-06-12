@@ -17,11 +17,15 @@ const Authentication = ({ isLoggedIn }) => {
   }
 
   return (
-    <Tabs defaultActiveKey={initialTab} activeKey={activeKey} onTabClick={key => setActiveKey(key)}>
-      <Tabs.TabPane tab='Log In' key='login'>
+    <Tabs
+      defaultActiveKey={initialTab}
+      activeKey={activeKey}
+      onTabClick={(key) => setActiveKey(key)}
+    >
+      <Tabs.TabPane tab="Log In" key="login">
         <Login goToSignUp={() => setActiveKey('signup')} />
       </Tabs.TabPane>
-      <Tabs.TabPane tab='Sign Up' key='signup'>
+      <Tabs.TabPane tab="Sign Up" key="signup">
         <Signup goToLogin={() => setActiveKey('login')} />
       </Tabs.TabPane>
     </Tabs>
@@ -32,8 +36,8 @@ Authentication.propTypes = {
   isLoggedIn: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: !!state.session.access
+const mapStateToProps = (state) => ({
+  isLoggedIn: !!state.session.access,
 })
 
 export default connect(mapStateToProps)(Authentication)

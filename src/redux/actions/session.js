@@ -5,7 +5,7 @@ export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER'
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER'
 export const FINISHED_LOGIN = 'FINISHED_LOGIN'
 
-export const receiveAccessTokens = tokens => {
+export const receiveAccessTokens = (tokens) => {
   setTimeout(() => api.refresh().catch(() => null), 4.5 * 60 * 1000) // Cada 4.5 minutos
 
   return {
@@ -16,11 +16,11 @@ export const receiveAccessTokens = tokens => {
 
 export const logoutCurrentUser = () => {
   return {
-    type: LOGOUT_CURRENT_USER
+    type: LOGOUT_CURRENT_USER,
   }
 }
 
-export const loggingIn = isLoggingIn => ({
+export const loggingIn = (isLoggingIn) => ({
   type: FINISHED_LOGIN,
-  payload: { isLoggingIn }
+  payload: { isLoggingIn },
 })

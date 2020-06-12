@@ -7,11 +7,11 @@ import './Home.scss'
 import LoggedInCards from './LoggedInCards'
 import NotLoggedInCards from './NotLoggedInCards'
 
-const {Title} = Typography
+const { Title } = Typography
 
 const Home = ({ loggedIn }) => {
   return (
-    <div className='container'>
+    <div className="container">
       <Card className="home-header">
         <Row align="middle" className="home-content" gutter={16}>
           <Col sm={24} md={8}>
@@ -22,17 +22,17 @@ const Home = ({ loggedIn }) => {
           </Col>
         </Row>
       </Card>
-      { loggedIn ? <LoggedInCards /> : <NotLoggedInCards />}
+      {loggedIn ? <LoggedInCards /> : <NotLoggedInCards />}
     </div>
   )
 }
 
 Home.propTypes = {
-  loggedIn: PropTypes.bool.isRequired
+  loggedIn: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loggedIn: !!state.session.access
+const mapStateToProps = (state) => ({
+  loggedIn: !!state.session.access,
 })
 
 export default connect(mapStateToProps)(Home)

@@ -12,20 +12,22 @@ const FormFactory = ({
   style = {},
   submitText = 'Submit',
   initialValues = {},
-  loading = false
+  loading = false,
 }) => {
   return (
     <Form
       name={name}
       onFinish={onSubmit}
       style={style}
-      className='flapjack-form'
+      className="flapjack-form"
       labelCol={{ span: 6 }}
       initialValues={initialValues}
     >
-      {fields.map(field => <Field {...field} key={`form-${name}-${field.name}`} />)}
+      {fields.map((field) => (
+        <Field {...field} key={`form-${name}-${field.name}`} />
+      ))}
       <Form.Item>
-        <Button type='primary' htmlType='submit' disabled={loading}>
+        <Button type="primary" htmlType="submit" disabled={loading}>
           {loading ? <LoadingOutlined spin /> : submitText}
         </Button>
       </Form.Item>
@@ -36,13 +38,11 @@ const FormFactory = ({
 FormFactory.propTypes = {
   name: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
-  fields: PropTypes.arrayOf(
-    PropTypes.shape(Field.propTypes)
-  ),
+  fields: PropTypes.arrayOf(PropTypes.shape(Field.propTypes)),
   style: PropTypes.object,
   submitText: PropTypes.string,
   initialValues: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 }
 
 export default FormFactory

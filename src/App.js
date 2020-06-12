@@ -19,27 +19,26 @@ function App({ loggedIn }) {
         <div className="site-layout-content">
           <Switch>
             {[...availableRoutes].reverse().map(({ route, viewRenderer: Renderer }) => (
-              <Route path={route} key={`route-${route}`}>
-                <Renderer />
-              </Route>
+              <Route path={route} key={`route-${route}`} component={Renderer} />
             ))}
           </Switch>
         </div>
       </Content>
-      <Footer className='footer' theme='dark'>
-        <span>© 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a></span>
+      <Footer className="footer" theme="dark">
+        <span>
+          © 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a>
+        </span>
       </Footer>
     </Layout>
   )
 }
 
 App.propTypes = {
-  loggedIn: PropTypes.bool.isRequired
+  loggedIn: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
-  loggedIn: !!state.session.access
+const mapStateToProps = (state) => ({
+  loggedIn: !!state.session.access,
 })
 
 export default connect(mapStateToProps)(App)
-

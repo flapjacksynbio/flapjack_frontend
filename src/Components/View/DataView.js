@@ -8,11 +8,10 @@ const Plot = createPlotlyComponent(Plotly)
 const DataView = () => {
   const [showPlot, setShowPlot] = React.useState(false)
 
-  const onPlot = values => {
+  const onPlot = (values) => {
     console.log(values)
     setShowPlot(false)
   }
-
 
   return (
     <Row gutter={20}>
@@ -20,23 +19,23 @@ const DataView = () => {
         <Selection onSubmit={onPlot} />
       </Col>
       <Col span={18} style={{ padding: 20 }}>
-        {!showPlot && <Empty
-          description="Select data to plot"
-        />}
-        {showPlot && <Plot
-          style={{ width: '100%', height: 500 }}
-          useResizeHandler
-          data={[
-            {
-              x: [1, 2, 3],
-              y: [2, 6, 3],
-              type: 'scatter',
-              mode: 'lines+markers',
-              marker: { color: 'red' },
-            },
-          ]}
-          layout={{ autosize: true, title: 'A Fancy Plot' }}
-        />}
+        {!showPlot && <Empty description="Select data to plot" />}
+        {showPlot && (
+          <Plot
+            style={{ width: '100%', height: 500 }}
+            useResizeHandler
+            data={[
+              {
+                x: [1, 2, 3],
+                y: [2, 6, 3],
+                type: 'scatter',
+                mode: 'lines+markers',
+                marker: { color: 'red' },
+              },
+            ]}
+            layout={{ autosize: true, title: 'A Fancy Plot' }}
+          />
+        )}
       </Col>
     </Row>
   )

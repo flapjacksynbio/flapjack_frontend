@@ -10,7 +10,6 @@ import * as serviceWorker from './serviceWorker'
 import Loading from './Components/Loading/Index'
 import { ConfigProvider } from 'antd'
 
-
 const validateMessages = {
   // eslint-disable-next-line
   required: '${name} is required',
@@ -24,14 +23,14 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={<Loading />} persistor={persistor}>
       <Router>
-        <ConfigProvider  form={{ validateMessages }}>
+        <ConfigProvider form={{ validateMessages }}>
           <App />
         </ConfigProvider>
       </Router>
     </PersistGate>
   </Provider>,
   // </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )
 
 // If you want your app to work offline and load faster, you can change

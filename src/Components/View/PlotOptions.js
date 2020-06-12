@@ -5,7 +5,7 @@ import { Row, Col, Typography, Select } from 'antd'
 const PlotOptions = ({ fields }) => {
   return (
     <>
-      {fields.map(field => (
+      {fields.map((field) => (
         <Row key={field.name} style={{ marginBottom: 10 }}>
           <Col span={10}>
             <Typography.Text>{field.name}</Typography.Text>
@@ -16,7 +16,11 @@ const PlotOptions = ({ fields }) => {
               onChange={field.setSelected}
               style={{ width: '100%' }}
             >
-              {field.options.map((value, i) => <Select.Option key={i} value={value}>{value}</Select.Option>)}
+              {field.options.map((value, i) => (
+                <Select.Option key={i} value={value}>
+                  {value}
+                </Select.Option>
+              ))}
             </Select>
           </Col>
         </Row>
@@ -26,12 +30,14 @@ const PlotOptions = ({ fields }) => {
 }
 
 PlotOptions.propTypes = {
-  fields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    selected: PropTypes.string.isRequired,
-    setSelected: PropTypes.func.isRequired,
-  }))
+  fields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      options: PropTypes.arrayOf(PropTypes.string).isRequired,
+      selected: PropTypes.string.isRequired,
+      setSelected: PropTypes.func.isRequired,
+    }),
+  ),
 }
 
 export default PlotOptions

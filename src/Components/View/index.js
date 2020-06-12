@@ -1,10 +1,12 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { Tabs, Empty } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import AddTab from './AddTab'
 import DataView from './DataView'
 
 const View = () => {
+  const location = useLocation()
   const [tabs, setTabs] = React.useState([])
   const [dataTabCount, setDataTabCount] = React.useState(0)
   const [analysisTabCount, setAnalysisTabCount] = React.useState(0)
@@ -19,7 +21,14 @@ const View = () => {
     }
   }, [tabs, activeKey])
 
-  const onAddTab = type => {
+  React.useEffect(() => {
+    const { tabType } = location
+    if (tabType) {
+      onAddTab(tabType)
+    }
+  }, [])
+
+  const onAddTab = (type) => {
     let i, name
 
     if (type === 'data') {
@@ -32,11 +41,19 @@ const View = () => {
       setAnalysisTabCount(i)
     }
 
-    setTabs(tabs => [...tabs, { title: `${name} ${i}`, key: `${tabs.length}`, content: <DataView />, closable: true }])
+    setTabs((tabs) => [
+      ...tabs,
+      {
+        title: `${name} ${i}`,
+        key: `${tabs.length}`,
+        content: <DataView />,
+        closable: true,
+      },
+    ])
   }
 
-  const onRemoveTab = targetKey => {
-    setTabs(tabs => tabs.filter(({ key }) => key !== targetKey))
+  const onRemoveTab = (targetKey) => {
+    setTabs((tabs) => tabs.filter(({ key }) => key !== targetKey))
   }
 
   const onTabEdit = (targetKey, action) => {
@@ -47,10 +64,9 @@ const View = () => {
     }
   }
 
-  const renderAddTab = <AddTab actions={[
-    () => onAddTab('data'),
-    () => onAddTab('analysis')
-  ]} />
+  const renderAddTab = (
+    <AddTab actions={[() => onAddTab('data'), () => onAddTab('analysis')]} />
+  )
 
   return (
     <>
@@ -62,7 +78,7 @@ const View = () => {
         onEdit={onTabEdit}
         tabBarExtraContent={renderAddTab}
       >
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <Tabs.TabPane
             tab={tab.title}
             key={tab.key}
@@ -73,12 +89,8 @@ const View = () => {
           </Tabs.TabPane>
         ))}
       </Tabs>
-      { activeKey === null && (
-        <Empty
-          description="No plots have been created."
-        >
-          {renderAddTab}
-        </Empty>
+      {activeKey === null && (
+        <Empty description="No plots have been created.">{renderAddTab}</Empty>
       )}
     </>
   )
