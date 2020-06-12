@@ -1,11 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 import { Tabs, Empty } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import AddTab from './AddTab'
 import DataView from './DataView'
 
-const View = ({ location }) => {
+const View = () => {
+  const location = useLocation()
   const [tabs, setTabs] = React.useState([])
   const [dataTabCount, setDataTabCount] = React.useState(0)
   const [analysisTabCount, setAnalysisTabCount] = React.useState(0)
@@ -95,8 +96,6 @@ const View = ({ location }) => {
   )
 }
 
-View.propTypes = {
-  location: PropTypes.object,
-}
+View.propTypes = {}
 
 export default View
