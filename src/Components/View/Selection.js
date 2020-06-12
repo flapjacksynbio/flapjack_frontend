@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
-import { Collapse, Button, Layout, message } from 'antd'
+import { Collapse, Button, Layout, message, Form } from 'antd'
 import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
+import AnalysisSelection from './AnalysisSelection'
 
 const Selection = ({ isAnalysis = false, onSubmit }) => {
   const location = useLocation()
@@ -12,6 +13,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   const [selectedStudies, setSelectedStudies] = React.useState([])
   const [selectedAssays, setSelectedAssays] = React.useState([])
   const [selectedDna, setSelectedDna] = React.useState([])
+
+  const [analysisForm] = Form.useForm()
 
   React.useEffect(() => {
     const { study, assay, dna } = location
@@ -103,19 +106,27 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     </Button>
   )
 
-  const onPlot = () => {
-    console.log(selectedStudies)
-
+  const onPlot = async () => {
     if (!selectedStudies.length || !selectedAssays.length || !selectedDna.length) {
-      message.error('Please select data to plot')
+      message.error('Please select data to plot.')
       return
     }
 
-    const form = {
+    let form = {
       studyIds: selectedStudies.map(({ id }) => id),
       assayIds: selectedAssays.map(({ id }) => id),
       dnaIds: selectedDna.map(({ id }) => id),
       plotOptions: { normalize, tabs, subplots, markers, plot },
+    }
+
+    if (isAnalysis) {
+      const analysis_values = await analysisForm.validateFields().catch(() => {
+        message.error('Please fill the fields in the analysis form.')
+        return null
+      })
+
+      if (!analysis_values) return
+      form = { ...form, analysis: analysis_values }
     }
 
     onSubmit(form)
@@ -139,8 +150,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
             </Collapse>
           </Collapse.Panel>
           {isAnalysis && (
-            <Collapse.Panel header="Analysis" key="2">
-              Analysis
+            <Collapse.Panel header="Analysis" key="2" forceRender>
+              <AnalysisSelection formInstance={analysisForm} />
             </Collapse.Panel>
           )}
           <Collapse.Panel header="Plot Options" key="3">
