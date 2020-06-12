@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
@@ -7,7 +8,15 @@ import UserMenu from './UserMenu'
 import NavButton from './NavButton'
 import { logoutCurrentUser } from '../../redux/actions/session'
 
+const pathToKey = {
+  '/': 'menu-Home',
+  '/browse': 'menu-Browse',
+  '/view': 'menu-View',
+}
+
 const NavMenu = ({ menuButtons, mode = 'horizontal', user, onLogout }) => {
+  const location = useLocation()
+
   const isHorizontal = mode === 'horizontal'
   let SubMenu = null
 
@@ -33,6 +42,7 @@ const NavMenu = ({ menuButtons, mode = 'horizontal', user, onLogout }) => {
       className={isHorizontal ? 'navbar' : ''}
       style={isHorizontal ? {} : { width: '100%' }}
       mode={mode}
+      selectedKeys={[pathToKey[location.pathname]]}
     >
       {menuButtons.map((route) => (
         <Menu.Item key={`menu-${route.label}`}>{route.navbarRenderer(route)}</Menu.Item>
