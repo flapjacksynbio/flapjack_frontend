@@ -14,6 +14,13 @@ export const receiveAccessTokens = (tokens) => {
   }
 }
 
+export const setUserInfo = ({ username, email }) => {
+  return {
+    type: RECEIVE_CURRENT_USER,
+    payload: { username, email },
+  }
+}
+
 export const logoutCurrentUser = () => {
   return {
     type: LOGOUT_CURRENT_USER,

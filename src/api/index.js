@@ -3,6 +3,7 @@ import {
   receiveAccessTokens,
   logoutCurrentUser,
   loggingIn,
+  setUserInfo,
 } from '../redux/actions/session'
 
 // TODO: Handle errors in this class, and return error messages
@@ -50,12 +51,11 @@ class Api {
       return { errors: response }
     }
 
-    store.dispatch(receiveAccessTokens(response))
-    return response
+    return this.logIn({ username: body.username, password: body.password })
   }
 
   async logIn(body) {
-    const response = await fetch(this.url('auth/token/'), {
+    const response = await fetch(this.url('auth/log_in/'), {
       method: 'POST',
       headers: this.baseHeaders,
       body: JSON.stringify(body),
@@ -66,6 +66,7 @@ class Api {
     }
 
     store.dispatch(receiveAccessTokens(response))
+    store.dispatch(setUserInfo(response))
     return response
   }
 
