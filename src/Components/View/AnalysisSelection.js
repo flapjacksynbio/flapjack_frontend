@@ -12,7 +12,7 @@ const AnalysisSelection = ({ formInstance }) => {
         return { ...acc, [opt.name]: opt.initial_value }
       }, {}),
     )
-  }, [selectedType])
+  }, [selectedType, formInstance])
 
   const onSubmit = (values) => {
     values['type'] = selectedType
