@@ -1,4 +1,5 @@
 import { Input, Checkbox, Radio } from 'antd'
+import InducerForm from './InducerForm'
 
 const analysisOptions = {
   'Mean Expression': [
@@ -374,7 +375,7 @@ const analysisOptions = {
       name: 'inducer',
       label: 'Inducer',
       options: ['Treonina'],
-      renderer: Radio.Group,
+      renderer: InducerForm,
       rules: [{ required: true }],
     },
     {
@@ -395,7 +396,7 @@ const analysisOptions = {
       name: 'inducer',
       label: 'Inducer',
       options: ['Treonina'],
-      renderer: Radio.Group,
+      renderer: InducerForm,
       rules: [{ required: true }],
     },
     {
