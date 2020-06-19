@@ -3,8 +3,9 @@ import {
   LOGOUT_CURRENT_USER,
   RECEIVE_ACCESS_TOKENS,
   FINISHED_LOGIN,
+  RECEIVE_CURRENT_USER,
 } from '../actions/session'
-import { createTransform } from 'redux-persist'
+import { createTransform, REHYDRATE } from 'redux-persist'
 import api from '../../api'
 
 export const session = {
@@ -17,6 +18,8 @@ export const session = {
 const sessionReducer = (state = {}, { type, payload }) => {
   Object.freeze(state)
   switch (type) {
+    case REHYDRATE:
+      return { ...payload }
     case RECEIVE_ACCESS_TOKENS:
       return {
         ...state,
@@ -28,6 +31,11 @@ const sessionReducer = (state = {}, { type, payload }) => {
         user: null,
         access: null,
         refresh: null,
+      }
+    case RECEIVE_CURRENT_USER:
+      return {
+        ...state,
+        user: payload,
       }
     case FINISHED_LOGIN:
       return {
@@ -41,11 +49,12 @@ const sessionReducer = (state = {}, { type, payload }) => {
 
 export const sessionTransform = createTransform(
   (inbound) => inbound,
-  async (outbound, key) => {
+  (outbound, key) => {
     if (key === 'refresh') {
       api.refresh(outbound).catch(() => null)
+      return null
     }
-    return null
+    return outbound
   },
 )
 

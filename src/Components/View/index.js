@@ -4,6 +4,7 @@ import { Tabs, Empty } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import AddTab from './AddTab'
 import DataView from './DataView'
+import AnalysisView from './AnalysisView'
 
 const View = () => {
   const location = useLocation()
@@ -26,6 +27,7 @@ const View = () => {
     if (tabType) {
       onAddTab(tabType)
     }
+    // eslint-disable-next-line
   }, [])
 
   const onAddTab = (type) => {
@@ -46,7 +48,7 @@ const View = () => {
       {
         title: `${name} ${i}`,
         key: `${tabs.length}`,
-        content: <DataView />,
+        content: type === 'data' ? <DataView /> : <AnalysisView />,
         closable: true,
       },
     ])

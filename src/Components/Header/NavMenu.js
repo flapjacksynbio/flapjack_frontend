@@ -14,20 +14,21 @@ const pathToKey = {
   '/view': 'menu-View',
 }
 
-const NavMenu = ({ menuButtons, mode = 'horizontal', user, onLogout }) => {
+const NavMenu = ({ menuButtons, mode = 'horizontal', session, onLogout }) => {
   const location = useLocation()
 
   const isHorizontal = mode === 'horizontal'
   let SubMenu = null
 
-  if (user.isLoggingIn) {
+  if (session.isLoggingIn) {
     SubMenu = (
       <Menu.Item>
         <LoadingOutlined spin />
       </Menu.Item>
     )
-  } else if (user.access) {
-    SubMenu = UserMenu(isHorizontal, user.username, onLogout)
+  } else if (session.access) {
+    const user = session.user
+    SubMenu = UserMenu(isHorizontal, user ? user.username : '', onLogout)
   } else {
     SubMenu = (
       <Menu.Item key="menu-login">
@@ -61,12 +62,12 @@ NavMenu.propTypes = {
     }),
   ).isRequired,
   mode: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
-  user: PropTypes.object,
+  session: PropTypes.object,
   onLogout: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-  user: state.session,
+  session: state.session,
 })
 
 const mapDispatchToProps = (dispatch) => ({

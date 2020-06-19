@@ -30,6 +30,7 @@ const CreateStudy = (props) => {
     }),
   )
 
+  // eslint-disable-next-line
   React.useEffect(() => fetchStudies(''), [])
 
   const fields = [
@@ -45,6 +46,7 @@ const CreateStudy = (props) => {
       label: 'Description',
       showLabel: true,
       RenderField: TextArea,
+      rules: [{ required: true }],
     },
     {
       name: 'doi',
