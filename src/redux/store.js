@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import sessionReducer, { session, sessionTransform } from './reducers/session'
+import tabsReducer from './reducers/viewTabs'
 
 const persistSessionConfig = {
   key: 'session',
@@ -22,10 +23,12 @@ const persistConfig = {
 
 const model = {
   session,
+  viewTabs: {},
 }
 
 const rootReducer = combineReducers({
   session: persistReducer(persistSessionConfig, sessionReducer),
+  viewTabs: tabsReducer,
 })
 
 const pReducer = persistReducer(persistConfig, rootReducer)
