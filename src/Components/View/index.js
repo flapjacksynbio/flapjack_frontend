@@ -65,6 +65,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
       key: tabId,
       contentProps,
       closable: true,
+      plotData: null,
     })
   }
 
@@ -99,6 +100,8 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
           >
             <DataView
               title={tab.title}
+              plotId={tab.id}
+              plotData={tab.plotData}
               onRename={(name) => onRenameTab(name, tab.key)}
               {...contentProps}
             />
