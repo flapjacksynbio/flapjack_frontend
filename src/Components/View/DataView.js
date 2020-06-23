@@ -25,7 +25,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
         progress_update: (message) => setLoadingData(message.data.progress),
         plot_data: (message, event, socket) => {
           setLoadingData(null)
-          addPlot(plotId, message.data.values)
+          addPlot(plotId, message.data.traces)
           socket.close()
         },
       },

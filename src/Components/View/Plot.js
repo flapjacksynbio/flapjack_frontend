@@ -9,15 +9,7 @@ const Plot = ({ data = [] }) => {
     <PlotlyPlot
       style={{ width: '100%', height: 500 }}
       useResizeHandler
-      data={[
-        {
-          x: data.map(([x]) => x),
-          y: data.map(([, y]) => y),
-          type: 'scatter',
-          mode: 'lines+markers',
-          marker: { color: 'red' },
-        },
-      ]}
+      data={data}
       layout={{ autosize: true, title: 'A Fancy Plot' }}
     />
   )
