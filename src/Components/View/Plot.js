@@ -10,7 +10,11 @@ const Plot = ({ data = [] }) => {
       style={{ width: '100%', height: 500 }}
       useResizeHandler
       data={data}
-      layout={{ autosize: true, title: 'A Fancy Plot' }}
+      layout={{ 
+        autosize: true, 
+        title: 'A Fancy Plot', 
+        grid: {rows: 2, columns: 2, pattern: 'independent'}
+      }}
     />
   )
 }
