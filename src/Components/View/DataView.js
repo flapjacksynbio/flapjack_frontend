@@ -16,7 +16,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
   }
 
   const createWebsocket = (values) => {
-    apiWebSocket.connect('registry', {
+    apiWebSocket.connect('plot', {
       onConnect(event, socket) {
         setLoadingData(0)
         socket.send(JSON.stringify({ type: 'plot', parameters: values }))

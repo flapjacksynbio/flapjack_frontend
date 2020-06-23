@@ -12,7 +12,7 @@ const Plot = ({ data = [] }) => {
       data={data}
       layout={{ 
         autosize: true, 
-        title: 'A Fancy Plot', 
+        //title: 'A Fancy Plot', 
         grid: {rows: 2, columns: 2, pattern: 'independent'}
       }}
     />
