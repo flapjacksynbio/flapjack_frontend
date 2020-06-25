@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExperimentOutlined, FileMarkdownOutlined } from '@ant-design/icons'
+import { ExperimentOutlined, FileAddOutlined } from '@ant-design/icons'
 import { Typography, message, Modal } from 'antd'
 import RadioGroup from '~/src/Components/Forms/RadioGroup'
 import TextArea from '~/src/Components/Forms/TextArea'
@@ -24,7 +24,7 @@ const Upload = () => {
   const steps = [
     {
       title: 'Upload File',
-      icon: <ExperimentOutlined />,
+      icon: <FileAddOutlined />,
       fields: [
         {
           name: 'study',
@@ -52,8 +52,8 @@ const Upload = () => {
       ],
     },
     {
-      title: 'Metadata',
-      icon: <FileMarkdownOutlined />,
+      title: 'Assay',
+      icon: <ExperimentOutlined />,
       fields: [
         {
           name: 'mock_title2',
