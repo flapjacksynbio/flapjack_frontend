@@ -19,7 +19,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
     apiWebSocket.connect('plot', {
       onConnect(event, socket) {
         setLoadingData(0)
-        socket.send(JSON.stringify({ type: 'plot', parameters: values }))
+        socket.send(JSON.stringify({ type: 'plot/plot', parameters: values }))
       },
       onReceiveHandlers: {
         progress_update: (message) => setLoadingData(message.data.progress),
