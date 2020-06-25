@@ -25,7 +25,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
         progress_update: (message) => setLoadingData(message.data.progress),
         plot_data: (message, event, socket) => {
           setLoadingData(null)
-          addPlot(plotId, message.data.traces)
+          addPlot(plotId, message.data)
           socket.close()
         },
       },
@@ -37,7 +37,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
   }
 
   const renderPlot = () => {
-    if (plotData && plotData.length) {
+    if (plotData) {
       return <Plot data={plotData} />
     }
 
@@ -72,7 +72,7 @@ DataView.propTypes = {
   title: PropTypes.string.isRequired,
   onRename: PropTypes.func.isRequired,
   isAnalysis: PropTypes.bool,
-  plotData: PropTypes.array,
+  plotData: PropTypes.object,
   addPlot: PropTypes.func.isRequired,
   plotId: PropTypes.string.isRequired,
 }

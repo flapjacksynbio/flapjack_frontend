@@ -4,23 +4,23 @@ import Plotly from 'plotly.js'
 import createPlotlyComponent from 'react-plotly.js/factory'
 const PlotlyPlot = createPlotlyComponent(Plotly)
 
-const Plot = ({ data = [] }) => {
+const Plot = ({ data = {} }) => {
   return (
     <PlotlyPlot
       style={{ width: '100%', height: 500 }}
       useResizeHandler
-      data={data}
+      data={data.traces}
       layout={{ 
         autosize: true, 
         //title: 'A Fancy Plot', 
-        grid: {rows: 2, columns: 2, pattern: 'independent'}
+        grid: {rows: 1, columns: data.n_subplots, pattern: 'independent'}
       }}
     />
   )
 }
 
 Plot.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
 }
 
 export default Plot
