@@ -107,10 +107,10 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   )
 
   const onPlot = async () => {
-    if (!selectedStudies.length || !selectedAssays.length || !selectedDna.length) {
-      message.error('Please select data to plot.')
-      return
-    }
+    // if (!selectedStudies.length || !selectedAssays.length || !selectedDna.length) {
+    //   message.error('Please select data to plot.')
+    //   return
+    // }
 
     let form = {
       studyIds: selectedStudies.map(({ id }) => id),

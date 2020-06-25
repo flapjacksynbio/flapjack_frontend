@@ -4,23 +4,23 @@ import { Tabs, Empty } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import AddTab from './AddTab'
 import DataView from './DataView'
+import { createTab, editTab, deleteTab } from '../../redux/actions/viewTabs'
+import { connect } from 'react-redux'
+//import uuid from 'uuid'
+import {v1 as uuid} from "uuid"; 
+import PropTypes from 'prop-types'
 
-const View = () => {
+const View = ({ tabs, createTab, editTab, deleteTab }) => {
   const location = useLocation()
-  const [tabs, setTabs] = React.useState([])
   const [dataTabCount, setDataTabCount] = React.useState(0)
   const [analysisTabCount, setAnalysisTabCount] = React.useState(0)
   const [activeKey, setActiveKey] = React.useState(null)
 
-  const onRenameTab = (name, tab_key) => {
-    setTabs((oldTabs) => {
-      const tabIndex = oldTabs.findIndex(({ key }) => key === tab_key)
-      if (tabIndex === -1) return oldTabs
+  const onRenameTab = (title, tabId) => {
+    const tab = tabs.find(({ id }) => id === tabId)
+    if (!tab) return
 
-      const otherTabs = [...oldTabs]
-      otherTabs[tabIndex].title = name
-      return otherTabs
-    })
+    editTab({ ...tab, title })
   }
 
   React.useEffect(() => {
@@ -54,34 +54,27 @@ const View = () => {
     }
 
     const title = `${name} ${i}`
-    const key = `${tabs.length}`
+    const tabId = uuid()
 
     const contentProps = {
-      onRename: (name) => onRenameTab(name, key),
       isAnalysis: type !== 'data',
     }
 
-    setTabs((tabs) => [
-      ...tabs,
-      {
-        title,
-        key,
-        content: DataView,
-        contentProps,
-        closable: true,
-      },
-    ])
-  }
-
-  const onRemoveTab = (targetKey) => {
-    setTabs((tabs) => tabs.filter(({ key }) => key !== targetKey))
+    createTab({
+      title,
+      id: tabId,
+      key: tabId,
+      contentProps,
+      closable: true,
+      plotData: null,
+    })
   }
 
   const onTabEdit = (targetKey, action) => {
     if (action === 'add') {
       onAddTab()
     } else {
-      onRemoveTab(targetKey)
+      deleteTab(targetKey)
     }
   }
 
@@ -99,14 +92,20 @@ const View = () => {
         onEdit={onTabEdit}
         tabBarExtraContent={renderAddTab}
       >
-        {tabs.map(({ content: Content, contentProps, ...tab }) => (
+        {tabs.map(({ contentProps, ...tab }) => (
           <Tabs.TabPane
             tab={tab.title}
             key={tab.key}
             closable={tab.closable}
             closeIcon={<CloseOutlined />}
           >
-            <Content title={tab.title} {...contentProps} />
+            <DataView
+              title={tab.title}
+              plotId={tab.id}
+              plotData={tab.plotData}
+              onRename={(name) => onRenameTab(name, tab.key)}
+              {...contentProps}
+            />
           </Tabs.TabPane>
         ))}
       </Tabs>
@@ -117,6 +116,28 @@ const View = () => {
   )
 }
 
-View.propTypes = {}
+View.propTypes = {
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+      closable: PropTypes.bool,
+    }),
+  ).isRequired,
+  createTab: PropTypes.func.isRequired,
+  editTab: PropTypes.func.isRequired,
+  deleteTab: PropTypes.func.isRequired,
+}
 
-export default View
+const mapDispatchToProps = (dispatch) => ({
+  createTab: (tab) => dispatch(createTab(tab)),
+  editTab: (tab) => dispatch(editTab(tab)),
+  deleteTab: (tab) => dispatch(deleteTab(tab)),
+})
+
+const mapStateToProps = (state) => ({
+  tabs: [...Object.values(state.viewTabs)],
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(View)
