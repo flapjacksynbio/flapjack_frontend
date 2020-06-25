@@ -6,7 +6,8 @@ import AddTab from './AddTab'
 import DataView from './DataView'
 import { createTab, editTab, deleteTab } from '../../redux/actions/viewTabs'
 import { connect } from 'react-redux'
-import uuid from 'uuid'
+//import uuid from 'uuid'
+import {v1 as uuid} from "uuid"; 
 import PropTypes from 'prop-types'
 
 const View = ({ tabs, createTab, editTab, deleteTab }) => {
@@ -53,7 +54,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
     }
 
     const title = `${name} ${i}`
-    const tabId = uuid.v1()
+    const tabId = uuid()
 
     const contentProps = {
       isAnalysis: type !== 'data',
@@ -65,6 +66,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
       key: tabId,
       contentProps,
       closable: true,
+      plotData: null,
     })
   }
 
@@ -99,6 +101,8 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
           >
             <DataView
               title={tab.title}
+              plotId={tab.id}
+              plotData={tab.plotData}
               onRename={(name) => onRenameTab(name, tab.key)}
               {...contentProps}
             />
