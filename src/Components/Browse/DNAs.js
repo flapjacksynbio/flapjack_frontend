@@ -1,9 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Space } from 'antd'
+import { useHistory } from 'react-router-dom'
+import { Button, Dropdown, Menu, Space } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 import BrowseTable from './BrowseTable'
 
 const DNAs = () => {
+  const history = useHistory()
+
   const renderUris = (uris) => (
     <div style={{ display: 'block' }}>
       {uris.map((uri, i) => (
@@ -14,28 +17,32 @@ const DNAs = () => {
     </div>
   )
 
-  const renderActions = (text, record) => (
-    <Space>
-      <Link
-        to={{
-          pathname: '/view',
-          dna: { id: record.id, name: record.name },
-          tabType: 'data',
-        }}
-      >
-        <Button>View DNA</Button>
-      </Link>
-      <Link
-        to={{
-          pathname: '/view',
-          dna: { id: record.id, name: record.name },
-          tabType: 'analysis',
-        }}
-      >
-        <Button>Analyze DNA</Button>
-      </Link>
-    </Space>
-  )
+  const renderActions = (text, record) => {
+    const handleMenuClick = (e) => {
+      history.push({
+        pathname: '/view',
+        dna: { id: record.id, name: record.name },
+        tabType: e.key,
+      })
+    }
+
+    const menu = (
+      <Menu onClick={handleMenuClick}>
+        <Menu.Item key="data">Data Viewer</Menu.Item>
+        <Menu.Item key="analysis">Analysis</Menu.Item>
+      </Menu>
+    )
+
+    return (
+      <Space>
+        <Dropdown overlay={menu}>
+          <Button>
+            View <DownOutlined />
+          </Button>
+        </Dropdown>
+      </Space>
+    )
+  }
 
   const columns = [
     {
