@@ -17,8 +17,7 @@ const Studies = () => {
     const handleMenuClick = (e) => {
       history.push({
         pathname: '/view',
-        dna: { id: record.id, name: record.name },
-        tabType: e.key,
+        state: { study: { id: record.id, name: record.name }, tabType: e.key },
       })
     }
 

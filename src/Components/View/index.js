@@ -31,10 +31,12 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
   }, [tabs, activeKey])
 
   React.useEffect(() => {
-    const { tabType } = location
+    if (location.state) {
+      const { tabType } = location.state
 
-    if (tabType) {
-      onAddTab(tabType)
+      if (tabType) {
+        onAddTab(tabType)
+      }
     }
     // eslint-disable-next-line
   }, [])

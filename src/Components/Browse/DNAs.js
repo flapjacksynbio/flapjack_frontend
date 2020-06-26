@@ -21,8 +21,7 @@ const DNAs = () => {
     const handleMenuClick = (e) => {
       history.push({
         pathname: '/view',
-        dna: { id: record.id, name: record.name },
-        tabType: e.key,
+        state: { dna: { id: record.id, name: record.name }, tabType: e.key },
       })
     }
 
