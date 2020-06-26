@@ -1,19 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 import BrowseTable from './BrowseTable'
 
 const Assays = () => {
-  const renderViewLink = (text, record) => (
-    <Link
-      to={{
-        pathname: '/view',
-        assay: { id: record.id, name: record.name },
-        tabType: 'data',
-      }}
-    >
-      <Button>View assay</Button>
-    </Link>
+  const renderActions = (text, record) => (
+    <Space>
+      <Link
+        to={{
+          pathname: '/view',
+          assay: { id: record.id, name: record.name },
+          tabType: 'data',
+        }}
+      >
+        <Button>View assay</Button>
+      </Link>
+      <Link
+        to={{
+          pathname: '/view',
+          assay: { id: record.id, name: record.name },
+          tabType: 'analysis',
+        }}
+      >
+        <Button>Analyze assay</Button>
+      </Link>
+    </Space>
   )
 
   const columns = [
@@ -50,7 +61,7 @@ const Assays = () => {
     {
       title: 'Acciones',
       key: 'actions',
-      render: renderViewLink,
+      render: renderActions,
     },
   ]
 

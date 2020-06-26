@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 import BrowseTable from './BrowseTable'
 
 const DNAs = () => {
@@ -14,16 +14,27 @@ const DNAs = () => {
     </div>
   )
 
-  const renderViewLink = (text, record) => (
-    <Link
-      to={{
-        pathname: '/view',
-        dna: { id: record.id, name: record.name },
-        tabType: 'data',
-      }}
-    >
-      <Button>View DNA</Button>
-    </Link>
+  const renderActions = (text, record) => (
+    <Space>
+      <Link
+        to={{
+          pathname: '/view',
+          dna: { id: record.id, name: record.name },
+          tabType: 'data',
+        }}
+      >
+        <Button>View DNA</Button>
+      </Link>
+      <Link
+        to={{
+          pathname: '/view',
+          dna: { id: record.id, name: record.name },
+          tabType: 'analysis',
+        }}
+      >
+        <Button>Analyze DNA</Button>
+      </Link>
+    </Space>
   )
 
   const columns = [
@@ -40,7 +51,7 @@ const DNAs = () => {
     {
       title: 'Acciones',
       key: 'actions',
-      render: renderViewLink,
+      render: renderActions,
     },
   ]
 
