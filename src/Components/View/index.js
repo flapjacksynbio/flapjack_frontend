@@ -7,13 +7,11 @@ import DataView from './DataView'
 import { createTab, editTab, deleteTab } from '../../redux/actions/viewTabs'
 import { connect } from 'react-redux'
 //import uuid from 'uuid'
-import {v1 as uuid} from "uuid"; 
+import { v1 as uuid } from 'uuid'
 import PropTypes from 'prop-types'
 
 const View = ({ tabs, createTab, editTab, deleteTab }) => {
   const location = useLocation()
-  const [dataTabCount, setDataTabCount] = React.useState(0)
-  const [analysisTabCount, setAnalysisTabCount] = React.useState(0)
   const [activeKey, setActiveKey] = React.useState(null)
 
   const onRenameTab = (title, tabId) => {
@@ -33,9 +31,12 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
   }, [tabs, activeKey])
 
   React.useEffect(() => {
-    const { tabType } = location
-    if (tabType) {
-      onAddTab(tabType)
+    if (location.state) {
+      const { tabType } = location.state
+
+      if (tabType) {
+        onAddTab(tabType)
+      }
     }
     // eslint-disable-next-line
   }, [])
@@ -44,13 +45,13 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
     let i, name
 
     if (type === 'data') {
-      i = dataTabCount + 1
+      const dataTabsCount = tabs.filter((t) => !t.contentProps.isAnalysis).length
+      i = dataTabsCount + 1
       name = 'Data'
-      setDataTabCount(i)
     } else {
-      i = analysisTabCount + 1
+      const analysisTabsCount = tabs.filter((t) => t.contentProps.isAnalysis).length
+      i = analysisTabsCount + 1
       name = 'Analysis'
-      setAnalysisTabCount(i)
     }
 
     const title = `${name} ${i}`
@@ -68,6 +69,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
       closable: true,
       plotData: null,
     })
+    setActiveKey(tabId)
   }
 
   const onTabEdit = (targetKey, action) => {

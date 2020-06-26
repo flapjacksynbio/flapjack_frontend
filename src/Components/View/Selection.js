@@ -17,10 +17,13 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   const [analysisForm] = Form.useForm()
 
   React.useEffect(() => {
-    const { study, assay, dna } = location
-    if (study) setSelectedStudies([study])
-    if (assay) setSelectedAssays([assay])
-    if (dna) setSelectedDna([dna])
+    if (location.state) {
+      const { study, assay, dna } = location.state
+      if (study) setSelectedStudies([study])
+      if (assay) setSelectedAssays([assay])
+      if (dna) setSelectedDna([dna])
+      location.state = {}
+    }
   }, [location])
 
   const queryFields = [
