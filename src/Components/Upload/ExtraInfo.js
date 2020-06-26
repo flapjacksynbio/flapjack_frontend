@@ -1,6 +1,6 @@
 import React from 'react'
 import SteppedFormFactory from '../Forms/SteppedForm'
-import SelectOrCreate from './SelectOrCreate'
+import SelectOrCreate from '../Forms/SelectOrCreate'
 import getFieldParams from './extraFieldParams'
 import PropTypes from 'prop-types'
 
