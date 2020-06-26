@@ -38,7 +38,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
 
   const renderPlot = () => {
     if (plotData) {
-      return <Plot data={plotData} />
+      return <Plot data={plotData} title={title} />
     }
 
     if (loadingData !== null) {

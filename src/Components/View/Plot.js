@@ -7,13 +7,14 @@ import { DownloadOutlined } from '@ant-design/icons'
 import { downloadJSON } from './helper'
 const PlotlyPlot = createPlotlyComponent(Plotly)
 
-const Plot = ({ data = {} }) => {
+const Plot = ({ data = {}, title = '' }) => {
   const minColumns = Math.min(3, data.n_subplots)
   const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
   const rows = Math.ceil(data.n_subplots / columns)
 
   const layout = {
     autosize: true,
+    title,
     grid: { columns, rows, pattern: 'independent' },
   }
 
@@ -28,7 +29,7 @@ const Plot = ({ data = {} }) => {
       <Row justify="end" style={{ width: '100%' }}>
         <Button
           icon={<DownloadOutlined />}
-          onClick={() => downloadJSON({ ...data, layout }, 'flapjack_data')}
+          onClick={() => downloadJSON({ ...data, layout }, title)}
         >
           Download Data
         </Button>
@@ -38,10 +39,11 @@ const Plot = ({ data = {} }) => {
 }
 
 Plot.propTypes = {
+  title: PropTypes.string.isRequired,
   data: PropTypes.shape({
     traces: PropTypes.array.isRequired,
     n_subplots: PropTypes.number.isRequired,
-  }),
+  }).isRequired,
 }
 
 export default Plot
