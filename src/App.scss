@@ -20,6 +20,10 @@ $sides-padding: calc(max(24px, 50vw - 576px));
   padding: $contentPadding $sides-padding;
 }
 
+#flapjack-content.full-width {
+  padding: $contentPadding 24px;
+}
+
 #components-layout-demo-top .logo {
   width: 120px;
   height: 31px;
@@ -41,5 +45,4 @@ $sides-padding: calc(max(24px, 50vw - 576px));
 
 .footer {
   text-align: center;
-
 }

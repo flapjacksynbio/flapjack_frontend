@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import './App.scss'
 import FlapHeader from './Components/Header'
 import routes from './routes'
@@ -10,12 +10,15 @@ import routes from './routes'
 const { Content, Footer } = Layout
 
 function App({ loggedIn }) {
+  const history = useHistory()
   const availableRoutes = routes(loggedIn)
+
+  const contentClass = history.location.pathname === '/view' ? 'full-width' : ''
 
   return (
     <Layout className="layout">
       <FlapHeader routes={availableRoutes} />
-      <Content id="flapjack-content">
+      <Content id="flapjack-content" className={contentClass}>
         <div className="site-layout-content">
           <Switch>
             {[...availableRoutes].reverse().map(({ route, viewRenderer: Renderer }) => (
