@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Button, message, Select, Spin, Form } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import FormFactory from '../Forms/Form'
+import FormFactory from './Form'
 import debounce from 'lodash/debounce'
-import './Upload.scss'
+import './Form.scss'
 import api from '../../api'
 
 const SelectOrCreate = ({ url, createFields, label, ...props }) => {
@@ -68,7 +68,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
           style={{ width: '100%' }}
         />
       </Form.Item>
-      <div className="study-field">
+      <div className="select-or-create-field">
         <Button onClick={() => setVisible(true)}>
           <PlusOutlined /> Create new {label}
         </Button>

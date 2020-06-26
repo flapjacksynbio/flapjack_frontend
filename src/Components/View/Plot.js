@@ -10,10 +10,10 @@ const Plot = ({ data = {} }) => {
       style={{ width: '100%', height: 500 }}
       useResizeHandler
       data={data.traces}
-      layout={{ 
-        autosize: true, 
-        //title: 'A Fancy Plot', 
-        grid: {rows: 1, columns: data.n_subplots, pattern: 'independent'}
+      layout={{
+        autosize: true,
+        //title: 'A Fancy Plot',
+        grid: { rows: 1, columns: data.n_subplots, pattern: 'independent' },
       }}
     />
   )
