@@ -5,15 +5,18 @@ import createPlotlyComponent from 'react-plotly.js/factory'
 const PlotlyPlot = createPlotlyComponent(Plotly)
 
 const Plot = ({ data = {} }) => {
+  const minColumns = Math.min(3, data.n_subplots)
+  const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
+  const rows = Math.ceil(data.n_subplots / columns)
+
   return (
     <PlotlyPlot
-      style={{ width: '100%', height: 500 }}
+      style={{ width: '100%' }}
       useResizeHandler
       data={data.traces}
       layout={{
         autosize: true,
-        //title: 'A Fancy Plot',
-        grid: { rows: 1, columns: data.n_subplots, pattern: 'independent' },
+        grid: { columns, rows, pattern: 'independent' },
       }}
     />
   )
