@@ -1,18 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Menu, Dropdown } from 'antd'
-import { DownloadOutlined, DesktopOutlined, FileOutlined } from '@ant-design/icons'
+import {
+  DownloadOutlined,
+  DesktopOutlined,
+  FileOutlined,
+  FileImageOutlined,
+} from '@ant-design/icons'
 
-const Download = ({ onDownload }) => {
+const Download = ({ onDownloadJSON, onDownloadPNG }) => {
   const menu = (
     <Menu>
-      <Menu.Item onClick={onDownload}>
+      <Menu.Item onClick={onDownloadJSON}>
         <DesktopOutlined />
         Screen Format
       </Menu.Item>
-      <Menu.Item onClick={() => onDownload(false)}>
+      <Menu.Item onClick={() => onDownloadJSON(false)}>
         <FileOutlined />
         Paper Format
+      </Menu.Item>
+      <Menu.Item onClick={onDownloadPNG}>
+        <FileImageOutlined />
+        PNG
       </Menu.Item>
     </Menu>
   )
@@ -25,7 +34,8 @@ const Download = ({ onDownload }) => {
 }
 
 Download.propTypes = {
-  onDownload: PropTypes.func.isRequired,
+  onDownloadJSON: PropTypes.func.isRequired,
+  onDownloadPNG: PropTypes.func.isRequired,
 }
 
 export default Download

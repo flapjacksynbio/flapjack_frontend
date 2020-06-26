@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import Plotly from 'plotly.js'
 
 export const downloadJSON = (jsonObject, filename) => {
   const json = JSON.stringify(jsonObject)
@@ -11,6 +12,31 @@ export const downloadJSON = (jsonObject, filename) => {
   document.body.appendChild(link)
   link.click()
   link.remove()
+}
+
+export const downloadPNG = async (traces, layout, filename) => {
+  // eslint-disable-next-line no-unused-vars
+  let { margin, xaxis, ..._layout } = layout
+  _layout = {
+    ..._layout,
+    xaxis: { ...xaxis, automargin: true },
+  }
+  const tempElement = document.createElement('div')
+  tempElement.setAttribute('id', 'temp_plotly_div')
+  document.body.appendChild(tempElement)
+
+  const plot = await Plotly.newPlot('temp_plotly_div', traces, _layout)
+
+  const imgUrl = await Plotly.toImage(plot, { format: 'png' })
+
+  const link = document.createElement('a')
+  link.setAttribute('download', `${filename}.png`)
+  link.setAttribute('href', imgUrl)
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+
+  tempElement.remove()
 }
 
 const traceStyles = (screen = true) => ({

@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import Plotly from 'plotly.js'
 import createPlotlyComponent from 'react-plotly.js/factory'
 import { Row } from 'antd'
-import { downloadJSON, styleTraces, screenLayout, paperLayout } from './helper'
+import {
+  downloadJSON,
+  styleTraces,
+  screenLayout,
+  paperLayout,
+  downloadPNG,
+} from './helper'
 import Download from './Download'
 const PlotlyPlot = createPlotlyComponent(Plotly)
 
@@ -26,12 +32,19 @@ const Plot = ({ data = {}, title = '' }) => {
       />
       <Row justify="end" style={{ width: '100%' }}>
         <Download
-          onDownload={(screen = true) =>
+          onDownloadJSON={(screen = true) =>
             downloadJSON(
               {
                 traces: screen ? plotData : styleTraces(data.traces, false),
                 layout: screen ? layout : paperLayout(title, rows, columns),
               },
+              title,
+            )
+          }
+          onDownloadPNG={() =>
+            downloadPNG(
+              styleTraces(data.traces, false),
+              paperLayout(title, rows, columns),
               title,
             )
           }
