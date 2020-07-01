@@ -1,6 +1,11 @@
 import _ from 'lodash'
 import Plotly from 'plotly.js'
 
+/**
+ * Helper for downloading an object as a JSON file
+ * @param {Object} jsonObject Object to download as JSON
+ * @param {string} filename File name
+ */
 export const downloadJSON = (jsonObject, filename) => {
   const json = JSON.stringify(jsonObject)
   const blob = new Blob([json], { type: 'text/plain' })
@@ -14,6 +19,12 @@ export const downloadJSON = (jsonObject, filename) => {
   link.remove()
 }
 
+/**
+ * Helper for downloading a plotly plot as a PNG file
+ * @param {Object[]} traces Plotly traces withing the plot
+ * @param {Object} layout Plotly layout argument
+ * @param {string} filename File name
+ */
 export const downloadPNG = async (traces, layout, filename) => {
   // eslint-disable-next-line no-unused-vars
   let { margin, xaxis, ..._layout } = layout
@@ -39,6 +50,10 @@ export const downloadPNG = async (traces, layout, filename) => {
   tempElement.remove()
 }
 
+/**
+ * Get the styles of the traces for a plotly plot
+ * @param {boolean} screen Wether to get screen or print style
+ */
 const traceStyles = (screen = true) => ({
   scatter: {
     marker: { size: 6 },
@@ -47,6 +62,12 @@ const traceStyles = (screen = true) => ({
   line: { marker: { size: 6 }, line: { width: 1 } },
 })
 
+/**
+ * Get plotly screen layout argument
+ * @param {string} title
+ * @param {number} rows
+ * @param {number} columns
+ */
 export const screenLayout = (title, rows, columns) => {
   const font_size = 10
 
@@ -75,6 +96,12 @@ export const screenLayout = (title, rows, columns) => {
   }
 }
 
+/**
+ * Get plotly print layout argument
+ * @param {string} title
+ * @param {number} rows
+ * @param {number} columns
+ */
 export const paperLayout = (
   title,
   rows,
@@ -113,6 +140,11 @@ export const paperLayout = (
   }
 }
 
+/**
+ * Modify plotly trace styles
+ * @param {Object[]} traces
+ * @param {boolean} screen Wether to get screen or print style
+ */
 export const styleTraces = (traces, screen = true) => {
   const styles = traceStyles(screen)
   return traces.map((trace) => {

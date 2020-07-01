@@ -9,6 +9,7 @@ import {
 // TODO: Handle errors in this class, and return error messages
 
 class Api {
+  /* Mediates the interaction with the API through HTTP requests */
   constructor(baseUrl) {
     this.baseUrl = baseUrl
     this.baseHeaders = {
@@ -19,12 +20,24 @@ class Api {
     }
   }
 
+  /**
+   * Get's the full WebSocket URL from the API path
+   * @param {string} path API path. (For http://localhost:8000/api/registry/plot, path='registry/plot')
+   * @param {object=} query Optional. Query object to be included as a query string in the url.
+   * @returns {string} url
+   */
   url(path, query = {}) {
     const url = new URL(`${this.baseUrl}${path}`)
     Object.entries(query).forEach(([k, v]) => url.searchParams.append(k, v))
     return url
   }
 
+  /**
+   * Execute a get request
+   * @param {string} path API path.
+   * @param {Object.<string>} headers Object containing extra headers
+   * @param {Object} query Object containing query parameters
+   */
   async get(path, headers, query) {
     return fetch(this.url(path, query), {
       method: 'GET',
@@ -32,6 +45,13 @@ class Api {
     }).then((resp) => resp.json())
   }
 
+  /**
+   * Execute a get request
+   * @param {string} path API path. Must end with '/' (E.g.: 'registry/plot/')
+   * @param {Object} body Request body
+   * @param {Object.<string>} headers Object containing extra headers
+   * @param {Object} query Object containing query parameters
+   */
   async post(path, body, headers, query) {
     return fetch(this.url(path, query), {
       method: 'POST',
@@ -40,6 +60,10 @@ class Api {
     }).then((resp) => resp.json())
   }
 
+  /**
+   * Method for registering a new user
+   * @param {{username: string, email: string, password: string, password2: string}} body Object containing the registration parameters
+   */
   async register(body) {
     const response = await fetch(this.url('auth/register/'), {
       method: 'POST',
@@ -54,6 +78,11 @@ class Api {
     return this.logIn({ username: body.username, password: body.password })
   }
 
+  /**
+   * Method for loggingIn a new user
+   * @param {{username, password}} body Object containing username and password
+   * @returns {{access: string, refresh: string, username: string, email: string}}
+   */
   async logIn(body) {
     const response = await fetch(this.url('auth/log_in/'), {
       method: 'POST',
@@ -70,6 +99,10 @@ class Api {
     return response
   }
 
+  /**
+   * Method for obtaining a new refresh and access token
+   * @param {string} refresh Refresh token
+   */
   async refresh(refresh) {
     if (!refresh && (!store.session || !store.session.refresh)) {
       throw new Error('No refresh token stored')
@@ -97,9 +130,13 @@ class Api {
     return response
   }
 
+  /**
+   * Logs out the current user.
+   */
   async logOut() {
     return store.dispatch(logoutCurrentUser())
   }
 }
 
+// TODO: Get url from env
 export default new Api('http://localhost:8000/api/')

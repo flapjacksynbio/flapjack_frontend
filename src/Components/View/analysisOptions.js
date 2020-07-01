@@ -1,6 +1,10 @@
 import { Input, Checkbox, Radio } from 'antd'
 import InducerForm from './InducerForm'
 
+/**
+ * Contains forms for the different analysis options.
+ * See src/Forms/Form.js
+ */
 const analysisOptions = {
   'Mean Expression': [
     {
