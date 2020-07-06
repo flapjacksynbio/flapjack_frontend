@@ -5,6 +5,9 @@ import {
   loggingIn,
   setUserInfo,
 } from '../redux/actions/session'
+import ee from 'events'
+
+const READY_EVENT = 'READY_EVENT'
 
 // TODO: Handle errors in this class, and return error messages
 
@@ -14,8 +17,20 @@ class Api {
     this.baseHeaders = {
       'content-type': 'application/json',
     }
-    this.authedHeaders = {
+
+    this.emitter = new ee.EventEmitter()
+    this.isInitialized = new Promise((resolve) => {
+      this.emitter.once('READY_EVENT', () => resolve())
+    })
+  }
+
+  async authedHeaders() {
+    await this.isInitialized
+    const accessToken = store.getState().session.access
+    if (!accessToken) return this.baseHeaders
+    return {
       ...this.baseHeaders,
+      Authorization: `Bearer ${accessToken}`,
     }
   }
 
@@ -26,16 +41,18 @@ class Api {
   }
 
   async get(path, headers, query) {
+    const authedHeaders = await this.authedHeaders()
     return fetch(this.url(path, query), {
       method: 'GET',
-      headers: { ...this.authedHeaders, ...headers }, // TODO: Add auth header
+      headers: { ...authedHeaders, ...headers },
     }).then((resp) => resp.json())
   }
 
   async post(path, body, headers, query) {
+    const authedHeaders = await this.authedHeaders()
     return fetch(this.url(path, query), {
       method: 'POST',
-      headers: { ...this.authedHeaders, ...headers }, // TODO: Add auth header
+      headers: { ...authedHeaders, ...headers },
       body: JSON.stringify(body),
     }).then((resp) => resp.json())
   }
@@ -72,6 +89,7 @@ class Api {
 
   async refresh(refresh) {
     if (!refresh && (!store.session || !store.session.refresh)) {
+      this.emitter.emit(READY_EVENT, true)
       throw new Error('No refresh token stored')
     }
 
@@ -80,7 +98,7 @@ class Api {
     const response = await fetch(this.url('auth/refresh/'), {
       method: 'POST',
       headers: this.baseHeaders,
-      body: JSON.stringify({ refresh: refresh || store.session.refresh }),
+      body: JSON.stringify({ refresh: refresh || store.getState().session.refresh }),
     })
       .then((resp) => resp.json())
       .finally((resp) => {
@@ -90,10 +108,12 @@ class Api {
 
     if (!response || !response.access) {
       store.dispatch(logoutCurrentUser())
+      this.emitter.emit(READY_EVENT, true)
       throw new Error('API error')
     }
 
     store.dispatch(receiveAccessTokens({ refresh, access: response.access }))
+    this.emitter.emit(READY_EVENT, true)
     return response
   }
 
