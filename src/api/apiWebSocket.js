@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import store from '../redux/store'
 
 /**
  * @callback listener
@@ -25,7 +26,8 @@ class ApiWebsocket {
    * @returns {string} url
    */
   url(path) {
-    const url = new URL(`${this.baseUrl}${path}`)
+    const token = store.getState().session.access
+    const url = new URL(`${this.baseUrl}${path}?token=${token}`)
     return url
   }
 
