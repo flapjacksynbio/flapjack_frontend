@@ -4,6 +4,7 @@ import { Table, Input } from 'antd'
 import api from '../../api'
 import './Browse.scss'
 
+/* Table with pagination provided by api */
 const BrowseTable = ({ dataUrl, columns }) => {
   const [dataSource, setDataSource] = React.useState([])
   const [loading, setLoading] = React.useState(true)

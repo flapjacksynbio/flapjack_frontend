@@ -5,6 +5,21 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Field from './Field'
 import './Form.scss'
 
+/**
+ * Factory for creating antd forms
+ * @param {object} props
+ * @param {string} props.name Form name.
+ * @param {function(object): undefined} props.onSubmit Callback when form is submitted.
+ * @param {Object} props.style Style for Form component.
+ * @param {String} props.submitText Text in form submit button.
+ * @param {Object} props.initialValues Object containing initial values for fields.
+ * @param {boolean} props.loading Whether to show a loading indicator or not.
+ * @param {('horizontal' | 'vertical' | 'inline')} props.layout Whether to show a loading indicator or not.
+ * @param {{RenderField, ...props}[]} props.fields Fields to be rendered in the form.
+ * @param {function(props): JSX} props.fields[].RenderField Optional. If provided, will be used to render the field,
+ * otherwise, a basic input will be rendered.
+ * @param {Object} props.fields[].props Props used for rendering the field.
+ */
 const FormFactory = ({
   name,
   onSubmit = () => null,
@@ -13,6 +28,7 @@ const FormFactory = ({
   submitText = 'Submit',
   initialValues = {},
   loading = false,
+  layout = 'horizontal',
 }) => {
   return (
     <Form
@@ -22,6 +38,7 @@ const FormFactory = ({
       className="flapjack-form"
       labelCol={{ span: 6 }}
       initialValues={initialValues}
+      layout={layout}
     >
       {fields.map((field) => (
         <Field {...field} key={`form-${name}-${field.name}`} />
@@ -43,6 +60,7 @@ FormFactory.propTypes = {
   submitText: PropTypes.string,
   initialValues: PropTypes.object,
   loading: PropTypes.bool,
+  layout: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
 }
 
 export default FormFactory

@@ -110,6 +110,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   )
 
   const onPlot = async () => {
+    // TODO: Uncomment next line when arguments become relevant
     // if (!selectedStudies.length || !selectedAssays.length || !selectedDna.length) {
     //   message.error('Please select data to plot.')
     //   return

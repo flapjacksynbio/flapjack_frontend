@@ -5,8 +5,15 @@ export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER'
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER'
 export const FINISHED_LOGIN = 'FINISHED_LOGIN'
 
+/**
+ * Redux action for refreshing tokens
+ * @param {Object} tokens
+ * @param {string} tokens.access Access token
+ * @param {string} tokens.refresh Refresh token
+ */
 export const receiveAccessTokens = (tokens) => {
-  setTimeout(() => api.refresh().catch(() => null), 4.5 * 60 * 1000) // Cada 4.5 minutos
+  // Refresh access token
+  setTimeout(() => api.refresh().catch(() => null), 4.5 * 60 * 1000) // Every 4.5 minutes
 
   return {
     type: RECEIVE_ACCESS_TOKENS,
@@ -14,6 +21,12 @@ export const receiveAccessTokens = (tokens) => {
   }
 }
 
+/**
+ * Redux action for setting user information
+ * @param {Object} userInfo
+ * @param {string} userInfo.username
+ * @param {string} userInfo.email
+ */
 export const setUserInfo = ({ username, email }) => {
   return {
     type: RECEIVE_CURRENT_USER,
@@ -21,6 +34,9 @@ export const setUserInfo = ({ username, email }) => {
   }
 }
 
+/**
+ * Redux action for removing user info and tokens
+ */
 export const logoutCurrentUser = () => {
   return {
     type: LOGOUT_CURRENT_USER,

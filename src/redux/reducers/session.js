@@ -47,6 +47,7 @@ const sessionReducer = (state = {}, { type, payload }) => {
   }
 }
 
+/** Transform for rehydrating session from local storage */
 export const sessionTransform = createTransform(
   (inbound) => inbound,
   (outbound, key) => {

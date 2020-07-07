@@ -2,6 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
+/**
+ * Base field component. To be used with Form and SteppedForm
+ * @param {Object} props
+ * @param {function(object): JSX|undefined} props.RenderField Optional. If specified, it will be used to render the field
+ * Other values in props will be passed as arguments to render the field.
+ */
 const Field = (props) => {
   const { RenderField = null } = props
 
