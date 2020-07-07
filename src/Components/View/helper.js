@@ -20,12 +20,11 @@ export const downloadJSON = (jsonObject, filename) => {
 }
 
 /**
- * Helper for downloading a plotly plot as a PNG file
- * @param {Object[]} traces Plotly traces withing the plot
+ * Generates a plotly image url
  * @param {Object} layout Plotly layout argument
- * @param {string} filename File name
+ * @param {Object[]} traces Plotly traces withing the plot
  */
-export const downloadPNG = async (traces, layout, filename) => {
+export const getPlotlyImageUrl = async (layout, traces) => {
   // eslint-disable-next-line no-unused-vars
   let { margin, xaxis, ..._layout } = layout
   _layout = {
@@ -40,24 +39,32 @@ export const downloadPNG = async (traces, layout, filename) => {
 
   const imgUrl = await Plotly.toImage(plot, { format: 'png' })
 
+  tempElement.remove()
+  return imgUrl
+}
+
+/**
+ * Helper for downloading a plotly plot as a PNG file
+ * @param {string} imageUrl Image url (url or base64 string)
+ * @param {string} filename File name
+ */
+export const downloadPNG = async (imageUrl, filename) => {
   const link = document.createElement('a')
   link.setAttribute('download', `${filename}.png`)
-  link.setAttribute('href', imgUrl)
+  link.setAttribute('href', imageUrl)
   document.body.appendChild(link)
   link.click()
   link.remove()
-
-  tempElement.remove()
 }
 
 /**
  * Get the styles of the traces for a plotly plot
  * @param {boolean} screen Wether to get screen or print style
  */
-const traceStyles = (screen = true) => ({
+const traceStyles = (screen = true, lineWidth = null) => ({
   scatter: {
     marker: { size: 6 },
-    line: { width: screen ? 1 : 4 },
+    line: { width: lineWidth || (screen ? 1 : 4) },
   },
   line: { marker: { size: 6 }, line: { width: 1 } },
 })
@@ -106,13 +113,13 @@ export const paperLayout = (
   title,
   rows,
   columns,
-  width = 3.3,
+  width = 990,
   aspect = 1.5,
-  font_size = 6,
+  fontSize = 6,
 ) => {
-  const _width = 300 * width
+  const _width = width
   const _height = width / aspect
-  const _font_size = (font_size * 300) / 72
+  const _font_size = (fontSize * 300) / 72
 
   return {
     title: { text: title },
@@ -145,8 +152,8 @@ export const paperLayout = (
  * @param {Object[]} traces
  * @param {boolean} screen Wether to get screen or print style
  */
-export const styleTraces = (traces, screen = true) => {
-  const styles = traceStyles(screen)
+export const styleTraces = (traces, screen = true, lineWidth = null) => {
+  const styles = traceStyles(screen, lineWidth)
   return traces.map((trace) => {
     let result = trace
     if (styles[trace.type]) {
