@@ -24,6 +24,7 @@ const downloadPNGFields = [
     type: 'number',
     RenderField: InputNumber,
     min: 1,
+    step: 0.05,
     rules: [{ required: true }],
   },
   {
@@ -33,6 +34,19 @@ const downloadPNGFields = [
     type: 'number',
     RenderField: InputNumber,
     min: 1,
+    addonAfter: 'inches',
+    step: 0.05,
+    rules: [{ required: true }],
+  },
+  {
+    name: 'height',
+    label: 'Height',
+    showLabel: true,
+    type: 'number',
+    RenderField: InputNumber,
+    min: 1,
+    addonAfter: 'inches',
+    step: 0.05,
     rules: [{ required: true }],
   },
   {
@@ -42,6 +56,7 @@ const downloadPNGFields = [
     type: 'number',
     RenderField: InputNumber,
     min: 1,
+    step: 0.05,
     rules: [{ required: true }],
   },
 ]
@@ -102,7 +117,8 @@ const Plot = ({ data = {}, title = '' }) => {
           onSubmit={onGeneratePNG}
           initialValues={{
             fontSize: 6,
-            width: 990,
+            width: 4.5,
+            height: 3,
             lineWidth: 4,
           }}
           fields={downloadPNGFields}
