@@ -18,6 +18,7 @@ const Upload = () => {
   const history = useHistory()
 
   const onSubmit = async (data) => {
+    window.data = data;
     const { name, machine, description, temperature, study } = data
     setLoading(true)
 
@@ -34,19 +35,23 @@ const Upload = () => {
     fr.addEventListener('loadend', () => {
       apiWebSocket.connect('registry/upload', {
         onConnect(event, socket) {
+          console.log("onConnect")
           setConnectionSocket(socket)
           socket.send(JSON.stringify({ type: 'init_upload', data: form }))
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
+            console.log("ready_for_file")
             socket.send(fr.result)
           },
           input_requests(msg) {
+            console.log("input_requests")
             console.log(msg.data)
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
           },
           creation_done() {
+            console.log("creation_done")
             setLoading(false)
             message.success('Data uploaded successfully!')
             history.push('browse')
