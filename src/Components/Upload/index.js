@@ -56,6 +56,7 @@ const Upload = () => {
           console.log(e)
           message.error('There was an error uploading the data.')
           socket.close()
+          setConnectionSocket(null)
         },
       })
     })
@@ -82,6 +83,7 @@ const Upload = () => {
     connectionSocket.close()
     setLoading(false)
     setExtraDataVisible(false)
+    setConnectionSocket(null)
   }
 
   return (
