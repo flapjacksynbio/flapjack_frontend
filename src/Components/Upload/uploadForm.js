@@ -3,7 +3,7 @@ import { FileAddOutlined, ExperimentOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 import SelectOrCreate from '../Forms/SelectOrCreate'
 import TextArea from '../Forms/TextArea'
-import RadioGroup from 'antd/lib/radio/group'
+import RadioGroup from '../Forms/RadioGroup'
 import FileInput from '../Forms/FileInput'
 
 const uploadSteps = [
