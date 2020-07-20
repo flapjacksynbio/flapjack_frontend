@@ -14,14 +14,6 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 
   const [lastFetchId, setLastFetchId] = React.useState(0)
 
-  const addSelected = (value, checked) => {
-    if (checked) {
-      setSelected((selected) => [...selected.filter(({ id }) => id !== value.id), value])
-    } else {
-      setSelected((selected) => selected.filter(({ id }) => id !== value.id))
-    }
-  }
-
   const onSearch = React.useCallback(
     debounce(() => {
       const fetchId = lastFetchId
@@ -32,7 +24,12 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 
       api.get(url, null, { search, limit }).then(({ results, count }) => {
         if (fetchId !== lastFetchId) return
-        setData(results.map(({ id, name }) => ({ id, name })))
+        setData(
+          results.map(({ id, name, names }) => ({
+            id,
+            name: name || names.join(', '),
+          })),
+        )
         setTotalResults(count)
         setLoading(false)
       })
@@ -48,7 +45,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
           <Col span={24} key={value.id}>
             <Checkbox
               checked={checked.has(value.id)}
-              onChange={(e) => addSelected(value, e.target.checked)}
+              onChange={(e) => setSelected(value, e.target.checked)}
             >
               {value.name}
             </Checkbox>
@@ -83,7 +80,14 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
       .get(url, null, { search, limit, offset: data.length })
       .then(({ results, count }) => {
         if (fetchId !== lastFetchId) return
-        setData((data) => [...data, ...results.map(({ id, name }) => ({ id, name }))])
+        setData((data) => [
+          ...data.filter(({ id }) => !results.some(({ id: otherId }) => id === otherId)),
+          ...results.map(({ id, name, names, ...metadata }) => ({
+            id,
+            name: name || names.join(', '),
+            metadata,
+          })),
+        ])
         setTotalResults(count)
         setLoading(false)
       })
@@ -95,7 +99,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
   return (
     <div>
       {selected.map((value) => (
-        <Tag onClose={() => addSelected(value, false)} closable key={value.id}>
+        <Tag onClose={() => setSelected(value, false)} closable key={value.id}>
           {value.name}
         </Tag>
       ))}

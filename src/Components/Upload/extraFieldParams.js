@@ -70,6 +70,8 @@ const getFieldParams = (type) => {
           },
         ],
       }
+    default:
+      return null
   }
 }
 
