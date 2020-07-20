@@ -78,6 +78,12 @@ const Upload = () => {
     setExtraDataVisible(false)
   }
 
+  const cancelSend = () => {
+    connectionSocket.close()
+    setLoading(false)
+    setExtraDataVisible(false)
+  }
+
   return (
     <>
       <SteppedFormFactory
@@ -91,7 +97,7 @@ const Upload = () => {
         <Modal
           title="Metadata"
           visible={extraDataVisible}
-          closable={false}
+          onCancel={cancelSend}
           footer={null}
           width="80%"
         >
