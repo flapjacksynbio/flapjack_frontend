@@ -7,8 +7,8 @@ import PropTypes from 'prop-types'
 const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false }) => {
   const steps = Object.entries(extraInfoFields).map(([type, fields]) => ({
     title: type,
-    fields: fields.map((field) => ({
-      name: field,
+    fields: fields.map((field, i) => ({
+      name: `${type}-${i}`,
       label: field,
       showLabel: true,
       rules: [{ required: true }],
