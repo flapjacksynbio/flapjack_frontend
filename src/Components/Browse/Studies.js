@@ -14,25 +14,43 @@ const Studies = () => {
   )
 
   const renderActions = (text, record) => {
-    const handleMenuClick = (e) => {
+    const handleViewMenuClick = (e) => {
       history.push({
         pathname: '/view',
         state: { study: { id: record.id, name: record.name }, tabType: e.key },
       })
     }
 
-    const menu = (
-      <Menu onClick={handleMenuClick}>
+    const handleManageMenuClick = (e) => {
+      console.log(e)
+    }
+
+    const viewMenu = (
+      <Menu onClick={handleViewMenuClick}>
         <Menu.Item key="data">Data Viewer</Menu.Item>
         <Menu.Item key="analysis">Analysis</Menu.Item>
       </Menu>
     )
 
+    const manageMenu = (
+      <Menu onClick={handleManageMenuClick}>
+        <Menu.Item key="share">Share</Menu.Item>
+        <Menu.Item key="make-private">Make Private</Menu.Item>
+        <Menu.Item key="make-public">Make Public</Menu.Item>
+        <Menu.Item key="delete">Delete</Menu.Item>
+      </Menu>
+    )
+
     return (
       <Space>
-        <Dropdown overlay={menu}>
+        <Dropdown overlay={viewMenu}>
           <Button>
             View <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown overlay={manageMenu}>
+          <Button>
+            Manage <DownOutlined />
           </Button>
         </Dropdown>
       </Space>
@@ -59,9 +77,10 @@ const Studies = () => {
       render: renderUri,
     },
     {
-      title: 'Acciones',
+      title: 'Actions',
       key: 'actions',
       render: renderActions,
+      width: 272,
     },
   ]
 
