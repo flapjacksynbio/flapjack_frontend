@@ -2,10 +2,14 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Dropdown, Menu, Space } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
+import api from '../../api'
 import BrowseTable from './BrowseTable'
+import ShareStudyModal from './ShareStudyModal'
 
 const Studies = () => {
   const history = useHistory()
+  const [modalStudy, setModalStudy] = React.useState({})
+  const [modalVisible, setModalVisible] = React.useState(false)
 
   const renderUri = (uri, item) => (
     <a key={`uri-${item.id}`} href={uri} target="_blank" rel="noopener noreferrer">
@@ -22,7 +26,15 @@ const Studies = () => {
     }
 
     const handleManageMenuClick = (e) => {
-      console.log(e)
+      if (e.key === 'make-private') {
+        api.patch(`study/${record.id}/`, {
+          public: false,
+        })
+      } else if (e.key === 'make-public') {
+        api.patch(`study/${record.id}/`, {
+          public: true,
+        })
+      }
     }
 
     const viewMenu = (
@@ -48,11 +60,13 @@ const Studies = () => {
             View <DownOutlined />
           </Button>
         </Dropdown>
-        <Dropdown overlay={manageMenu}>
-          <Button>
-            Manage <DownOutlined />
-          </Button>
-        </Dropdown>
+        {record.is_owner && (
+          <Dropdown overlay={manageMenu}>
+            <Button>
+              Manage <DownOutlined />
+            </Button>
+          </Dropdown>
+        )}
       </Space>
     )
   }
@@ -80,11 +94,16 @@ const Studies = () => {
       title: 'Actions',
       key: 'actions',
       render: renderActions,
-      width: 272,
+      width: 220,
     },
   ]
 
-  return <BrowseTable columns={columns} dataUrl="study/" />
+  return (
+    <>
+      <BrowseTable columns={columns} dataUrl="study/" />
+      <ShareStudyModal study={modalStudy} visible={modalVisible} />
+    </>
+  )
 }
 
 Studies.propTypes = {}
