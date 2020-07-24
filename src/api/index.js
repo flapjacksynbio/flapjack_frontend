@@ -53,7 +53,9 @@ class Api {
       method,
       headers: { ...authedHeaders, ...headers },
       ...(body && { body: JSON.stringify(body) }),
-    }).then((resp) => resp.json())
+    }).then((resp) => {
+      return resp.status !== 204 ? resp.json() : true
+    })
   }
 
   /**
