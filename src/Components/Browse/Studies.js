@@ -1,15 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Dropdown, Menu, Space } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Space } from 'antd'
 import api from '../../api'
 import BrowseTable from './BrowseTable'
 import ShareStudyModal from './ShareStudyModal'
+import DropdownButton from './DropdownButton'
 
 const Studies = () => {
   const history = useHistory()
   const [modalStudy, setModalStudy] = React.useState({})
-  const [modalVisible, setModalVisible] = React.useState(false)
 
   const renderUri = (uri, item) => (
     <a key={`uri-${item.id}`} href={uri} target="_blank" rel="noopener noreferrer">
@@ -25,48 +24,42 @@ const Studies = () => {
       })
     }
 
-    const handleManageMenuClick = (e) => {
-      if (e.key === 'make-private') {
-        api.patch(`study/${record.id}/`, {
-          public: false,
-        })
-      } else if (e.key === 'make-public') {
-        api.patch(`study/${record.id}/`, {
-          public: true,
-        })
-      }
+    const viewOptions = {
+      data: {
+        label: 'Data Viewer',
+        onClick: handleViewMenuClick,
+      },
+      analysis: {
+        label: 'Analysis',
+        onClick: handleViewMenuClick,
+      },
     }
 
-    const viewMenu = (
-      <Menu onClick={handleViewMenuClick}>
-        <Menu.Item key="data">Data Viewer</Menu.Item>
-        <Menu.Item key="analysis">Analysis</Menu.Item>
-      </Menu>
-    )
-
-    const manageMenu = (
-      <Menu onClick={handleManageMenuClick}>
-        <Menu.Item key="share">Share</Menu.Item>
-        <Menu.Item key="make-private">Make Private</Menu.Item>
-        <Menu.Item key="make-public">Make Public</Menu.Item>
-        <Menu.Item key="delete">Delete</Menu.Item>
-      </Menu>
-    )
+    const notPublic = record.public ? 'private' : 'public'
+    const manageOptions = {
+      share: {
+        label: 'Share',
+        onClick: () => {
+          setModalStudy(record)
+        },
+      },
+      'toggle-public': {
+        label: `Make ${notPublic}`,
+        onClick: () =>
+          api.patch(`study/${record.id}/`, {
+            public: !record.public,
+          }),
+      },
+      delete: {
+        label: 'Delete',
+        onClick: () => api.delete(`study/${record.id}/`),
+      },
+    }
 
     return (
       <Space>
-        <Dropdown overlay={viewMenu}>
-          <Button>
-            View <DownOutlined />
-          </Button>
-        </Dropdown>
-        {record.is_owner && (
-          <Dropdown overlay={manageMenu}>
-            <Button>
-              Manage <DownOutlined />
-            </Button>
-          </Dropdown>
-        )}
+        <DropdownButton label={'View'} options={viewOptions} />
+        {record.is_owner && <DropdownButton label={'Manage'} options={manageOptions} />}
       </Space>
     )
   }
@@ -101,7 +94,7 @@ const Studies = () => {
   return (
     <>
       <BrowseTable columns={columns} dataUrl="study/" />
-      <ShareStudyModal study={modalStudy} visible={modalVisible} />
+      <ShareStudyModal study={modalStudy} setModalStudy={setModalStudy} />
     </>
   )
 }
