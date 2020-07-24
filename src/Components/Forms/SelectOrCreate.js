@@ -84,6 +84,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
           onSubmit={onSubmit}
           fields={createFields}
           submitText={`Create ${label}`}
+          initialValues={{ public: false }} // 'public' default value is not set by default
           loading={loading}
         />
       </Modal>
