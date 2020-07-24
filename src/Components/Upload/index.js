@@ -18,7 +18,7 @@ const Upload = () => {
   const history = useHistory()
 
   const onSubmit = async (data) => {
-    window.data = data;
+    window.data = data
     const { name, machine, description, temperature, study } = data
     setLoading(true)
 
@@ -35,23 +35,23 @@ const Upload = () => {
     fr.addEventListener('loadend', () => {
       apiWebSocket.connect('registry/upload', {
         onConnect(event, socket) {
-          console.log("onConnect")
+          console.log('onConnect')
           setConnectionSocket(socket)
           socket.send(JSON.stringify({ type: 'init_upload', data: form }))
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
-            console.log("ready_for_file")
+            console.log('ready_for_file')
             socket.send(fr.result)
           },
           input_requests(msg) {
-            console.log("input_requests")
+            console.log('input_requests')
             console.log(msg.data)
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
           },
           creation_done() {
-            console.log("creation_done")
+            console.log('creation_done')
             setLoading(false)
             message.success('Data uploaded successfully!')
             history.push('browse')
@@ -70,13 +70,16 @@ const Upload = () => {
 
   const onSubmitExtraInfo = (data) => {
     setExtraDataLoading(true)
-    const dataToSend = Object.entries(data).reduce(
-      (acc, [key, { value }]) => ({
-        ...acc,
-        [key]: value,
-      }),
-      {},
-    )
+    const dataToSend = Object.entries(data).reduce((acc, [key, { value }]) => {
+      const reg = key.match(/^(\w+)-\d+$/)[1]
+      if (!acc[reg]) {
+        acc[reg] = []
+      }
+
+      acc[reg].push(value)
+      return acc
+    }, {})
+
     console.log(dataToSend)
     connectionSocket.send(JSON.stringify({ type: 'metadata', data: dataToSend }))
     setExtraDataLoading(false)
