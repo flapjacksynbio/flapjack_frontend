@@ -8,23 +8,16 @@ const RadioGroup = ({
   showLabel = false,
   rules = [],
   options = [],
-  optionLabel = '',
 }) => {
-  const renderOption = (option, i) => {
-    const label = typeof option === 'string' ? option : option[optionLabel]
-    return (
-      <Radio
-        value={typeof option === 'string' ? option : option.id}
-        key={`${name}-opt-${i}`}
-      >
-        {label}
-      </Radio>
-    )
-  }
-
   return (
     <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
-      <Radio.Group>{options.map(renderOption)}</Radio.Group>
+      <Radio.Group>
+        {options.map((o, i) => (
+          <Radio value={o.key} key={`${o.key}-opt-${i}`}>
+            {o.label}
+          </Radio>
+        ))}
+      </Radio.Group>
     </Form.Item>
   )
 }
@@ -36,7 +29,10 @@ RadioGroup.propTypes = {
   rules: PropTypes.array,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.shape({ label: PropTypes.string })]),
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
   ),
   filterOption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   optionLabel: PropTypes.string,

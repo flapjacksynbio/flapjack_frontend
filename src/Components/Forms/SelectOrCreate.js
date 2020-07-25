@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Button, message, Select, Spin, Form } from 'antd'
+import { Modal, Button, message, Select, Spin, Form, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import FormFactory from './Form'
 import debounce from 'lodash/debounce'
@@ -38,11 +38,12 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
     setLoading(true)
     const success = await api
       .post(url, form)
-      .then(({ id }) => !!id)
+      .then(({ status }) => 200 <= status && status < 300)
       .catch(() => false)
     setLoading(false)
 
     if (success) {
+      fetchData('')
       setVisible(false)
     } else {
       message.error(`There was an error creating the ${label}. Please try again`)
@@ -70,7 +71,9 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
       </Form.Item>
       <div className="select-or-create-field">
         <Button onClick={() => setVisible(true)}>
-          <PlusOutlined /> Create new {label}
+          <Typography.Text ellipsis style={{ maxWidth: '90%' }}>
+            <PlusOutlined /> Create new {label}
+          </Typography.Text>
         </Button>
       </div>
       <Modal
@@ -84,6 +87,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
           onSubmit={onSubmit}
           fields={createFields}
           submitText={`Create ${label}`}
+          initialValues={{ public: false }} // 'public' default value isn't set on component mount
           loading={loading}
         />
       </Modal>

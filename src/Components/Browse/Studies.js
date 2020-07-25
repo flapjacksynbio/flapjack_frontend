@@ -1,11 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Dropdown, Menu, Space } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Space } from 'antd'
+import api from '../../api'
 import BrowseTable from './BrowseTable'
+import ShareStudyModal from './ShareStudyModal'
+import DropdownButton from './DropdownButton'
 
 const Studies = () => {
   const history = useHistory()
+  const [modalStudy, setModalStudy] = React.useState({})
 
   const renderUri = (uri, item) => (
     <a key={`uri-${item.id}`} href={uri} target="_blank" rel="noopener noreferrer">
@@ -14,27 +17,49 @@ const Studies = () => {
   )
 
   const renderActions = (text, record) => {
-    const handleMenuClick = (e) => {
+    const handleViewMenuClick = (e) => {
       history.push({
         pathname: '/view',
         state: { study: { id: record.id, name: record.name }, tabType: e.key },
       })
     }
 
-    const menu = (
-      <Menu onClick={handleMenuClick}>
-        <Menu.Item key="data">Data Viewer</Menu.Item>
-        <Menu.Item key="analysis">Analysis</Menu.Item>
-      </Menu>
-    )
+    const viewOptions = {
+      data: {
+        label: 'Data Viewer',
+        onClick: handleViewMenuClick,
+      },
+      analysis: {
+        label: 'Analysis',
+        onClick: handleViewMenuClick,
+      },
+    }
+
+    const notPublic = record.public ? 'private' : 'public'
+    const manageOptions = {
+      share: {
+        label: 'Share',
+        onClick: () => {
+          setModalStudy(record)
+        },
+      },
+      'toggle-public': {
+        label: `Make ${notPublic}`,
+        onClick: () =>
+          api.patch(`study/${record.id}/`, {
+            public: !record.public,
+          }),
+      },
+      delete: {
+        label: 'Delete',
+        onClick: () => api.delete(`study/${record.id}/`),
+      },
+    }
 
     return (
       <Space>
-        <Dropdown overlay={menu}>
-          <Button>
-            View <DownOutlined />
-          </Button>
-        </Dropdown>
+        <DropdownButton label={'View'} options={viewOptions} />
+        {record.is_owner && <DropdownButton label={'Manage'} options={manageOptions} />}
       </Space>
     )
   }
@@ -59,13 +84,19 @@ const Studies = () => {
       render: renderUri,
     },
     {
-      title: 'Acciones',
+      title: 'Actions',
       key: 'actions',
       render: renderActions,
+      width: 220,
     },
   ]
 
-  return <BrowseTable columns={columns} dataUrl="study/" />
+  return (
+    <>
+      <BrowseTable columns={columns} dataUrl="study/" />
+      <ShareStudyModal study={modalStudy} setModalStudy={setModalStudy} />
+    </>
+  )
 }
 
 Studies.propTypes = {}

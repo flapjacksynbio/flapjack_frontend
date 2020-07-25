@@ -3,7 +3,8 @@ import { FileAddOutlined, ExperimentOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 import SelectOrCreate from '../Forms/SelectOrCreate'
 import TextArea from '../Forms/TextArea'
-import RadioGroup from 'antd/lib/radio/group'
+import Checkbox from '../Forms/Checkbox'
+import RadioGroup from '../Forms/RadioGroup'
 import FileInput from '../Forms/FileInput'
 
 const uploadSteps = [
@@ -39,6 +40,11 @@ const uploadSteps = [
             showLabel: true,
             rules: [{ required: true, type: 'url' }],
           },
+          {
+            name: 'public',
+            label: 'Public',
+            RenderField: Checkbox,
+          },
         ],
         rules: [{ required: true }],
       },
@@ -47,7 +53,11 @@ const uploadSteps = [
         label: 'Machine',
         showLabel: true,
         placeholder: 'Machine',
-        options: ['HTX Synergy', 'BMG', 'FluoPi'],
+        options: [
+          { key: 'htx', label: 'HTX Synergy' },
+          { key: 'bmg', label: 'BMG' },
+          { key: 'fluopi', label: 'FluoPi' },
+        ],
         RenderField: RadioGroup,
         rules: [{ required: true }],
       },
