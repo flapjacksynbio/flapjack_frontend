@@ -53,8 +53,6 @@ class Api {
       method,
       headers: { ...authedHeaders, ...headers },
       ...(body && { body: JSON.stringify(body) }),
-    }).then((resp) => {
-      return resp.status !== 204 ? resp.json() : true
     })
   }
 
@@ -65,7 +63,7 @@ class Api {
    * @param {Object} query Object containing query parameters
    */
   get(path, headers, query) {
-    return this.authFetch(path, null, headers, query, 'GET')
+    return this.authFetch(path, null, headers, query, 'GET').then((resp) => resp.json())
   }
 
   /**
