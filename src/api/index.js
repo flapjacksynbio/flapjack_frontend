@@ -78,7 +78,7 @@ class Api {
   }
 
   /**
-   * Execute a put request
+   * Execute a patch request
    * @param {string} path API path. Must end with '/' (E.g.: 'registry/plot/')
    * @param {Object} body Request body
    * @param {Object.<string>} headers Object containing extra headers
@@ -88,6 +88,12 @@ class Api {
     return this.authFetch(path, body, headers, query, 'PATCH')
   }
 
+  /**
+   * Execute a delete request
+   * @param {string} path API path.
+   * @param {Object.<string>} headers Object containing extra headers
+   * @param {Object} query Object containing query parameters
+   */
   delete(path, headers, query) {
     return this.authFetch(path, null, headers, query, 'DELETE')
   }
