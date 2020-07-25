@@ -5,7 +5,7 @@ import { DownOutlined } from '@ant-design/icons'
 
 const ShareStudyModal = ({ label, options }) => {
   const handleMenuClick = (e) => {
-    return options[e.key].onClick()
+    return options[e.key].onClick(e)
   }
 
   const menu = (
