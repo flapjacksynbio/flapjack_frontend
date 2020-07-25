@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 
-const ShareStudyModal = ({ label, options }) => {
+const DropdownButton = ({ label, options }) => {
   const handleMenuClick = (e) => {
     return options[e.key].onClick(e)
   }
@@ -25,7 +25,7 @@ const ShareStudyModal = ({ label, options }) => {
   )
 }
 
-ShareStudyModal.propTypes = {
+DropdownButton.propTypes = {
   label: PropTypes.string.isRequired,
   options: PropTypes.objectOf(
     PropTypes.shape({
@@ -35,4 +35,4 @@ ShareStudyModal.propTypes = {
   ),
 }
 
-export default ShareStudyModal
+export default DropdownButton
