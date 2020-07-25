@@ -13,7 +13,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
       })
       .then((resp) => {
         console.log(resp)
-        if (resp.status == 400) {
+        if (+resp.status === 400) {
           throw new Error("There isn't an user with that email")
         } else if (resp.status > 400) {
           throw new Error('Bad response from server')
@@ -28,8 +28,8 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
     const shared_with = _.without(study.shared_with, e)
     api
       .patch(`study/${study.id}/`, { shared_with })
-      .then(() => message.success('Study stopped sharing successfully'))
-      .catch((err) => message.error('There was an error stopping sharing the study'))
+      .then(() => message.success('Study unshared successfully'))
+      .catch(() => message.error('There was an error unsharing the study'))
   }
 
   const renderEmail = (email) => {
