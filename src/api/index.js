@@ -47,34 +47,55 @@ class Api {
     return url
   }
 
+  async authFetch(path, body, headers, query, method) {
+    const authedHeaders = await this.authedHeaders()
+    return fetch(this.url(path, query), {
+      method,
+      headers: { ...authedHeaders, ...headers },
+      ...(body && { body: JSON.stringify(body) }),
+    })
+  }
+
   /**
    * Execute a get request
    * @param {string} path API path.
    * @param {Object.<string>} headers Object containing extra headers
    * @param {Object} query Object containing query parameters
    */
-  async get(path, headers, query) {
-    const authedHeaders = await this.authedHeaders()
-    return fetch(this.url(path, query), {
-      method: 'GET',
-      headers: { ...authedHeaders, ...headers },
-    }).then((resp) => resp.json())
+  get(path, headers, query) {
+    return this.authFetch(path, null, headers, query, 'GET').then((resp) => resp.json())
   }
 
   /**
-   * Execute a get request
+   * Execute a post request
    * @param {string} path API path. Must end with '/' (E.g.: 'registry/plot/')
    * @param {Object} body Request body
    * @param {Object.<string>} headers Object containing extra headers
    * @param {Object} query Object containing query parameters
    */
-  async post(path, body, headers, query) {
-    const authedHeaders = await this.authedHeaders()
-    return fetch(this.url(path, query), {
-      method: 'POST',
-      headers: { ...authedHeaders, ...headers },
-      body: JSON.stringify(body),
-    }).then((resp) => resp.json())
+  post(path, body, headers, query) {
+    return this.authFetch(path, body, headers, query, 'POST')
+  }
+
+  /**
+   * Execute a patch request
+   * @param {string} path API path. Must end with '/' (E.g.: 'registry/plot/')
+   * @param {Object} body Request body
+   * @param {Object.<string>} headers Object containing extra headers
+   * @param {Object} query Object containing query parameters
+   */
+  patch(path, body, headers, query) {
+    return this.authFetch(path, body, headers, query, 'PATCH')
+  }
+
+  /**
+   * Execute a delete request
+   * @param {string} path API path.
+   * @param {Object.<string>} headers Object containing extra headers
+   * @param {Object} query Object containing query parameters
+   */
+  delete(path, headers, query) {
+    return this.authFetch(path, null, headers, query, 'DELETE')
   }
 
   /**

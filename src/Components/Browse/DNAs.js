@@ -55,7 +55,7 @@ const DNAs = () => {
       render: renderUris,
     },
     {
-      title: 'Acciones',
+      title: 'Actions',
       key: 'actions',
       render: renderActions,
     },

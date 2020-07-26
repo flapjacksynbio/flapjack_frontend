@@ -5,6 +5,7 @@ import { Collapse, Button, Layout, message, Form } from 'antd'
 import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
 import AnalysisSelection from './AnalysisSelection'
+import api from '../../api'
 
 const Selection = ({ isAnalysis = false, onSubmit }) => {
   const location = useLocation()
@@ -26,27 +27,59 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     }
   }, [location])
 
+  const addSelected = (value, checked, setSelected) => {
+    if (checked) {
+      setSelected((selected) => [...selected.filter(({ id }) => id !== value.id), value])
+    } else {
+      setSelected((selected) => selected.filter(({ id }) => id !== value.id))
+    }
+  }
+
+  const setStudiesAndChildAssays = async (value, checked) => {
+    addSelected(value, checked, setSelectedStudies)
+    if (!checked) return
+
+    api
+      .get('assay', null, {
+        study: value.id,
+      })
+      .then(({ results }) =>
+        results.reduce((acc, value) => {
+          return { ...acc, [value.id]: value }
+        }, {}),
+      )
+      .then((res) =>
+        setSelectedAssays((selected) => [
+          ...selected.filter(({ id }) => !res[id]),
+          ...Object.values(res),
+        ]),
+      )
+  }
+
   const queryFields = [
     {
       url: 'study',
       label: 'studies',
       header: 'Studies',
       selected: selectedStudies,
-      setSelected: setSelectedStudies,
+      _selectedSetter: setSelectedStudies,
+      setSelected: setStudiesAndChildAssays,
     },
     {
       url: 'assay',
       label: 'assays',
       header: 'Assays',
       selected: selectedAssays,
-      setSelected: setSelectedAssays,
+      _selectedSetter: setSelectedAssays,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
     },
     {
       url: 'dna',
       label: 'DNAs',
       header: 'DNA',
       selected: selectedDna,
-      setSelected: setSelectedDna,
+      _selectedSetter: setSelectedDna,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedDna),
     },
   ]
 
@@ -95,12 +128,12 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     },
   ]
 
-  const renderClear = (selected, setSelected) => (
+  const renderClear = (selected, setter) => (
     <Button
       disabled={!selected.length}
       onClick={(e) => {
         e.stopPropagation()
-        setSelected([])
+        setter([])
       }}
       size="small"
       type="danger"
@@ -122,6 +155,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       dnaIds: selectedDna.map(({ id }) => id),
       plotOptions: { normalize, tabs, subplots, markers, plot },
     }
+
+    console.log(selectedStudies)
 
     if (isAnalysis) {
       const analysis_values = await analysisForm.validateFields().catch(() => {
@@ -146,7 +181,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
                 <Collapse.Panel
                   key={field.label}
                   header={field.header}
-                  extra={renderClear(field.selected, field.setSelected)}
+                  extra={renderClear(field.selected, field._selectedSetter)}
                 >
                   <ProviderSelection {...field} />
                 </Collapse.Panel>

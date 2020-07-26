@@ -68,7 +68,7 @@ const Assays = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      title: 'Acciones',
+      title: 'Actions',
       key: 'actions',
       render: renderActions,
     },

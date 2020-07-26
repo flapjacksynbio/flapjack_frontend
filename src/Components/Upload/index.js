@@ -61,6 +61,7 @@ const Upload = () => {
           console.log(e)
           message.error('There was an error uploading the data.')
           socket.close()
+          setConnectionSocket(null)
         },
       })
     })
@@ -86,6 +87,13 @@ const Upload = () => {
     setExtraDataVisible(false)
   }
 
+  const cancelSend = () => {
+    connectionSocket.close()
+    setLoading(false)
+    setExtraDataVisible(false)
+    setConnectionSocket(null)
+  }
+
   return (
     <>
       <SteppedFormFactory
@@ -99,7 +107,7 @@ const Upload = () => {
         <Modal
           title="Metadata"
           visible={extraDataVisible}
-          closable={false}
+          onCancel={cancelSend}
           footer={null}
           width="80%"
         >
