@@ -7,6 +7,7 @@ import Checkbox from '../Forms/Checkbox'
 import RadioGroup from '../Forms/RadioGroup'
 import FileInput from '../Forms/FileInput'
 
+// Stepped Form fields for Assay creation. See Forms/SteppedForm
 const uploadSteps = [
   {
     title: 'Upload File',

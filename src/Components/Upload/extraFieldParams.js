@@ -1,6 +1,10 @@
 import TagInput from '../Forms/TagInput'
 import TextArea from '../Forms/TextArea'
 
+/**
+ * Maps required metadata fields
+ * @param {'dna'|'inducer'|'signal'} type Field type
+ */
 const getFieldParams = (type) => {
   switch (type) {
     case 'dna':

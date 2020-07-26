@@ -3,6 +3,9 @@ import { Select, Spin } from 'antd'
 import api from '../../api'
 import debounce from 'lodash/debounce'
 
+/**
+ * Select component that lists Inducers provided by the API
+ */
 const InducerForm = () => {
   const [inducers, setInducers] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)

@@ -8,6 +8,12 @@ import {
   FileImageOutlined,
 } from '@ant-design/icons'
 
+/**
+ * Download dropdown
+ * @param {object} props
+ * @param {function} props.onDownloadJSON Function to initiate a JSON download
+ * @param {function} props.onDownloadPNG Function to initiate a PNG download
+ */
 const Download = ({ onDownloadJSON, onDownloadPNG }) => {
   const menu = (
     <Menu>

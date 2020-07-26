@@ -171,6 +171,7 @@ export const styleTraces = (traces, screen = true, lineWidth = null) => {
   })
 }
 
+// Paper template for plotly. Extracted from https://github.com/plotly/plotly.py/blob/master/packages/python/plotly/templategen/definitions.py
 const paperWhiteTemplate = {
   layout: {
     colorway: [

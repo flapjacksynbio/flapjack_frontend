@@ -19,6 +19,7 @@ const DNAs = () => {
 
   const renderActions = (text, record) => {
     const handleMenuClick = (e) => {
+      // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
         state: { dna: { id: record.id, name: record.name }, tabType: e.key },

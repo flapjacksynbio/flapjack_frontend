@@ -16,6 +16,7 @@ import Download from './Download'
 import FormFactory from '../Forms/Form'
 const PlotlyPlot = createPlotlyComponent(Plotly)
 
+// Fields for customizing PNG plot attributes
 const downloadPNGFields = [
   {
     name: 'fontSize',
@@ -64,6 +65,7 @@ const downloadPNGFields = [
 const Plot = ({ data = {}, title = '' }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
 
+  // Compute plot layouts
   const minColumns = Math.min(3, data.n_subplots)
   const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
   const rows = Math.ceil(data.n_subplots / columns)
@@ -72,6 +74,7 @@ const Plot = ({ data = {}, title = '' }) => {
 
   const plotData = styleTraces(data.traces)
 
+  // Function called after submitting png attributes form
   const onGeneratePNG = async (values) => {
     const { fontSize, width, lineWidth } = values
     const imgUrl = await getPlotlyImageUrl(
