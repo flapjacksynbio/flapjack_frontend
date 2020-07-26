@@ -15,7 +15,13 @@ import api from '../../api'
  * @param {string} props.label Label for the field
  * Other props are the same for any other field. See Forms/Field.js
  */
-const SelectOrCreate = ({ url, createFields, label, ...props }) => {
+const SelectOrCreate = ({
+  url,
+  createFields,
+  label,
+  extraCreationValues = {},
+  ...props
+}) => {
   const [data, setData] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
@@ -47,7 +53,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
   const onSubmit = async (form) => {
     setLoading(true)
     const success = await api
-      .post(url, form)
+      .post(url, { ...form, ...extraCreationValues })
       .then(({ status }) => 200 <= status && status < 300)
       .catch(() => false)
     setLoading(false)
@@ -112,6 +118,7 @@ SelectOrCreate.propTypes = {
   label: PropTypes.string.isRequired,
   showLabel: PropTypes.bool,
   rules: PropTypes.array,
+  extraCreationValues: PropTypes.object,
 }
 
 export default SelectOrCreate
