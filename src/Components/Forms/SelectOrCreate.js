@@ -7,7 +7,13 @@ import debounce from 'lodash/debounce'
 import './Form.scss'
 import api from '../../api'
 
-const SelectOrCreate = ({ url, createFields, label, ...props }) => {
+const SelectOrCreate = ({
+  url,
+  createFields,
+  label,
+  extraCreationValues = {},
+  ...props
+}) => {
   const [data, setData] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
@@ -37,7 +43,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
   const onSubmit = async (form) => {
     setLoading(true)
     const success = await api
-      .post(url, form)
+      .post(url, { ...form, ...extraCreationValues })
       .then(({ status }) => 200 <= status && status < 300)
       .catch(() => false)
     setLoading(false)
@@ -102,6 +108,7 @@ SelectOrCreate.propTypes = {
   label: PropTypes.string.isRequired,
   showLabel: PropTypes.bool,
   rules: PropTypes.array,
+  extraCreationValues: PropTypes.object,
 }
 
 export default SelectOrCreate
