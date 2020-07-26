@@ -13,7 +13,7 @@ const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false, assayId }) => {
       showLabel: true,
       rules: [{ required: true }],
       RenderField: SelectOrCreate,
-      extraCreationValues: { assay: assayId },
+      extraCreationValues: { assays: [assayId] },
       ...getFieldParams(type),
     })),
   }))
