@@ -22,7 +22,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
       setFetching(true)
 
       api.get(url, null, { search }).then(({ results }) => {
-        if (fetchId !== lastFetchId) return
+        if (fetchId !== lastFetchId || !results) return
         setData(
           results.map(({ id, name, names }) => ({ value: id, label: name || names })),
         )

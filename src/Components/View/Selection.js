@@ -49,11 +49,34 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
         }, {}),
       )
       .then((res) =>
-        setSelectedAssays((selected) => [
+        Promise.all(
+          Object.entries(res).forEach(([id, value]) =>
+            setAssaysAndChildDNA({ id: +id, name: value.name }, true),
+          ),
+        ),
+      )
+      .catch(() => null)
+  }
+
+  const setAssaysAndChildDNA = async (value, checked) => {
+    addSelected(value, checked, setSelectedAssays)
+    if (!checked) return
+
+    api
+      .get('dna', null, { assays: value.id })
+      .then(({ results }) =>
+        results.reduce((acc, value) => {
+          value.name = value.names.join(', ')
+          return { ...acc, [value.id]: value }
+        }, {}),
+      )
+      .then((res) =>
+        setSelectedDna((selected) => [
           ...selected.filter(({ id }) => !res[id]),
           ...Object.values(res),
         ]),
       )
+      .catch(() => null)
   }
 
   const queryFields = [
@@ -71,7 +94,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       header: 'Assays',
       selected: selectedAssays,
       _selectedSetter: setSelectedAssays,
-      setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
+      setSelected: setAssaysAndChildDNA,
     },
     {
       url: 'dna',
