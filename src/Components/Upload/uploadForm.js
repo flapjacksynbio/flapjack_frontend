@@ -19,6 +19,7 @@ const uploadSteps = [
         showLabel: true,
         RenderField: SelectOrCreate,
         url: 'study/',
+        extraQueryParams: { is_owner: true },
         createFields: [
           {
             name: 'name',

@@ -5,7 +5,7 @@ import getFieldParams from './extraFieldParams'
 import PropTypes from 'prop-types'
 
 /** Form for assay metadata sumbission */
-const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false }) => {
+const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false, assayId }) => {
   const steps = Object.entries(extraInfoFields).map(([type, fields]) => ({
     title: type,
     fields: fields.map((field) => ({
@@ -14,6 +14,7 @@ const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false }) => {
       showLabel: true,
       rules: [{ required: true }],
       RenderField: SelectOrCreate,
+      extraCreationValues: { assays: [assayId] },
       ...getFieldParams(type),
     })),
   }))
@@ -33,6 +34,7 @@ ExtraInfo.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   extraInfoFields: PropTypes.object.isRequired,
   loading: PropTypes.bool,
+  assayId: PropTypes.number.isRequired,
 }
 
 export default ExtraInfo
