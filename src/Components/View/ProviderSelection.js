@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input, Empty, Tag, Checkbox, Row, Col, Spin, Button } from 'antd'
+import { Input, Empty, Tag, Checkbox, Row, Col, Spin, Button, Typography } from 'antd'
 import debounce from 'lodash/debounce'
 import api from '../../api'
 import './View.scss'
@@ -112,8 +112,15 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
   return (
     <div>
       {selected.map((value) => (
-        <Tag onClose={() => setSelected(value, false)} closable key={value.id}>
-          {value.name}
+        <Tag
+          onClose={() => setSelected(value, false)}
+          closable
+          key={value.id}
+          style={{ maxWidth: '100%' }}
+        >
+          <Typography.Text ellipsis style={{ maxWidth: '80%' }}>
+            {value.name}
+          </Typography.Text>
         </Tag>
       ))}
       <Input.Search

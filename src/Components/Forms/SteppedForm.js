@@ -29,11 +29,6 @@ const SteppedFormFactory = ({
   const [current, setCurrent] = React.useState(0)
   const [form] = Form.useForm()
 
-  React.useEffect(() => {
-    const validations = []
-    steps.forEach(() => validations.push(false))
-  })
-
   const validateStep = async (i) => {
     const fieldNames = steps[i].fields.map(({ name }) => name)
     return form
