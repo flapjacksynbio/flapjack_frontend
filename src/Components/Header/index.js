@@ -7,10 +7,12 @@ import PropTypes from 'prop-types'
 import NavMenu from './NavMenu'
 import './Header.scss'
 
+/** Responsive header */
 const FlapHeader = ({ routes = [] }) => {
   const [smallScreen, setSmallScreen] = React.useState(false)
   const [drawerVisible, setDrawerVisible] = React.useState(false)
 
+  // Observe screen size
   React.useEffect(() => {
     updateSmallScreen()
     window.addEventListener('resize', updateSmallScreen)
@@ -19,11 +21,13 @@ const FlapHeader = ({ routes = [] }) => {
     }
   })
 
+  // Determine if screen size is small enough for menu change
   const updateSmallScreen = () => {
     const windowWidth = window.innerWidth
     setSmallScreen(windowWidth < 720)
   }
 
+  // Open small screen's drawer
   const onToggleDrawer = () => {
     setDrawerVisible((visible) => !visible)
   }
@@ -39,20 +43,20 @@ const FlapHeader = ({ routes = [] }) => {
         </Link>
       </div>
       {smallScreen && (
-        <Button className="drawer-button" onClick={onToggleDrawer}>
-          <MenuOutlined className="drawer-button-icon" />
-        </Button>
-      )}
-      {smallScreen && (
-        <Drawer
-          placement="right"
-          onClose={onToggleDrawer}
-          visible={drawerVisible}
-          theme="dark"
-          bodyStyle={{ padding: 0, backgroundColor: '#001529' }}
-        >
-          <NavMenu menuButtons={menuButtons} mode="vertical" />
-        </Drawer>
+        <>
+          <Button className="drawer-button" onClick={onToggleDrawer}>
+            <MenuOutlined className="drawer-button-icon" />
+          </Button>
+          <Drawer
+            placement="right"
+            onClose={onToggleDrawer}
+            visible={drawerVisible}
+            theme="dark"
+            bodyStyle={{ padding: 0, backgroundColor: '#001529' }}
+          >
+            <NavMenu menuButtons={menuButtons} mode="vertical" />
+          </Drawer>
+        </>
       )}
       {!smallScreen && <NavMenu menuButtons={menuButtons} mode="horizontal" />}
     </Layout.Header>

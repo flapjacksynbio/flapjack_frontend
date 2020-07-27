@@ -7,6 +7,7 @@ import PlotOptions from './PlotOptions'
 import AnalysisSelection from './AnalysisSelection'
 import api from '../../api'
 
+/** Renders the query form for plot creation */
 const Selection = ({ isAnalysis = false, onSubmit }) => {
   const location = useLocation()
 
@@ -17,6 +18,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
   const [analysisForm] = Form.useForm()
 
+  // Set initial values based on url query parameters
   React.useEffect(() => {
     if (location.state) {
       const { study, assay, dna } = location.state
@@ -35,6 +37,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     }
   }
 
+  // Select a study an all related assays
   const setStudiesAndChildAssays = async (value, checked) => {
     addSelected(value, checked, setSelectedStudies)
     if (!checked) return
