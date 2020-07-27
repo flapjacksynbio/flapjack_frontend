@@ -25,10 +25,17 @@ const Field = (props) => {
     rules = [],
     addonAfter = null,
     disabled = false,
+    dependencies = [],
   } = props
 
   return (
-    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
+    <Form.Item
+      hasFeedback
+      name={name}
+      rules={rules}
+      label={showLabel ? label : null}
+      dependencies={dependencies}
+    >
       <Input
         prefix={PrefixComponent && <PrefixComponent />}
         type={type}
@@ -51,6 +58,7 @@ Field.propTypes = {
   RenderField: PropTypes.func,
   addonAfter: PropTypes.string,
   disabled: PropTypes.bool,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default Field

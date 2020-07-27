@@ -77,7 +77,7 @@ class Api {
    * @param {Object.<string>} headers Object containing extra headers
    * @param {Object} query Object containing query parameters
    */
-  get(path, headers, query) {
+  async get(path, headers, query) {
     return this.authFetch(path, null, headers, query, 'GET').then((resp) => resp.json())
   }
 

@@ -40,7 +40,7 @@ const uploadSteps = [
             label: 'DOI',
             placeholder: 'DOI',
             showLabel: true,
-            rules: [{ required: true, type: 'url' }],
+            rules: [{ type: 'url' }],
           },
           {
             name: 'public',
@@ -80,11 +80,7 @@ const uploadSteps = [
         name: 'mock_title2',
         label: 'mock_title2',
         RenderField() {
-          return (
-            <Typography.Title level={3}>
-              Assays description and temperature
-            </Typography.Title>
-          )
+          return <Typography.Title level={3}>Assay</Typography.Title>
         },
       },
       {

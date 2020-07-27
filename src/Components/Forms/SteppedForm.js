@@ -29,11 +29,6 @@ const SteppedFormFactory = ({
   const [current, setCurrent] = React.useState(0)
   const [form] = Form.useForm()
 
-  React.useEffect(() => {
-    const validations = []
-    steps.forEach(() => validations.push(false))
-  })
-
   const validateStep = async (i) => {
     const fieldNames = steps[i].fields.map(({ name }) => name)
     return form
@@ -63,7 +58,7 @@ const SteppedFormFactory = ({
       <div style={{ display: current === i ? 'block' : 'none' }} key={title}>
         <Card className="step-card">
           {fields.map((field) => (
-            <Field {...field} key={`form-${name}-${field.name}`} />
+            <Field {...field} key={`form-${name}-${field.name}`} formInstance={form} />
           ))}
           <Form.Item>
             <div className="step-buttons">

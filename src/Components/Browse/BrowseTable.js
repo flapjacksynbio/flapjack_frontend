@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Input } from 'antd'
+import { Table, Input, message } from 'antd'
 import api from '../../api'
 import './Browse.scss'
 
@@ -28,6 +28,12 @@ const BrowseTable = ({ dataUrl, columns }) => {
   const loadData = async (query) => {
     setLoading(true)
     const { count: total, results: data } = await api.get(dataUrl, {}, query)
+    if (!data) {
+      message.error(
+        'There was an error comunicating with the server. Please refresh the webpage.',
+      )
+      return
+    }
     data.forEach((d) => (d.key = d.id))
 
     setDataSource(data)
