@@ -16,6 +16,7 @@ import api from '../../api'
  * @param {string} props.buttonCreateLabel Label to use in submit button text
  * @param {object} props.extraCreationValues Values to pass to POST body in addition to the form
  * @param {object} props.extraQueryParams Values to pass to GET query to provider
+ * @param {string[]=} props.dependencies Ant Design dependency array
  * @param {*} props.formInstance Ant Design form instance.
  *  Other props are the same for any other field. See Forms/Field.js
  */
@@ -27,6 +28,7 @@ const SelectOrCreate = ({
   extraCreationValues = {},
   extraQueryParams = {},
   formInstance = null,
+  dependencies = [],
   ...props
 }) => {
   const [data, setData] = React.useState([])
@@ -94,6 +96,7 @@ const SelectOrCreate = ({
         name={props.name}
         rules={props.rules}
         label={props.showLabel ? label : null}
+        dependencies={dependencies}
       >
         <Select
           labelInValue
@@ -145,6 +148,7 @@ SelectOrCreate.propTypes = {
   extraQueryParams: PropTypes.object,
   buttonCreateLabel: PropTypes.string,
   formInstance: PropTypes.any,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default SelectOrCreate

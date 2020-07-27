@@ -11,6 +11,7 @@ const Multiselect = ({
   options = [],
   filterOption = false,
   optionLabel = '',
+  dependencies = [],
 }) => {
   const renderOption = (option, i) => {
     const label = typeof option === 'string' ? option : option[optionLabel]
@@ -25,7 +26,13 @@ const Multiselect = ({
   }
 
   return (
-    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
+    <Form.Item
+      hasFeedback
+      name={name}
+      rules={rules}
+      label={showLabel ? label : null}
+      dependencies={dependencies}
+    >
       <Select
         showSearch={filterOption}
         placeholder={placeholder}
@@ -49,6 +56,7 @@ Multiselect.propTypes = {
   ),
   filterOption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   optionLabel: PropTypes.string,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default Multiselect
