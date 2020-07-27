@@ -21,6 +21,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
     editTab({ ...tab, title })
   }
 
+  // Select newest tab in list when a new tab is added
   React.useEffect(() => {
     const validTab = tabs.find(({ key }) => key === activeKey)
     if (!tabs.length) {
@@ -30,6 +31,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
     }
   }, [tabs, activeKey])
 
+  // Create new tab with query parameters
   React.useEffect(() => {
     if (location.state) {
       const { tabType } = location.state
@@ -41,14 +43,18 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
     // eslint-disable-next-line
   }, [])
 
+  // Create new tab
   const onAddTab = (type) => {
     let i, name
 
+    // Count existing tabs with type
     if (type === 'data') {
+      // Data tab
       const dataTabsCount = tabs.filter((t) => !t.contentProps.isAnalysis).length
       i = dataTabsCount + 1
       name = 'Data'
     } else {
+      // Analysis tab
       const analysisTabsCount = tabs.filter((t) => t.contentProps.isAnalysis).length
       i = analysisTabsCount + 1
       name = 'Analysis'

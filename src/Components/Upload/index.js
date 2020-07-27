@@ -8,6 +8,7 @@ import uploadSteps from './uploadForm'
 
 const Upload = () => {
   const [loading, setLoading] = React.useState(false)
+  const [assayId, setAssayId] = React.useState(null)
 
   const [extraDataVisible, setExtraDataVisible] = React.useState(false)
   const [extraDataFields, setExtraDataFields] = React.useState(null)
@@ -17,6 +18,7 @@ const Upload = () => {
 
   const history = useHistory()
 
+  // Initiates the submission process via websockets
   const onSubmit = async (data) => {
     const { name, machine, description, temperature, study } = data
     setLoading(true)
@@ -29,19 +31,29 @@ const Upload = () => {
       study: study.value,
     }
 
+    // For reading the uploaded file
     const fr = new FileReader()
 
     fr.addEventListener('loadend', () => {
       apiWebSocket.connect('registry/upload', {
         onConnect(event, socket) {
           setConnectionSocket(socket)
+          // Send information to create assay in backend
           socket.send(JSON.stringify({ type: 'init_upload', data: form }))
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
+            if (!msg.data || !msg.data.assay_id) {
+              message.error('There was an error while creating the assay.')
+              socket.close()
+              return
+            }
+            setAssayId(msg.data.assay_id)
+            // Backend asks for file. This is sent in binary form
             socket.send(fr.result)
           },
           input_requests(msg) {
+            // Backend asks for specific metadata for sample
             console.log(msg.data)
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
@@ -65,6 +77,7 @@ const Upload = () => {
   }
 
   const onSubmitExtraInfo = (data) => {
+    // Submit sample metadata required by backend
     setExtraDataLoading(true)
     const dataToSend = Object.entries(data).reduce(
       (acc, [key, { value }]) => ({
@@ -107,6 +120,7 @@ const Upload = () => {
             loading={extraDataLoading}
             onSubmit={onSubmitExtraInfo}
             extraInfoFields={extraDataFields}
+            assayId={assayId}
           />
         </Modal>
       )}

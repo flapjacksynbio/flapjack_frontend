@@ -4,7 +4,17 @@ import { Table, Input, message } from 'antd'
 import api from '../../api'
 import './Browse.scss'
 
-/* Table with pagination provided by api */
+/**
+ * Table with pagination provided by api
+ * @param {object} props
+ * @param {string} props.dataUrl API url that provides paginated data.
+ * @param {object[]} props.columns Array with column metadata for use with Ant Design tables
+ * @param {string} props.columns.title Column Title
+ * @param {string} props.columns.key Column Key, must be unique within table.
+ * @param {string} props.columns.dataIndex Index for accessing column data for each record returned by the provider.
+ * @param {function} props.columns.sorter Optional. Function for sorting column.
+ * @param {function} props.columns.render Optional. Function for rendering the data in the record.
+ */
 const BrowseTable = ({ dataUrl, columns }) => {
   const [dataSource, setDataSource] = React.useState([])
   const [loading, setLoading] = React.useState(true)

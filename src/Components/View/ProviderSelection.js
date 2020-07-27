@@ -5,6 +5,16 @@ import debounce from 'lodash/debounce'
 import api from '../../api'
 import './View.scss'
 
+/**
+ * Renders a custom multiselect with options provided by API
+ * @param {object} props
+ * @param {string} props.url API Url to obtain options via GET. Should support pagination
+ * @param {sting} props.label Label for the field
+ * @param {object[]} props.selected Array containing selected items
+ * @param {number} props.selected.id Value id provided by API
+ * @param {string} props.selected.name Name to be desplayed for value
+ * @param {function(value, checked)} props.setSelected Function for selecting/deselecting (depending on checked) a value
+ */
 const ProviderSelect = ({ url, label, selected, setSelected }) => {
   const [loading, setLoading] = React.useState(false)
   const [data, setData] = React.useState([])
@@ -14,6 +24,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 
   const [lastFetchId, setLastFetchId] = React.useState(0)
 
+  // Obtain options from provider
   const onSearch = React.useCallback(
     debounce(() => {
       const fetchId = lastFetchId
@@ -70,6 +81,8 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
 
   // eslint-disable-next-line
   React.useEffect(() => { onSearch(search) }, [search])
+
+  // Obtain options when more options are requested
   React.useEffect(() => {
     const fetchId = lastFetchId
     setLastFetchId((idx) => idx + 1)

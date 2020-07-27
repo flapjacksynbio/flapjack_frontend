@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Typography, Select } from 'antd'
 
+/** Renders plot options form */
 const PlotOptions = ({ fields }) => {
   return (
     <>

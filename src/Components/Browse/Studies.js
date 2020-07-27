@@ -4,7 +4,7 @@ import { Space } from 'antd'
 import api from '../../api'
 import BrowseTable from './BrowseTable'
 import ShareStudyModal from './ShareStudyModal'
-import DropdownButton from './DropdownButton'
+import DropdownButton from '../HelperComponents/DropdownButton'
 
 const Studies = () => {
   const history = useHistory()
@@ -18,6 +18,7 @@ const Studies = () => {
 
   const renderActions = (text, record) => {
     const handleViewMenuClick = (e) => {
+      // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
         state: { study: { id: record.id, name: record.name }, tabType: e.key },

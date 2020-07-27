@@ -20,12 +20,19 @@ class Api {
     }
 
     this.emitter = new ee.EventEmitter()
+
+    // Promise that is resolved after access token is initialized
     this.isInitialized = new Promise((resolve) => {
       this.emitter.once('READY_EVENT', () => resolve())
     })
   }
 
+  /**
+   * Returnes required headers based on user authentications
+   * @returns {object} Headers for HTTP request with access token if user is authenticated
+   */
   async authedHeaders() {
+    // Await for access token initialization
     await this.isInitialized
     const accessToken = store.getState().session.access
     if (!accessToken) return this.baseHeaders
@@ -36,7 +43,7 @@ class Api {
   }
 
   /**
-   * Get's the full WebSocket URL from the API path
+   * Get's the full HTTP URL from the API path
    * @param {string} path API path. (For http://localhost:8000/api/registry/plot, path='registry/plot')
    * @param {object=} query Optional. Query object to be included as a query string in the url.
    * @returns {string} url
@@ -47,6 +54,14 @@ class Api {
     return url
   }
 
+  /**
+   * Executes an authenticated get/post/patch/delete request
+   * @param {string} path API path. (For http://localhost:8000/api/registry/plot, path='registry/plot')
+   * @param {Object} body Body object for HTTP request. Only on post/patch.
+   * @param {Object} headers Extra headers to add to request.
+   * @param {Object} query Query parameters for HTTP request.
+   * @param {'GET'|'POST'|'PATCH'|'DELETE'} method HTTP request method.
+   */
   async authFetch(path, body, headers, query, method) {
     const authedHeaders = await this.authedHeaders()
     return fetch(this.url(path, query), {
@@ -149,6 +164,7 @@ class Api {
 
     store.dispatch(loggingIn(true))
 
+    // Get new access token
     const response = await fetch(this.url('auth/refresh/'), {
       method: 'POST',
       headers: this.baseHeaders,
