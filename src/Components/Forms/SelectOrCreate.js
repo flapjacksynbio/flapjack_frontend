@@ -12,6 +12,7 @@ const SelectOrCreate = ({
   createFields,
   label,
   extraCreationValues = {},
+  extraQueryParams = {},
   ...props
 }) => {
   const [data, setData] = React.useState([])
@@ -27,7 +28,7 @@ const SelectOrCreate = ({
       setData([])
       setFetching(true)
 
-      api.get(url, null, { search }).then(({ results }) => {
+      api.get(url, null, { search, ...extraQueryParams }).then(({ results }) => {
         if (fetchId !== lastFetchId) return
         setData(
           results.map(({ id, name, names }) => ({ value: id, label: name || names })),
@@ -109,6 +110,7 @@ SelectOrCreate.propTypes = {
   showLabel: PropTypes.bool,
   rules: PropTypes.array,
   extraCreationValues: PropTypes.object,
+  extraQueryParams: PropTypes.object,
 }
 
 export default SelectOrCreate
