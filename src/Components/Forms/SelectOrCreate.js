@@ -13,7 +13,7 @@ import api from '../../api'
  * @param {string} props.url API Url that provides the options via GET and allows creation via POST. Must end with '/'
  * @param {object[]} props.createFields Array of fields for value creation, passed to FormFactory. See Forms/Form.js
  * @param {string} props.label Label for the field
- * Other props are the same for any other field. See Forms/Field.js
+ *  Other props are the same for any other field. See Forms/Field.js
  */
 const SelectOrCreate = ({
   url,
