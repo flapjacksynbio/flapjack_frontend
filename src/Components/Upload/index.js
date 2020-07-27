@@ -44,6 +44,7 @@ const Upload = () => {
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
+          console.log('ready_for_file')
             // Backend asks for file. This is sent in binary form
             socket.send(fr.result)
           },
