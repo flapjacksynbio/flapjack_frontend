@@ -53,7 +53,10 @@ const Studies = () => {
       },
       delete: {
         label: 'Delete',
-        onClick: () => api.delete(`study/${record.id}/`),
+        onClick: () => {
+          api.delete(`study/${record.id}/`)
+          window.location.reload()
+        },
       },
     }
 
