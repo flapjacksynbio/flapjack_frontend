@@ -8,6 +8,7 @@ import uploadSteps from './uploadForm'
 
 const Upload = () => {
   const [loading, setLoading] = React.useState(false)
+  const [assayId, setAssayId] = React.useState(null)
 
   const [extraDataVisible, setExtraDataVisible] = React.useState(false)
   const [extraDataFields, setExtraDataFields] = React.useState(null)
@@ -44,7 +45,12 @@ const Upload = () => {
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
-          console.log('ready_for_file')
+            if (!msg.data || !msg.data.assay_id) {
+              message.error('There was an error while creating the assay.')
+              socket.close()
+              return
+            }
+            setAssayId(msg.data.assay_id)
             // Backend asks for file. This is sent in binary form
             socket.send(fr.result)
           },
@@ -120,6 +126,7 @@ const Upload = () => {
             loading={extraDataLoading}
             onSubmit={onSubmitExtraInfo}
             extraInfoFields={extraDataFields}
+            assayId={assayId}
           />
         </Modal>
       )}

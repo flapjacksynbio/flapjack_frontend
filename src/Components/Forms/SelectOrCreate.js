@@ -13,9 +13,16 @@ import api from '../../api'
  * @param {string} props.url API Url that provides the options via GET and allows creation via POST. Must end with '/'
  * @param {object[]} props.createFields Array of fields for value creation, passed to FormFactory. See Forms/Form.js
  * @param {string} props.label Label for the field
- * Other props are the same for any other field. See Forms/Field.js
+ *  Other props are the same for any other field. See Forms/Field.js
  */
-const SelectOrCreate = ({ url, createFields, label, ...props }) => {
+const SelectOrCreate = ({
+  url,
+  createFields,
+  label,
+  extraCreationValues = {},
+  extraQueryParams = {},
+  ...props
+}) => {
   const [data, setData] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
@@ -30,7 +37,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
       setData([])
       setFetching(true)
 
-      api.get(url, null, { search }).then(({ results }) => {
+      api.get(url, null, { search, ...extraQueryParams }).then(({ results }) => {
         if (fetchId !== lastFetchId) return
         setData(
           results.map(({ id, name, names }) => ({ value: id, label: name || names })),
@@ -47,7 +54,7 @@ const SelectOrCreate = ({ url, createFields, label, ...props }) => {
   const onSubmit = async (form) => {
     setLoading(true)
     const success = await api
-      .post(url, form)
+      .post(url, { ...form, ...extraCreationValues })
       .then(({ status }) => 200 <= status && status < 300)
       .catch(() => false)
     setLoading(false)
@@ -112,6 +119,8 @@ SelectOrCreate.propTypes = {
   label: PropTypes.string.isRequired,
   showLabel: PropTypes.bool,
   rules: PropTypes.array,
+  extraCreationValues: PropTypes.object,
+  extraQueryParams: PropTypes.object,
 }
 
 export default SelectOrCreate
