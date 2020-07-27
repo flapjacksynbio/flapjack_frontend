@@ -24,7 +24,6 @@ const getFieldParams = (type) => {
             name: 'sboluris',
             label: 'SBOL Uris',
             showLabel: true,
-            rules: [{ required: true }],
             RenderField: TagInput,
             mode: 'tags',
             style: { width: '100%' },
