@@ -4,6 +4,7 @@ import SelectOrCreate from '../Forms/SelectOrCreate'
 import getFieldParams from './extraFieldParams'
 import PropTypes from 'prop-types'
 
+/** Form for assay metadata sumbission */
 const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false }) => {
   const steps = Object.entries(extraInfoFields).map(([type, fields]) => ({
     title: type,

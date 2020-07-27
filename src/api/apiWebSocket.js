@@ -47,6 +47,7 @@ class ApiWebsocket {
     // onConnect
     socket.onopen = (event) => onConnect(event, socket)
 
+    // Message received handlers
     if (typeof onReceiveHandlers === 'function') {
       socket.onmessage = (event) => onReceiveHandlers(event, socket)
     } else if (_.isPlainObject(onReceiveHandlers)) {

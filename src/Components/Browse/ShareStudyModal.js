@@ -7,6 +7,7 @@ import api from '../../api'
 
 const ShareStudyModal = ({ study, setModalStudy }) => {
   const handleShare = (e) => {
+    // Execute study sharing
     api
       .patch(`study/${study.id}/`, {
         shared_with: [...study.shared_with, e],

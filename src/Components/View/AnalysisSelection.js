@@ -3,9 +3,15 @@ import analysisOptions from './analysisOptions'
 import PropTypes from 'prop-types'
 import { Select, Form } from 'antd'
 
+/**
+ * Selection of analysis parameters
+ * @param {object} props
+ * @param {*} formInstance Ant Design form instance for analysis parameter selection
+ */
 const AnalysisSelection = ({ formInstance }) => {
   const [selectedType, setSelectedType] = React.useState('Mean Expression')
 
+  // Set initial values when either the form instance changes or the analysis type changes
   React.useEffect(() => {
     formInstance.setFieldsValue(
       analysisOptions[selectedType].reduce((acc, opt) => {

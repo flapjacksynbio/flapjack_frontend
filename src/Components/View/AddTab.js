@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { PlusOutlined } from '@ant-design/icons'
 import { Menu, Dropdown, Button } from 'antd'
 
+// Button to add a new tab
 const AddTab = ({ actions }) => {
   const onClick = ({ key }) => {
     actions[key]()

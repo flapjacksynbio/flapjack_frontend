@@ -17,6 +17,7 @@ const Upload = () => {
 
   const history = useHistory()
 
+  // Initiates the submission process via websockets
   const onSubmit = async (data) => {
     window.data = data
     const { name, machine, description, temperature, study } = data
@@ -30,6 +31,7 @@ const Upload = () => {
       study: study.value,
     }
 
+    // For reading the uploaded file
     const fr = new FileReader()
 
     fr.addEventListener('loadend', () => {
@@ -37,15 +39,16 @@ const Upload = () => {
         onConnect(event, socket) {
           console.log('onConnect')
           setConnectionSocket(socket)
+          // Send information to create assay in backend
           socket.send(JSON.stringify({ type: 'init_upload', data: form }))
         },
         onReceiveHandlers: {
           ready_for_file(msg, e, socket) {
-            console.log('ready_for_file')
+            // Backend asks for file. This is sent in binary form
             socket.send(fr.result)
           },
           input_requests(msg) {
-            console.log('input_requests')
+            // Backend asks for specific metadata for sample
             console.log(msg.data)
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
@@ -70,6 +73,7 @@ const Upload = () => {
   }
 
   const onSubmitExtraInfo = (data) => {
+    // Submit sample metadata required by backend
     setExtraDataLoading(true)
     const dataToSend = Object.entries(data).reduce((acc, [key, { value }]) => {
       const reg = key.match(/^(\w+)-\d+$/)[1]
