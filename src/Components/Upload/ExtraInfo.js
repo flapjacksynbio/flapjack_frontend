@@ -6,18 +6,20 @@ import PropTypes from 'prop-types'
 
 /** Form for assay metadata sumbission */
 const ExtraInfo = ({ onSubmit, extraInfoFields, loading = false, assayId }) => {
-  const steps = Object.entries(extraInfoFields).map(([type, fields]) => ({
-    title: type,
-    fields: fields.map((field) => ({
-      name: field,
-      label: field,
-      showLabel: true,
-      rules: [{ required: true }],
-      RenderField: SelectOrCreate,
-      extraCreationValues: { assays: [assayId] },
-      ...getFieldParams(type),
-    })),
-  }))
+  const steps = Object.entries(extraInfoFields)
+    .filter(([, fields]) => fields.length)
+    .map(([type, fields]) => ({
+      title: type,
+      fields: fields.map((field, i) => ({
+        name: `${type}-${i}`,
+        label: field,
+        showLabel: true,
+        rules: [{ required: true }],
+        RenderField: SelectOrCreate,
+        extraCreationValues: { assays: [assayId] },
+        ...getFieldParams(type),
+      })),
+    }))
 
   return (
     <SteppedFormFactory
