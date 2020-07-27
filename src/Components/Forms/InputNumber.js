@@ -8,10 +8,17 @@ const NumberInput = ({
   showLabel = false,
   placeholder = null,
   rules = [],
+  dependencies = [],
   ...props
 }) => {
   return (
-    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
+    <Form.Item
+      hasFeedback
+      name={name}
+      rules={rules}
+      label={showLabel ? label : null}
+      dependencies={dependencies}
+    >
       <InputNumber placeholder={placeholder || label} {...props} />
     </Form.Item>
   )
@@ -23,6 +30,7 @@ NumberInput.propTypes = {
   showLabel: PropTypes.bool,
   placeholder: PropTypes.string,
   rules: PropTypes.array,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default NumberInput

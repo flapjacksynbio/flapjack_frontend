@@ -63,7 +63,7 @@ const SteppedFormFactory = ({
       <div style={{ display: current === i ? 'block' : 'none' }} key={title}>
         <Card className="step-card">
           {fields.map((field) => (
-            <Field {...field} key={`form-${name}-${field.name}`} />
+            <Field {...field} key={`form-${name}-${field.name}`} formInstance={form} />
           ))}
           <Form.Item>
             <div className="step-buttons">

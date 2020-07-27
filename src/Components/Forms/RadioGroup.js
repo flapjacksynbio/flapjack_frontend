@@ -8,9 +8,16 @@ const RadioGroup = ({
   showLabel = false,
   rules = [],
   options = [],
+  dependencies = [],
 }) => {
   return (
-    <Form.Item hasFeedback name={name} rules={rules} label={showLabel ? label : null}>
+    <Form.Item
+      hasFeedback
+      name={name}
+      rules={rules}
+      label={showLabel ? label : null}
+      dependencies={dependencies}
+    >
       <Radio.Group>
         {options.map((o, i) => (
           <Radio value={o.key} key={`${o.key}-opt-${i}`}>
@@ -36,6 +43,7 @@ RadioGroup.propTypes = {
   ),
   filterOption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   optionLabel: PropTypes.string,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default RadioGroup

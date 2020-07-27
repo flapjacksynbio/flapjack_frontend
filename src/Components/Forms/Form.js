@@ -30,8 +30,10 @@ const FormFactory = ({
   loading = false,
   layout = 'horizontal',
 }) => {
+  const [formInstance] = Form.useForm()
   return (
     <Form
+      form={formInstance}
       name={name}
       onFinish={onSubmit}
       style={style}
@@ -41,7 +43,11 @@ const FormFactory = ({
       layout={layout}
     >
       {fields.map((field) => (
-        <Field {...field} key={`form-${name}-${field.name}`} />
+        <Field
+          {...field}
+          key={`form-${name}-${field.name}`}
+          formInstance={formInstance}
+        />
       ))}
       <Form.Item>
         <Button type="primary" htmlType="submit" disabled={loading}>

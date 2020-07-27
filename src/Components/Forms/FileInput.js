@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 /**
  * Ant Design based file input. Only allows one file to be added to the form (per FileInput)
  */
-const FileInput = ({ label, name, rules = {} }) => {
+const FileInput = ({ label, name, rules = {}, dependencies = [] }) => {
   const [fileList, setFileList] = React.useState([])
 
   // Dummy request for Ant Design Upload component
@@ -48,6 +48,7 @@ const FileInput = ({ label, name, rules = {} }) => {
       rules={[...baseRules, ...rules]}
       label={label}
       valuePropName="file"
+      dependencies={dependencies}
     >
       <Upload
         name={name}
@@ -70,6 +71,7 @@ FileInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   rules: PropTypes.array,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default FileInput

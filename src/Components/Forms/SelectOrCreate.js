@@ -13,14 +13,22 @@ import api from '../../api'
  * @param {string} props.url API Url that provides the options via GET and allows creation via POST. Must end with '/'
  * @param {object[]} props.createFields Array of fields for value creation, passed to FormFactory. See Forms/Form.js
  * @param {string} props.label Label for the field
+ * @param {string} props.buttonCreateLabel Label to use in submit button text
+ * @param {object} props.extraCreationValues Values to pass to POST body in addition to the form
+ * @param {object} props.extraQueryParams Values to pass to GET query to provider
+ * @param {string[]=} props.dependencies Ant Design dependency array
+ * @param {*} props.formInstance Ant Design form instance.
  *  Other props are the same for any other field. See Forms/Field.js
  */
 const SelectOrCreate = ({
   url,
   createFields,
   label,
+  buttonCreateLabel = null,
   extraCreationValues = {},
   extraQueryParams = {},
+  formInstance = null,
+  dependencies = [],
   ...props
 }) => {
   const [data, setData] = React.useState([])
@@ -28,6 +36,14 @@ const SelectOrCreate = ({
   const [fetching, setFetching] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [visible, setVisible] = React.useState(false)
+  const [selected, setSelected] = React.useState(null)
+
+  const updateSelected = (newValue) => {
+    setSelected(newValue)
+    if (formInstance) {
+      formInstance.setFieldsValue({ [props.name]: newValue })
+    }
+  }
 
   // Fetch data from provider according to current search
   const fetchData = React.useCallback(
@@ -55,15 +71,21 @@ const SelectOrCreate = ({
     setLoading(true)
     const success = await api
       .post(url, { ...form, ...extraCreationValues })
-      .then(({ status }) => 200 <= status && status < 300)
+      .then(async (response) => {
+        const resp = await response.json()
+        return resp
+      })
       .catch(() => false)
     setLoading(false)
 
     if (success) {
-      fetchData('')
+      fetchData(form.name || form.names)
+      updateSelected({ value: success.id, label: success.name || success.names })
       setVisible(false)
     } else {
-      message.error(`There was an error creating the ${label}. Please try again`)
+      message.error(
+        `There was an error creating the ${buttonCreateLabel || label}. Please try again`,
+      )
     }
   }
 
@@ -74,15 +96,18 @@ const SelectOrCreate = ({
         name={props.name}
         rules={props.rules}
         label={props.showLabel ? label : null}
+        dependencies={dependencies}
       >
         <Select
           labelInValue
+          value={selected}
+          onSelect={updateSelected}
           placeholder={`Select ${label}`}
           notFoundContent={fetching ? <Spin size="small" /> : null}
           filterOption={false}
-          onSearch={fetchData}
           options={data}
           showSearch
+          onSearch={fetchData}
           style={{ width: '100%' }}
         />
       </Form.Item>
@@ -94,7 +119,7 @@ const SelectOrCreate = ({
         </Button>
       </div>
       <Modal
-        title={`Create new ${label}`}
+        title={`Create new ${buttonCreateLabel || label}`}
         visible={visible}
         onCancel={() => setVisible(false)}
         footer={null}
@@ -103,7 +128,7 @@ const SelectOrCreate = ({
           name={`New${label}`}
           onSubmit={onSubmit}
           fields={createFields}
-          submitText={`Create ${label}`}
+          submitText={`Create ${buttonCreateLabel || label}`}
           initialValues={{ public: false }} // 'public' default value isn't set on component mount
           loading={loading}
         />
@@ -121,6 +146,9 @@ SelectOrCreate.propTypes = {
   rules: PropTypes.array,
   extraCreationValues: PropTypes.object,
   extraQueryParams: PropTypes.object,
+  buttonCreateLabel: PropTypes.string,
+  formInstance: PropTypes.any,
+  dependencies: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default SelectOrCreate
