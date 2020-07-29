@@ -1,4 +1,3 @@
-import TagInput from '../Forms/TagInput'
 import TextArea from '../Forms/TextArea'
 
 /**
@@ -34,12 +33,10 @@ const getFieldParams = (type) => {
         buttonCreateLabel: 'chemical',
         createFields: [
           {
-            name: 'names',
-            label: 'Names',
+            name: 'name',
+            label: 'Name',
             showLabel: true,
             rules: [{ required: true }],
-            RenderField: TagInput,
-            mode: 'tags',
             style: { width: '100%' },
           },
           {
