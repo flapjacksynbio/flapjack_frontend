@@ -14,7 +14,7 @@ const sbolUrisValidator = ({ getFieldValue }) => ({
 
 /**
  * Maps required metadata fields
- * @param {'dna'|'inducer'|'signal'} type Field type
+ * @param {'dna'|'chemical'|'signal'} type Field type
  */
 const getFieldParams = (type) => {
   switch (type) {
@@ -44,10 +44,10 @@ const getFieldParams = (type) => {
           },
         ],
       }
-    case 'inducer':
+    case 'chemical':
       return {
-        url: 'inducer/',
-        buttonCreateLabel: 'Inducer',
+        url: 'chemical/',
+        buttonCreateLabel: 'chemical',
         createFields: [
           {
             name: 'names',
