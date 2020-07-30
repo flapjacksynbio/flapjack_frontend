@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:lts
 # set working directory
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
