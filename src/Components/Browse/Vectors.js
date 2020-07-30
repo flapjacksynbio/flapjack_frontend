@@ -22,7 +22,7 @@ const DNAs = () => {
       // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
-        state: { dna: { id: record.id, name: record.name }, tabType: e.key },
+        state: { vector: { id: record.id, name: record.name }, tabType: e.key },
       })
     }
 
@@ -44,25 +44,25 @@ const DNAs = () => {
     )
   }
 
-  const columns = [
-    {
-      title: 'Names',
-      dataIndex: 'names',
-      render: (names) => names.join(', '),
-    },
-    {
-      title: 'Sbol Uris',
-      dataIndex: 'sboluris',
-      render: renderUris,
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: renderActions,
-    },
-  ]
+  // const columns = [
+  //   {
+  //     title: 'Names',
+  //     dataIndex: 'names',
+  //     render: (names) => names.join(', '),
+  //   },
+  //   {
+  //     title: 'Sbol Uris',
+  //     dataIndex: 'sboluris',
+  //     render: renderUris,
+  //   },
+  //   {
+  //     title: 'Actions',
+  //     key: 'actions',
+  //     render: renderActions,
+  //   },
+  // ]
 
-  return <BrowseTable dataUrl="dna/" columns={columns} />
+  return <BrowseTable dataUrl="vector/" columns={[]} />
 }
 
 DNAs.propTypes = {}
