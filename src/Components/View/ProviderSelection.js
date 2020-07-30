@@ -1,6 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input, Empty, Tag, Checkbox, Row, Col, Spin, Button, Typography } from 'antd'
+import {
+  Input,
+  Empty,
+  Tag,
+  Checkbox,
+  Row,
+  Col,
+  Spin,
+  Button,
+  Typography,
+  message,
+} from 'antd'
 import debounce from 'lodash/debounce'
 import api from '../../api'
 import './View.scss'
@@ -33,17 +44,20 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
       setLoading(true)
       setData([])
 
-      api.get(url, null, { search, limit }).then(({ results, count }) => {
-        if (fetchId !== lastFetchId) return
-        setData(
-          results.map(({ id, name, names }) => ({
-            id,
-            name: name || names.join(', '),
-          })),
-        )
-        setTotalResults(count)
-        setLoading(false)
-      })
+      api
+        .get(url, null, { search, limit })
+        .then(({ results, count }) => {
+          if (fetchId !== lastFetchId) return
+          setData(
+            results.map(({ id, name, names }) => ({
+              id,
+              name: name || names.join(', '),
+            })),
+          )
+          setTotalResults(count)
+          setLoading(false)
+        })
+        .catch(() => message.error('There was an error communicating with the server.'))
     }),
   )
 
@@ -104,6 +118,7 @@ const ProviderSelect = ({ url, label, selected, setSelected }) => {
         setTotalResults(count)
         setLoading(false)
       })
+      .catch(() => message.error('There was an error communicating with the server.'))
     // eslint-disable-next-line
   }, [limit])
 
