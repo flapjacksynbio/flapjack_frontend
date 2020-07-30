@@ -145,14 +145,14 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     },
     {
       name: 'Subplots',
-      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Name'],
+      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Signal'],
       selected: subplots,
       setSelected: setSubplots,
       defaultValue: 'Name',
     },
     {
       name: 'Lines/Markers',
-      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Name'],
+      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Signal'],
       selected: markers,
       setSelected: setMarkers,
       defaultValue: 'Vector',
