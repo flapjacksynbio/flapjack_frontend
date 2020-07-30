@@ -15,6 +15,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   const [selectedStudies, setSelectedStudies] = React.useState([])
   const [selectedAssays, setSelectedAssays] = React.useState([])
   const [selectedDna, setSelectedDna] = React.useState([])
+  const [selectedMedia, setSelectedMedia] = React.useState([])
+  const [selectedStrain, setSelectedStrain] = React.useState([])
 
   const [analysisForm] = Form.useForm()
 
@@ -107,6 +109,22 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       _selectedSetter: setSelectedDna,
       setSelected: (value, checked) => addSelected(value, checked, setSelectedDna),
     },
+    {
+      url: 'strain',
+      label: 'Strains',
+      header: 'Strain',
+      selected: selectedStrain,
+      _selectedSetter: setSelectedStrain,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedStrain),
+    },
+    {
+      url: 'media',
+      label: 'Media',
+      header: 'Media',
+      selected: selectedMedia,
+      _selectedSetter: setSelectedMedia,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedMedia),
+    },
   ]
 
   // Plot Options
@@ -126,21 +144,21 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     },
     {
       name: 'Tabs',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Inducer', 'Name'],
+      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
       selected: tabs,
       setSelected: setTabs,
       defaultValue: 'Study',
     },
     {
       name: 'Subplots',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Inducer', 'Name'],
+      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
       selected: subplots,
       setSelected: setSubplots,
       defaultValue: 'Name',
     },
     {
       name: 'Lines/Markers',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Inducer', 'Name'],
+      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
       selected: markers,
       setSelected: setMarkers,
       defaultValue: 'DNA',
@@ -179,6 +197,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       studyIds: selectedStudies.map(({ id }) => id),
       assayIds: selectedAssays.map(({ id }) => id),
       dnaIds: selectedDna.map(({ id }) => id),
+      strainIds: selectedStrain.map(({ id }) => id),
+      mediaIds: selectedMedia.map(({ id }) => id),
       plotOptions: { normalize, tabs, subplots, markers, plot },
     }
 
