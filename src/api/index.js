@@ -51,7 +51,7 @@ class Api {
   }
 
   /**
-   * Returnes required headers based on user authentications
+   * Returns required headers based on user authentications
    * @returns {object} Headers for HTTP request with access token if user is authenticated
    */
   async authedHeaders() {

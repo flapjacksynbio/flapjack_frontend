@@ -36,9 +36,9 @@ class ApiWebsocket {
    * @param {string} path API path (E.g.: 'registry/plot').
    * @param {object} listeners Object containing the event listeners for the connection.
    * @param {listener} listeners.onConnect Socket onopen listener.
-   * @param {messageListener|Object.<messageListener>} listeners.onReceiveHandlers socket onmessage listener. If it's an object, it will
+   * @param {messageListener|object} listeners.onReceiveHandlers socket onmessage listener. If it's an object, it will
    * call onReceiveHandlers[message.type] when the event fires.
-   * @param {listener} onError Socket onerror listener.
+   * @param {listener} listeners.onError Socket onerror listener.
    */
   connect(path, { onConnect, onReceiveHandlers, onError }) {
     // Create WebSocket

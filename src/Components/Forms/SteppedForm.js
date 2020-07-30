@@ -68,7 +68,7 @@ const SteppedFormFactory = ({
                 </Button>
               )}
               {i === steps.length - 1 && (
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" disabled={loading}>
                   {loading ? <LoadingOutlined spin /> : submitText}
                 </Button>
               )}
