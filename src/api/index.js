@@ -63,6 +63,9 @@ class Api {
    * @param {'GET'|'POST'|'PATCH'|'DELETE'} method HTTP request method.
    */
   async authFetch(path, body, headers, query, method) {
+    if (path[path.length - 1] !== '/') {
+      path = `${path}/`
+    }
     const authedHeaders = await this.authedHeaders()
     return fetch(this.url(path, query), {
       method,
