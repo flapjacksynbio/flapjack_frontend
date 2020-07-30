@@ -8,6 +8,7 @@ import uploadSteps from './uploadForm'
 
 const Upload = () => {
   const [loading, setLoading] = React.useState(false)
+  const [progress, setProgress] = React.useState(null)
   const [assayId, setAssayId] = React.useState(null)
 
   const [extraDataVisible, setExtraDataVisible] = React.useState(false)
@@ -60,9 +61,13 @@ const Upload = () => {
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
           },
+          progress(msg) {
+            setProgress(+msg.data)
+          },
           creation_done() {
             console.log('creation_done')
             setLoading(false)
+            setExtraDataLoading(false)
             message.success('Data uploaded successfully!')
             history.push('browse')
           },
@@ -94,8 +99,6 @@ const Upload = () => {
 
     console.log(dataToSend)
     connectionSocket.send(JSON.stringify({ type: 'metadata', data: dataToSend }))
-    setExtraDataLoading(false)
-    setExtraDataVisible(false)
   }
 
   const cancelSend = () => {
@@ -127,6 +130,7 @@ const Upload = () => {
             onSubmit={onSubmitExtraInfo}
             extraInfoFields={extraDataFields}
             assayId={assayId}
+            progress={progress}
           />
         </Modal>
       )}
