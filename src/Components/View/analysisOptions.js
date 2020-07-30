@@ -1,5 +1,5 @@
 import { Input, Checkbox, Radio } from 'antd'
-import InducerForm from './InducerForm'
+import ChemicalForm from './ChemicalForm'
 
 /**
  * Contains forms for the different analysis options.
@@ -376,10 +376,9 @@ const analysisOptions = {
   ],
   'Induction Curve': [
     {
-      name: 'inducer',
-      label: 'Inducer',
-      options: ['Treonina'],
-      renderer: InducerForm,
+      name: 'chemical',
+      label: 'Chemical',
+      renderer: ChemicalForm,
       rules: [{ required: true }],
     },
     {
@@ -397,10 +396,9 @@ const analysisOptions = {
   ],
   Kymograph: [
     {
-      name: 'inducer',
-      label: 'Inducer',
-      options: ['Treonina'],
-      renderer: InducerForm,
+      name: 'chemical',
+      label: 'Chemical',
+      renderer: ChemicalForm,
       rules: [{ required: true }],
     },
     {

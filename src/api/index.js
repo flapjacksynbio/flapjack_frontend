@@ -6,6 +6,7 @@ import {
   setUserInfo,
 } from '../redux/actions/session'
 import ee from 'events'
+import jwt from 'jsonwebtoken'
 
 const READY_EVENT = 'READY_EVENT'
 
@@ -27,14 +28,34 @@ class Api {
     })
   }
 
+  /** Obtains the access token from the store. If it's expired, tries to refresh. */
+  async getAccessToken() {
+    // Await for access token initialization
+    await this.isInitialized
+    const accessToken = store.getState().session.access
+    if (!accessToken) return null
+
+    // Verify expiration
+    const decoded = jwt.decode(accessToken)
+    const expDate = new Date(decoded.exp * 1000)
+    if (expDate < Date.now()) {
+      // Need to refresh token
+      try {
+        const refreshResponse = await this.refresh()
+        return refreshResponse.access
+      } catch (e) {
+        return null
+      }
+    }
+    return accessToken
+  }
+
   /**
    * Returnes required headers based on user authentications
    * @returns {object} Headers for HTTP request with access token if user is authenticated
    */
   async authedHeaders() {
-    // Await for access token initialization
-    await this.isInitialized
-    const accessToken = store.getState().session.access
+    const accessToken = await this.getAccessToken()
     if (!accessToken) return this.baseHeaders
     return {
       ...this.baseHeaders,
@@ -63,6 +84,9 @@ class Api {
    * @param {'GET'|'POST'|'PATCH'|'DELETE'} method HTTP request method.
    */
   async authFetch(path, body, headers, query, method) {
+    if (path[path.length - 1] !== '/') {
+      path = `${path}/`
+    }
     const authedHeaders = await this.authedHeaders()
     return fetch(this.url(path, query), {
       method,
@@ -157,7 +181,8 @@ class Api {
    * @param {string} refresh Refresh token
    */
   async refresh(refresh) {
-    if (!refresh && (!store.session || !store.session.refresh)) {
+    refresh = refresh || store.getState().session.refresh
+    if (!refresh) {
       this.emitter.emit(READY_EVENT, true)
       throw new Error('No refresh token stored')
     }
@@ -168,7 +193,7 @@ class Api {
     const response = await fetch(this.url('auth/refresh/'), {
       method: 'POST',
       headers: this.baseHeaders,
-      body: JSON.stringify({ refresh: refresh || store.getState().session.refresh }),
+      body: JSON.stringify({ refresh }),
     })
       .then((resp) => resp.json())
       .finally((resp) => {

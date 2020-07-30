@@ -4,45 +4,45 @@ import api from '../../api'
 import debounce from 'lodash/debounce'
 
 /**
- * Select component that lists Inducers provided by the API
+ * Select component that lists Chemicals provided by the API
  */
-const InducerForm = () => {
-  const [inducers, setInducers] = React.useState([])
+const ChemicalForm = () => {
+  const [chemicals, setChemicals] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
 
-  const fetchInducers = React.useCallback(
+  const fetchChemicals = React.useCallback(
     debounce((search) => {
       const fetchId = lastFetchId
       setLastFetchId((idx) => idx + 1)
-      setInducers([])
+      setChemicals([])
       setFetching(true)
 
-      api.get('inducer/', null, { search }).then(({ results }) => {
+      api.get('chemical/', null, { search }).then(({ results }) => {
         if (fetchId !== lastFetchId) return
-        setInducers(results.map(({ id, names }) => ({ value: id, label: names[0] })))
+        setChemicals(results.map(({ id, names }) => ({ value: id, label: names[0] })))
         setFetching(false)
       })
     }),
   )
 
   // eslint-disable-next-line
-  React.useEffect(() => fetchInducers(''), [])
+  React.useEffect(() => fetchChemicals(''), [])
 
   return (
     <Select
       labelInValue
-      placeholder="Select Inducer"
+      placeholder="Select Chemical"
       notFoundContent={fetching ? <Spin size="small" /> : null}
       filterOption={false}
-      onSearch={fetchInducers}
-      options={inducers}
+      onSearch={fetchChemicals}
+      options={chemicals}
       showSearch
       style={{ width: '100%' }}
     />
   )
 }
 
-InducerForm.propTypes = {}
+ChemicalForm.propTypes = {}
 
-export default InducerForm
+export default ChemicalForm
