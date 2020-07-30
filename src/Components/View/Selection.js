@@ -14,7 +14,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   // Query
   const [selectedStudies, setSelectedStudies] = React.useState([])
   const [selectedAssays, setSelectedAssays] = React.useState([])
-  const [selectedDna, setSelectedDna] = React.useState([])
+  const [selectedVectors, setSelectedVectors] = React.useState([])
   const [selectedMedia, setSelectedMedia] = React.useState([])
   const [selectedStrain, setSelectedStrain] = React.useState([])
 
@@ -23,10 +23,10 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   // Set initial values based on url query parameters
   React.useEffect(() => {
     if (location.state) {
-      const { study, assay, dna } = location.state
+      const { study, assay, vector } = location.state
       if (study) setSelectedStudies([study])
       if (assay) setSelectedAssays([assay])
-      if (dna) setSelectedDna([dna])
+      if (vector) setSelectedVectors([vector])
       location.state = {}
     }
   }, [location])
@@ -55,34 +55,35 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       )
       .then((res) =>
         Promise.all(
-          Object.entries(res).forEach(([id, value]) =>
-            setAssaysAndChildDNA({ id: +id, name: value.name }, true),
+          Object.entries(res).forEach(([, value]) =>
+            // setAssaysAndChildDNA({ id: +id, name: value.name }, true),
+            addSelected(value, true, setSelectedAssays),
           ),
         ),
       )
       .catch(() => null)
   }
 
-  const setAssaysAndChildDNA = async (value, checked) => {
-    addSelected(value, checked, setSelectedAssays)
-    if (!checked) return
+  // const setAssaysAndChildDNA = async (value, checked) => {
+  //   addSelected(value, checked, setSelectedAssays)
+  //   if (!checked) return
 
-    api
-      .get('dna', null, { assays: value.id })
-      .then(({ results }) =>
-        results.reduce((acc, value) => {
-          value.name = value.names.join(', ')
-          return { ...acc, [value.id]: value }
-        }, {}),
-      )
-      .then((res) =>
-        setSelectedDna((selected) => [
-          ...selected.filter(({ id }) => !res[id]),
-          ...Object.values(res),
-        ]),
-      )
-      .catch(() => null)
-  }
+  //   api
+  //     .get('dna', null, { assays: value.id })
+  //     .then(({ results }) =>
+  //       results.reduce((acc, value) => {
+  //         value.name = value.names.join(', ')
+  //         return { ...acc, [value.id]: value }
+  //       }, {}),
+  //     )
+  //     .then((res) =>
+  //       setSelectedVectors((selected) => [
+  //         ...selected.filter(({ id }) => !res[id]),
+  //         ...Object.values(res),
+  //       ]),
+  //     )
+  //     .catch(() => null)
+  // }
 
   const queryFields = [
     {
@@ -99,15 +100,16 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       header: 'Assays',
       selected: selectedAssays,
       _selectedSetter: setSelectedAssays,
-      setSelected: setAssaysAndChildDNA,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
+      // setSelected: setAssaysAndChildDNA,
     },
     {
-      url: 'dna',
-      label: 'DNAs',
-      header: 'DNA',
-      selected: selectedDna,
-      _selectedSetter: setSelectedDna,
-      setSelected: (value, checked) => addSelected(value, checked, setSelectedDna),
+      url: 'vector',
+      label: 'Vectors',
+      header: 'Vector',
+      selected: selectedVectors,
+      _selectedSetter: setSelectedVectors,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedVectors),
     },
     {
       url: 'strain',
@@ -129,9 +131,8 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
   // Plot Options
   const [normalize, setNormalize] = React.useState('None')
-  const [tabs, setTabs] = React.useState('Study')
   const [subplots, setSubplots] = React.useState('Name')
-  const [markers, setMarkers] = React.useState('DNA')
+  const [markers, setMarkers] = React.useState('Vector')
   const [plot, setPlot] = React.useState('Mean +/- std')
 
   const plotOptionsFields = [
@@ -143,25 +144,18 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       defaultValue: 'None',
     },
     {
-      name: 'Tabs',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
-      selected: tabs,
-      setSelected: setTabs,
-      defaultValue: 'Study',
-    },
-    {
       name: 'Subplots',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
+      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Name'],
       selected: subplots,
       setSelected: setSubplots,
       defaultValue: 'Name',
     },
     {
       name: 'Lines/Markers',
-      options: ['Study', 'Assay', 'DNA', 'Media', 'Strain', 'Chemical', 'Name'],
+      options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Name'],
       selected: markers,
       setSelected: setMarkers,
-      defaultValue: 'DNA',
+      defaultValue: 'Vector',
     },
     {
       name: 'Plot',
@@ -188,7 +182,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
   const onPlot = async () => {
     // TODO: Uncomment next line when arguments become relevant
-    // if (!selectedStudies.length || !selectedAssays.length || !selectedDna.length) {
+    // if (!selectedStudies.length || !selectedAssays.length || !selectedVectors.length) {
     //   message.error('Please select data to plot.')
     //   return
     // }
@@ -196,10 +190,10 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     let form = {
       studyIds: selectedStudies.map(({ id }) => id),
       assayIds: selectedAssays.map(({ id }) => id),
-      dnaIds: selectedDna.map(({ id }) => id),
+      vectorIds: selectedVectors.map(({ id }) => id),
       strainIds: selectedStrain.map(({ id }) => id),
       mediaIds: selectedMedia.map(({ id }) => id),
-      plotOptions: { normalize, tabs, subplots, markers, plot },
+      plotOptions: { normalize, subplots, markers, plot },
     }
 
     console.log(selectedStudies)
