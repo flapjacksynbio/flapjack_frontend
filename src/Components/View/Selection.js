@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { Collapse, Button, Layout, message, Form } from 'antd'
 import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
@@ -10,6 +10,7 @@ import api from '../../api'
 /** Renders the query form for plot creation */
 const Selection = ({ isAnalysis = false, onSubmit }) => {
   const location = useLocation()
+  const history = useHistory()
 
   // Query
   const [selectedStudies, setSelectedStudies] = React.useState([])
@@ -27,7 +28,10 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       if (study) setSelectedStudies([study])
       if (assay) setSelectedAssays([assay])
       if (vector) setSelectedVectors([vector])
-      location.state = {}
+      history.replace({
+        pathname: location.pathname,
+        state: null,
+      })
     }
   }, [location])
 
