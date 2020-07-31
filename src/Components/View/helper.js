@@ -75,7 +75,11 @@ const traceStyles = (screen = true, lineWidth = null) => ({
  * @param {number} rows
  * @param {number} columns
  */
-export const screenLayout = (title, rows, columns) => {
+export const screenLayout = (
+  title, 
+  rows, 
+  columns,
+  ) => {
   const font_size = 10
 
   return {
@@ -85,20 +89,29 @@ export const screenLayout = (title, rows, columns) => {
     paper_bgcolor: 'rgb(255,255,255)',
     template: 'plotly',
     font: { size: font_size },
-    xaxis: {
-      title: { font: { size: font_size } },
-      tickwidth: 1,
-      tickfont: { size: font_size },
-      hoverformat: '.2e',
-      linewidth: 1,
-    },
-    yaxis: {
-      title: { font: { size: font_size } },
-      tickwidth: 1,
-      tickfont: { size: font_size },
-      hoverformat: '.2e',
-      linewidth: 1,
-    },
+    // Set layout for every axis
+    ...[...Array(rows * columns).keys()].reduce(
+      (acc, i) => ({
+        ...acc,
+        [`xaxis${i === 0 ? '' : i + 1}`]: {
+          title: { font: { size: font_size } },
+          tickwidth: 1,
+          tickfont: { size: font_size },
+          linewidth: 1,
+          linecolor: '#000000',
+          hoverformat: '.2e',
+        },
+        [`yaxis${i === 0 ? '' : i + 1}`]: {
+          title: { font: { size: font_size } },
+          tickwidth: 1,
+          tickfont: { size: font_size },
+          linewidth: 1,
+          linecolor: '#000000',
+          hoverformat: '.2e',
+        },
+      }),
+      {},
+    ),
     annotations: { font: { size: font_size } },
   }
 }
@@ -132,7 +145,7 @@ export const paperLayout = (
     height: _height,
     margin: { l: 50, r: 50, b: 50, t: 50, pad: 0 },
     paper_bgcolor: 'rgb(255,255,255)',
-    template: paperWhiteTemplate(rows * columns),
+    template: 'plotly-white', //paperWhiteTemplate(rows * columns),
     font: { size: _font_size },
     annotations: { font: { size: _font_size } },
     // Set layout for every axis
@@ -144,12 +157,14 @@ export const paperLayout = (
           tickwidth: 3,
           tickfont: { size: _font_size },
           linewidth: 3,
+          linecolor: '#000000',
         },
         [`yaxis${i === 0 ? '' : i + 1}`]: {
           title: { font: { size: _font_size } },
           tickwidth: 3,
           tickfont: { size: _font_size },
           linewidth: 3,
+          linecolor: '#000000',
         },
       }),
       {},
