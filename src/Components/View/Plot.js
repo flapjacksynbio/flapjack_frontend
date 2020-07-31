@@ -10,6 +10,7 @@ import {
   paperLayout,
   downloadPNG,
   getPlotlyImageUrl,
+  styleTraces,
 } from './helper'
 import Download from './Download'
 import FormFactory from '../Forms/Form'
@@ -49,30 +50,41 @@ const downloadPNGFields = [
     step: 0.05,
     rules: [{ required: true }],
   },
+  {
+    name: 'lineWidth',
+    label: 'Line width',
+    showLabel: true,
+    type: 'number',
+    RenderField: InputNumber,
+    min: 1,
+    step: 0.05,
+    rules: [{ required: true }],
+  },
 ]
 
 const Plot = ({ data = {}, title = '' }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
 
-  const layout = React.useMemo(
-    () => ({ ...data.layout, ...screenLayout(title, data.layout) }),
-    [data, title],
-  )
+  const traces = React.useMemo(() => styleTraces(data.data), [data])
+
+  const layout = React.useMemo(() => ({ ...data.layout, ...screenLayout(data.layout) }), [
+    data,
+  ])
 
   const paperWhiteLayout = React.useMemo(
     () => ({
       ...data.layout,
-      ...paperLayout(title, 4.5, 3, 6, data.layout),
+      ...paperLayout(4.5, 3, 6, data.layout),
     }),
-    [data, title],
+    [data],
   )
 
   // Function called after submitting png attributes form
   const onGeneratePNG = async (values) => {
-    const { fontSize, width, height } = values
+    const { fontSize, width, height, lineWidth } = values
     const imgUrl = await getPlotlyImageUrl(
-      { ...data.layout, ...paperLayout(title, width, height, fontSize, data.layout) },
-      data.data,
+      { ...data.layout, ...paperLayout(width, height, fontSize, data.layout) },
+      styleTraces(data.data, false, lineWidth),
     )
     await downloadPNG(imgUrl, title)
     setModalVisible(false)
@@ -83,7 +95,7 @@ const Plot = ({ data = {}, title = '' }) => {
       <PlotlyPlot
         style={{ width: '100%' }}
         useResizeHandler
-        data={data.data}
+        data={traces}
         layout={{ ...layout }}
       />
       <Row justify="end" style={{ width: '100%' }}>
@@ -91,7 +103,7 @@ const Plot = ({ data = {}, title = '' }) => {
           onDownloadJSON={(screen = true) =>
             downloadJSON(
               {
-                traces: data.data,
+                traces: screen ? traces : styleTraces(data.data, false),
                 layout: screen ? layout : paperWhiteLayout,
               },
               title,
