@@ -202,7 +202,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
     if (isAnalysis) {
       const analysisValues = await analysisForm.validateFields().catch(() => {
-        message.error('Please fill the fields in the analysis form.')
+        message.warn('Please fill the fields in the analysis form.')
         return null
       })
 
