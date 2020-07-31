@@ -185,31 +185,29 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   )
 
   const onPlot = async () => {
-    // TODO: Uncomment next line when arguments become relevant
-    // if (!selectedStudies.length || !selectedAssays.length || !selectedVectors.length) {
-    //   message.error('Please select data to plot.')
-    //   return
-    // }
-
     let form = {
       studyIds: selectedStudies.map(({ id }) => id),
       assayIds: selectedAssays.map(({ id }) => id),
       vectorIds: selectedVectors.map(({ id }) => id),
       strainIds: selectedStrain.map(({ id }) => id),
       mediaIds: selectedMedia.map(({ id }) => id),
-      plotOptions: { normalize, subplots, markers, plot },
     }
 
-    console.log(selectedStudies)
+    if (!Object.values(form).some((val) => val.length)) {
+      message.warn('Please select data to plot.')
+      return
+    }
+
+    form.plotOptions = { normalize, subplots, markers, plot }
 
     if (isAnalysis) {
-      const analysis_values = await analysisForm.validateFields().catch(() => {
+      const analysisValues = await analysisForm.validateFields().catch(() => {
         message.error('Please fill the fields in the analysis form.')
         return null
       })
 
-      if (!analysis_values) return
-      form = { ...form, analysis: analysis_values }
+      if (!analysisValues) return
+      form = { ...form, analysis: analysisValues }
     }
 
     onSubmit(form)
