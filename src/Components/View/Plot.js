@@ -6,7 +6,6 @@ import InputNumber from '../Forms/InputNumber'
 import { Row, Modal } from 'antd'
 import {
   downloadJSON,
-  styleTraces,
   screenLayout,
   paperLayout,
   downloadPNG,
@@ -50,36 +49,30 @@ const downloadPNGFields = [
     step: 0.05,
     rules: [{ required: true }],
   },
-  {
-    name: 'lineWidth',
-    label: 'Line width',
-    showLabel: true,
-    type: 'number',
-    RenderField: InputNumber,
-    min: 1,
-    step: 0.05,
-    rules: [{ required: true }],
-  },
 ]
 
 const Plot = ({ data = {}, title = '' }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
 
-  // Compute plot layouts
-  const minColumns = Math.min(2, data.n_subplots)
-  const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
-  const rows = Math.ceil(data.n_subplots / columns)
+  const layout = React.useMemo(
+    () => ({ ...data.layout, ...screenLayout(title, data.layout) }),
+    [data, title],
+  )
 
-  const layout = screenLayout(title, rows, columns)
-
-  const plotData = styleTraces(data.traces)
+  const paperWhiteLayout = React.useMemo(
+    () => ({
+      ...data.layout,
+      ...paperLayout(title, 4.5, 3, 6, data.layout),
+    }),
+    [data, title],
+  )
 
   // Function called after submitting png attributes form
   const onGeneratePNG = async (values) => {
-    const { fontSize, width, height, lineWidth } = values
+    const { fontSize, width, height } = values
     const imgUrl = await getPlotlyImageUrl(
-      paperLayout(title, rows, columns, width, height, fontSize),
-      styleTraces(data.traces, false, lineWidth),
+      { ...data.layout, ...paperLayout(title, width, height, fontSize, data.layout) },
+      data.data,
     )
     await downloadPNG(imgUrl, title)
     setModalVisible(false)
@@ -90,7 +83,7 @@ const Plot = ({ data = {}, title = '' }) => {
       <PlotlyPlot
         style={{ width: '100%' }}
         useResizeHandler
-        data={plotData}
+        data={data.data}
         layout={{ ...layout }}
       />
       <Row justify="end" style={{ width: '100%' }}>
@@ -98,8 +91,8 @@ const Plot = ({ data = {}, title = '' }) => {
           onDownloadJSON={(screen = true) =>
             downloadJSON(
               {
-                traces: screen ? plotData : styleTraces(data.traces, false),
-                layout: screen ? layout : paperLayout(title, rows, columns),
+                traces: data.data,
+                layout: screen ? layout : paperWhiteLayout,
               },
               title,
             )
@@ -134,8 +127,8 @@ const Plot = ({ data = {}, title = '' }) => {
 Plot.propTypes = {
   title: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    traces: PropTypes.array.isRequired,
-    n_subplots: PropTypes.number.isRequired,
+    data: PropTypes.array.isRequired,
+    layout: PropTypes.object.isRequired,
   }).isRequired,
 }
 
