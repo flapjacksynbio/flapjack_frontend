@@ -38,8 +38,13 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
         progress_update: (message) => setLoadingData(message.data.progress),
         // Create a plot with received data
         plot_data: (message, event, socket) => {
+          const { data } = message
           setLoadingData(null)
-          addPlot(plotId, message.data)
+          if (data && data.traces) {
+            addPlot(plotId, data)
+          } else {
+            addPlot(plotId, {})
+          }
           socket.close()
         },
       },
@@ -52,6 +57,9 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
 
   const renderPlot = () => {
     if (plotData) {
+      if (!plotData.traces) {
+        return <Empty description="No data available for your query." />
+      }
       return <Plot data={plotData} title={title} />
     }
 
