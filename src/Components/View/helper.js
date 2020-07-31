@@ -58,9 +58,9 @@ export const downloadPNG = async (imageUrl, filename) => {
 const traceStyles = (screen = true, lineWidth = null) => ({
   scatter: {
     marker: { size: 6 },
-    line: { width: lineWidth || (screen ? 1 : 4) },
+    line: { width: lineWidth || (screen ? 1 : 3) },
   },
-  line: { marker: { size: 6 }, line: { width: 1 } },
+  line: { marker: { size: 6 }, line: { width: lineWidth || (screen ? 1 : 3) } },
 })
 
 /**
@@ -69,31 +69,30 @@ const traceStyles = (screen = true, lineWidth = null) => ({
  * @param {number} rows
  * @param {number} columns
  */
-export const screenLayout = (title, baseLayout = {}) => {
+export const screenLayout = (baseLayout = {}) => {
   const font_size = 10
 
   const axes = Object.entries(baseLayout).reduce((acc, [key, value]) => {
     if (!key.match(/^(x|y)axis\d*$/)) return acc
     const title = value.title || {}
     const font = title.font || {}
+    const tickfont = value.tickfont || {}
     return {
       ...acc,
-      [key]: { ...value, title: { ...title, font: { ...font, size: font_size } } },
-      automargin: true,
+      [key]: {
+        ...value,
+        title: { ...title, font: { ...font, size: font_size } },
+        tickfont: { ...tickfont, size: font_size },
+        automargin: true,
+      },
     }
   }, {})
 
   return {
-    title: { ...baseLayout.title, text: title },
     autosize: true,
     paper_bgcolor: 'rgb(255,255,255)',
     template: 'plotly',
-    font: { ...baseLayout.font, size: font_size },
     ...axes,
-    annotations: {
-      ...baseLayout.annotations,
-      font: { ...(baseLayout.annotations || {}).font, size: font_size },
-    },
   }
 }
 
@@ -105,13 +104,7 @@ export const screenLayout = (title, baseLayout = {}) => {
  * @param {number} fontSize
  * @param {object=} baseLayout Object containing a base layout for the plot. If provided, must specify axes for all subplots.
  */
-export const paperLayout = (
-  title,
-  width = 3.3,
-  height = 5,
-  fontSize = 6,
-  baseLayout = {},
-) => {
+export const paperLayout = (width = 3.3, height = 5, fontSize = 6, baseLayout = {}) => {
   const _width = width * 300
   const _height = height * 300
   const _font_size = (fontSize * 300) / 72
@@ -120,15 +113,21 @@ export const paperLayout = (
     if (!key.match(/^(x|y)axis\d*$/)) return acc
     const title = value.title || {}
     const font = title.font || {}
+    const tickfont = value.tickfont || {}
     return {
       ...acc,
-      [key]: { ...value, title: { ...title, font: { ...font, size: _font_size } } },
-      automargin: true,
+      [key]: {
+        ...value,
+        title: { ...title, font: { ...font, size: _font_size } },
+        tickfont: { ...tickfont, size: _font_size },
+        automargin: true,
+      },
     }
   }, {})
 
+  const annotations = baseLayout.annotations || []
+
   return {
-    title: { ...baseLayout.title, text: title },
     autosize: false,
     width: _width,
     height: _height,
@@ -136,22 +135,22 @@ export const paperLayout = (
     paper_bgcolor: 'rgb(255,255,255)',
     template: 'plotly-white',
     font: { ...baseLayout.font, size: _font_size },
-    annotations: {
-      ...baseLayout.annotations,
-      font: { ...(baseLayout.annotations || {}).font, size: _font_size },
-    },
+    annotations: annotations.map((annotation) => ({
+      ...annotation,
+      font: { ...annotation.font, size: _font_size },
+    })),
     ...axes,
   }
 }
 
 /**
  * Modify plotly trace styles
- * @param {Object[]} traces
+ * @param {Object[]} data
  * @param {boolean} screen Wether to get screen or print style
  */
-export const styleTraces = (traces, screen = true, lineWidth = null) => {
+export const styleTraces = (data, screen = true, lineWidth = null) => {
   const styles = traceStyles(screen, lineWidth)
-  return traces.map((trace) => {
+  return data.map((trace) => {
     let result = trace
     if (styles[trace.type]) {
       result = _.merge({}, trace, styles[trace.type])
