@@ -66,7 +66,7 @@ const Plot = ({ data = {}, title = '' }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
 
   // Compute plot layouts
-  const minColumns = Math.min(3, data.n_subplots)
+  const minColumns = Math.min(2, data.n_subplots)
   const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
   const rows = Math.ceil(data.n_subplots / columns)
 
@@ -76,9 +76,9 @@ const Plot = ({ data = {}, title = '' }) => {
 
   // Function called after submitting png attributes form
   const onGeneratePNG = async (values) => {
-    const { fontSize, width, lineWidth } = values
+    const { fontSize, width, height, lineWidth } = values
     const imgUrl = await getPlotlyImageUrl(
-      paperLayout(title, rows, columns, width, 1.5, fontSize),
+      paperLayout(title, rows, columns, width, height, fontSize),
       styleTraces(data.traces, false, lineWidth),
     )
     await downloadPNG(imgUrl, title)
