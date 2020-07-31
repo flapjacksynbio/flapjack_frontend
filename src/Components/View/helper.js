@@ -132,21 +132,28 @@ export const paperLayout = (
     height: _height,
     margin: { l: 50, r: 50, b: 50, t: 50, pad: 0 },
     paper_bgcolor: 'rgb(255,255,255)',
-    template: paperWhiteTemplate,
+    template: paperWhiteTemplate(rows * columns),
     font: { size: _font_size },
     annotations: { font: { size: _font_size } },
-    xaxis: {
-      title: { font: { size: _font_size } },
-      tickwidth: 3,
-      tickfont: { size: _font_size },
-      linewidth: 3,
-    },
-    yaxis: {
-      title: { font: { size: _font_size } },
-      tickwidth: 3,
-      tickfont: { size: _font_size },
-      linewidth: 3,
-    },
+    // Set layout for every axis
+    ...[...Array(rows * columns).keys()].reduce(
+      (acc, i) => ({
+        ...acc,
+        [`xaxis${i === 0 ? '' : i + 1}`]: {
+          title: { font: { size: _font_size } },
+          tickwidth: 3,
+          tickfont: { size: _font_size },
+          linewidth: 3,
+        },
+        [`yaxis${i === 0 ? '' : i + 1}`]: {
+          title: { font: { size: _font_size } },
+          tickwidth: 3,
+          tickfont: { size: _font_size },
+          linewidth: 3,
+        },
+      }),
+      {},
+    ),
   }
 }
 
@@ -172,7 +179,7 @@ export const styleTraces = (traces, screen = true, lineWidth = null) => {
 }
 
 // Paper template for plotly. Extracted from https://github.com/plotly/plotly.py/blob/master/packages/python/plotly/templategen/definitions.py
-const paperWhiteTemplate = {
+const paperWhiteTemplate = (subplots) => ({
   layout: {
     colorway: [
       '#636efa',
@@ -271,30 +278,37 @@ const paperWhiteTemplate = {
         [1, '#276419'],
       ],
     },
-    xaxis: {
-      gridcolor: '#EBF0F8',
-      linecolor: '#EBF0F8',
-      ticks: '',
-      title: {
-        standoff: 15,
-      },
-      zerolinecolor: '#EBF0F8',
-      automargin: true,
-      zerolinewidth: 2,
-      showgrid: false,
-    },
-    yaxis: {
-      gridcolor: '#EBF0F8',
-      linecolor: '#EBF0F8',
-      ticks: '',
-      title: {
-        standoff: 15,
-      },
-      zerolinecolor: '#EBF0F8',
-      automargin: true,
-      zerolinewidth: 2,
-      showgrid: false,
-    },
+    // Set layout for every axis
+    ...[...Array(subplots).keys()].reduce(
+      (acc, i) => ({
+        ...acc,
+        [`xaxis${i === 0 ? '' : i + 1}`]: {
+          gridcolor: '#EBF0F8',
+          linecolor: '#EBF0F8',
+          ticks: '',
+          title: {
+            standoff: 15,
+          },
+          zerolinecolor: '#EBF0F8',
+          automargin: true,
+          zerolinewidth: 2,
+          showgrid: false,
+        },
+        [`yaxis${i === 0 ? '' : i + 1}`]: {
+          gridcolor: '#EBF0F8',
+          linecolor: '#EBF0F8',
+          ticks: '',
+          title: {
+            standoff: 15,
+          },
+          zerolinecolor: '#EBF0F8',
+          automargin: true,
+          zerolinewidth: 2,
+          showgrid: false,
+        },
+      }),
+      {},
+    ),
     scene: {
       xaxis: {
         backgroundcolor: 'white',
@@ -705,4 +719,4 @@ const paperWhiteTemplate = {
       },
     ],
   },
-}
+})
