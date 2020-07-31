@@ -32,25 +32,24 @@ const DNAs = () => {
     )
   }
 
-  // const columns = [
-  //   {
-  //     title: 'Names',
-  //     dataIndex: 'names',
-  //     render: (names) => names.join(', '),
-  //   },
-  //   {
-  //     title: 'Sbol Uris',
-  //     dataIndex: 'sboluris',
-  //     render: renderUris,
-  //   },
-  //   {
-  //     title: 'Actions',
-  //     key: 'actions',
-  //     render: renderActions,
-  //   },
-  // ]
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    // {
+    //   title: 'Sbol Uris',
+    //   dataIndex: 'sboluris',
+    //   render: renderUris,
+    // },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: renderActions,
+    },
+  ]
 
-  return <BrowseTable dataUrl="vector/" columns={[]} />
+  return <BrowseTable dataUrl="vector/" columns={columns} />
 }
 
 DNAs.propTypes = {}
