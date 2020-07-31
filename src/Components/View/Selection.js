@@ -18,6 +18,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   const [selectedVectors, setSelectedVectors] = React.useState([])
   const [selectedMedia, setSelectedMedia] = React.useState([])
   const [selectedStrain, setSelectedStrain] = React.useState([])
+  const [selectedSignals, setSelectedSignals] = React.useState([])
 
   const [analysisForm] = Form.useForm()
 
@@ -131,6 +132,14 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       _selectedSetter: setSelectedMedia,
       setSelected: (value, checked) => addSelected(value, checked, setSelectedMedia),
     },
+    {
+      url: 'signal',
+      label: 'Signal',
+      header: 'Signal',
+      selected: selectedSignals,
+      _selectedSetter: setSelectedSignals,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedSignals),
+    },
   ]
 
   // Plot Options
@@ -191,6 +200,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       vectorIds: selectedVectors.map(({ id }) => id),
       strainIds: selectedStrain.map(({ id }) => id),
       mediaIds: selectedMedia.map(({ id }) => id),
+      signalIds: selectedSignals.map(({ id }) => id),
     }
 
     if (!Object.values(form).some((val) => val.length)) {
