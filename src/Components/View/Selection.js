@@ -33,7 +33,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
         state: null,
       })
     }
-  }, [location])
+  }, [location, history])
 
   const addSelected = (value, checked, setSelected) => {
     if (checked) {
@@ -135,7 +135,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
   // Plot Options
   const [normalize, setNormalize] = React.useState('None')
-  const [subplots, setSubplots] = React.useState('Name')
+  const [subplots, setSubplots] = React.useState('Signal')
   const [markers, setMarkers] = React.useState('Vector')
   const [plot, setPlot] = React.useState('Mean +/- std')
 
@@ -152,7 +152,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Signal'],
       selected: subplots,
       setSelected: setSubplots,
-      defaultValue: 'Name',
+      defaultValue: 'Signal',
     },
     {
       name: 'Lines/Markers',
