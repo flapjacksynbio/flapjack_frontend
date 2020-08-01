@@ -133,7 +133,7 @@ export const paperLayout = (width = 3.3, height = 5, fontSize = 6, baseLayout = 
     height: _height,
     margin: { ...baseLayout.margin, l: 50, r: 50, b: 50, t: 50, pad: 0 },
     paper_bgcolor: 'rgb(255,255,255)',
-    template: 'plotly-white',
+    template: 'simple_white',
     font: { ...baseLayout.font, size: _font_size },
     annotations: annotations.map((annotation) => ({
       ...annotation,
