@@ -17,8 +17,8 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
@@ -53,16 +53,11 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ref_name',
-      label: 'Reference Name',
       renderer: Input,
     },
     {
@@ -74,6 +69,11 @@ const analysisOptions = {
       url: 'signal/',
       selectionOnly: true,
       rules: [{ required: true }],
+    },
+    {
+      name: 'ref_name',
+      label: 'Reference Name',
+      renderer: Input,
     },
     {
       name: 'remove_data',
@@ -94,8 +94,8 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
@@ -130,16 +130,11 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ref_name',
-      label: 'Reference Name',
       renderer: Input,
     },
     {
@@ -151,6 +146,11 @@ const analysisOptions = {
       url: 'signal/',
       selectionOnly: true,
       rules: [{ required: true }],
+    },
+    {
+      name: 'ref_name',
+      label: 'Reference Name',
+      renderer: Input,
     },
     {
       name: 'remove_data',
@@ -249,8 +249,8 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
@@ -303,7 +303,7 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
+      name: 'min_biomass',
       label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
@@ -339,17 +339,11 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ref_name',
-      label: 'Reference Name',
-      rules: [{ required: true }],
       renderer: Input,
     },
     {
@@ -361,6 +355,12 @@ const analysisOptions = {
       url: 'signal/',
       selectionOnly: true,
       rules: [{ required: true }],
+    },
+    {
+      name: 'ref_name',
+      label: 'Reference Name',
+      rules: [{ required: true }],
+      renderer: Input,
     },
     {
       name: 'remove_data',
@@ -381,19 +381,11 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ndt',
-      label: 'Num. Doublings',
-      type: 'number',
-      initial_value: 2.0,
-      rules: [{ required: true }],
       renderer: Input,
     },
     {
@@ -405,6 +397,14 @@ const analysisOptions = {
       url: 'signal/',
       selectionOnly: true,
       rules: [{ required: true }],
+    },
+    {
+      name: 'ndt',
+      label: 'Num. Doublings',
+      type: 'number',
+      initial_value: 2.0,
+      rules: [{ required: true }],
+      renderer: Input,
     },
     {
       name: 'remove_data',
