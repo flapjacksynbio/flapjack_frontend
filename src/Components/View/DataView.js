@@ -37,27 +37,41 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
         // Update progress bar
         progress_update: (message) => setLoadingData(message.data.progress),
         // Create a plot with received data
-        plot_data: (message, event, socket) => {
-          setLoadingData(null)
-          addPlot(plotId, message.data)
+        plot_data: ({ data }, event, socket) => {
+          if (!data.figure) {
+            addPlot(plotId, {})
+            setLoadingData(null)
+          } else {
+            const figure = JSON.parse(data.figure)
+            setLoadingData(null)
+            if (figure && figure.data) {
+              addPlot(plotId, figure)
+            } else {
+              addPlot(plotId, {})
+            }
+          }
           socket.close()
         },
       },
       onError(event, socket) {
         message.error('There was an error processing the data. Please try again')
+        setLoadingData(null)
         socket.close()
       },
     })
   }
 
   const renderPlot = () => {
-    if (plotData) {
-      return <Plot data={plotData} title={title} />
-    }
-
     if (loadingData !== null) {
       // Progress bar
       return <Progress type="circle" percent={loadingData} />
+    }
+
+    if (plotData) {
+      if (!plotData.data) {
+        return <Empty description="No data available for your query." />
+      }
+      return <Plot data={plotData} title={title} />
     }
 
     return <Empty description="Select data to plot" />

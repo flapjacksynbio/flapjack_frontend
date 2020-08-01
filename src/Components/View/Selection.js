@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { Collapse, Button, Layout, message, Form } from 'antd'
 import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
@@ -10,6 +10,7 @@ import api from '../../api'
 /** Renders the query form for plot creation */
 const Selection = ({ isAnalysis = false, onSubmit }) => {
   const location = useLocation()
+  const history = useHistory()
 
   // Query
   const [selectedStudies, setSelectedStudies] = React.useState([])
@@ -17,6 +18,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   const [selectedVectors, setSelectedVectors] = React.useState([])
   const [selectedMedia, setSelectedMedia] = React.useState([])
   const [selectedStrain, setSelectedStrain] = React.useState([])
+  const [selectedSignals, setSelectedSignals] = React.useState([])
 
   const [analysisForm] = Form.useForm()
 
@@ -27,9 +29,12 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       if (study) setSelectedStudies([study])
       if (assay) setSelectedAssays([assay])
       if (vector) setSelectedVectors([vector])
-      location.state = {}
+      history.replace({
+        pathname: location.pathname,
+        state: null,
+      })
     }
-  }, [location])
+  }, [location, history])
 
   const addSelected = (value, checked, setSelected) => {
     if (checked) {
@@ -127,11 +132,19 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       _selectedSetter: setSelectedMedia,
       setSelected: (value, checked) => addSelected(value, checked, setSelectedMedia),
     },
+    {
+      url: 'signal',
+      label: 'Signal',
+      header: 'Signal',
+      selected: selectedSignals,
+      _selectedSetter: setSelectedSignals,
+      setSelected: (value, checked) => addSelected(value, checked, setSelectedSignals),
+    },
   ]
 
   // Plot Options
   const [normalize, setNormalize] = React.useState('None')
-  const [subplots, setSubplots] = React.useState('Name')
+  const [subplots, setSubplots] = React.useState('Signal')
   const [markers, setMarkers] = React.useState('Vector')
   const [plot, setPlot] = React.useState('Mean +/- std')
 
@@ -148,7 +161,7 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
       options: ['Study', 'Assay', 'Vector', 'Media', 'Strain', 'Supplement', 'Signal'],
       selected: subplots,
       setSelected: setSubplots,
-      defaultValue: 'Name',
+      defaultValue: 'Signal',
     },
     {
       name: 'Lines/Markers',
@@ -181,31 +194,30 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
   )
 
   const onPlot = async () => {
-    // TODO: Uncomment next line when arguments become relevant
-    // if (!selectedStudies.length || !selectedAssays.length || !selectedVectors.length) {
-    //   message.error('Please select data to plot.')
-    //   return
-    // }
-
     let form = {
       studyIds: selectedStudies.map(({ id }) => id),
       assayIds: selectedAssays.map(({ id }) => id),
       vectorIds: selectedVectors.map(({ id }) => id),
       strainIds: selectedStrain.map(({ id }) => id),
       mediaIds: selectedMedia.map(({ id }) => id),
-      plotOptions: { normalize, subplots, markers, plot },
+      signalIds: selectedSignals.map(({ id }) => id),
     }
 
-    console.log(selectedStudies)
+    if (!Object.values(form).some((val) => val.length)) {
+      message.warn('Please select data to plot.')
+      return
+    }
+
+    form.plotOptions = { normalize, subplots, markers, plot }
 
     if (isAnalysis) {
-      const analysis_values = await analysisForm.validateFields().catch(() => {
-        message.error('Please fill the fields in the analysis form.')
+      const analysisValues = await analysisForm.validateFields().catch(() => {
+        message.warn('Please fill the fields in the analysis form.')
         return null
       })
 
-      if (!analysis_values) return
-      form = { ...form, analysis: analysis_values }
+      if (!analysisValues) return
+      form = { ...form, analysis: analysisValues }
     }
 
     onSubmit(form)

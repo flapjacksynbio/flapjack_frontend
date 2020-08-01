@@ -6,11 +6,11 @@ import InputNumber from '../Forms/InputNumber'
 import { Row, Modal } from 'antd'
 import {
   downloadJSON,
-  styleTraces,
   screenLayout,
   paperLayout,
   downloadPNG,
   getPlotlyImageUrl,
+  styleTraces,
 } from './helper'
 import Download from './Download'
 import FormFactory from '../Forms/Form'
@@ -65,21 +65,26 @@ const downloadPNGFields = [
 const Plot = ({ data = {}, title = '' }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
 
-  // Compute plot layouts
-  const minColumns = Math.min(3, data.n_subplots)
-  const columns = Math.max(minColumns, Math.floor(Math.sqrt(data.n_subplots)))
-  const rows = Math.ceil(data.n_subplots / columns)
+  const traces = React.useMemo(() => styleTraces(data.data), [data])
 
-  const layout = screenLayout(title, rows, columns)
+  const layout = React.useMemo(() => ({ ...data.layout, ...screenLayout(data.layout) }), [
+    data,
+  ])
 
-  const plotData = styleTraces(data.traces)
+  const paperWhiteLayout = React.useMemo(
+    () => ({
+      ...data.layout,
+      ...paperLayout(4.5, 3, 6, data.layout),
+    }),
+    [data],
+  )
 
   // Function called after submitting png attributes form
   const onGeneratePNG = async (values) => {
-    const { fontSize, width, lineWidth } = values
+    const { fontSize, width, height, lineWidth } = values
     const imgUrl = await getPlotlyImageUrl(
-      paperLayout(title, rows, columns, width, 1.5, fontSize),
-      styleTraces(data.traces, false, lineWidth),
+      { ...data.layout, ...paperLayout(width, height, fontSize, data.layout) },
+      styleTraces(data.data, false, lineWidth),
     )
     await downloadPNG(imgUrl, title)
     setModalVisible(false)
@@ -90,7 +95,7 @@ const Plot = ({ data = {}, title = '' }) => {
       <PlotlyPlot
         style={{ width: '100%' }}
         useResizeHandler
-        data={plotData}
+        data={traces}
         layout={{ ...layout }}
       />
       <Row justify="end" style={{ width: '100%' }}>
@@ -98,8 +103,8 @@ const Plot = ({ data = {}, title = '' }) => {
           onDownloadJSON={(screen = true) =>
             downloadJSON(
               {
-                traces: screen ? plotData : styleTraces(data.traces, false),
-                layout: screen ? layout : paperLayout(title, rows, columns),
+                traces: screen ? traces : styleTraces(data.data, false),
+                layout: screen ? layout : paperWhiteLayout,
               },
               title,
             )
@@ -134,8 +139,8 @@ const Plot = ({ data = {}, title = '' }) => {
 Plot.propTypes = {
   title: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    traces: PropTypes.array.isRequired,
-    n_subplots: PropTypes.number.isRequired,
+    data: PropTypes.array.isRequired,
+    layout: PropTypes.object.isRequired,
   }).isRequired,
 }
 
