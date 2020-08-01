@@ -1,5 +1,6 @@
 import { Input, Checkbox, Radio } from 'antd'
 import ChemicalForm from './ChemicalForm'
+import SelectOrCreate from '../Forms/SelectOrCreate'
 
 /**
  * Contains forms for the different analysis options.
@@ -24,9 +25,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -60,9 +66,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -91,9 +102,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -127,9 +143,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -236,9 +257,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -285,9 +311,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -322,9 +353,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -361,9 +397,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',

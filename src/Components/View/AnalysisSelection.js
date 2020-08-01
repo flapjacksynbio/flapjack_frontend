@@ -3,6 +3,32 @@ import analysisOptions from './analysisOptions'
 import PropTypes from 'prop-types'
 import { Select, Form, Input } from 'antd'
 
+/** Renders Analysis Selection form items */
+const renderItem = (props, i) => {
+  const { isFormItem = false, renderer: Renderer, ...otherProps } = props
+  if (!isFormItem) {
+    const { name, label, valuePropName, rules, ...other } = otherProps
+    return (
+      <Form.Item
+        key={i}
+        name={name}
+        label={label}
+        valuePropName={valuePropName}
+        rules={rules}
+      >
+        <Renderer {...other} />
+      </Form.Item>
+    )
+  }
+
+  return <Renderer key={i} {...otherProps} />
+}
+
+renderItem.propTypes = {
+  isFormItem: PropTypes.bool,
+  renderer: PropTypes.any.isRequired,
+}
+
 /**
  * Selection of analysis parameters
  * @param {object} props
@@ -49,19 +75,7 @@ const AnalysisSelection = ({ formInstance }) => {
         <Form.Item name="type" style={{ display: 'none' }}>
           <Input value={selectedType} />
         </Form.Item>
-        {analysisOptions[selectedType].map(
-          ({ name, label, renderer: Renderer, valuePropName, rules, ...other }, i) => (
-            <Form.Item
-              key={i}
-              name={name}
-              label={label}
-              valuePropName={valuePropName}
-              rules={rules}
-            >
-              <Renderer {...other} />
-            </Form.Item>
-          ),
-        )}
+        {analysisOptions[selectedType].map(renderItem)}
       </Form>
     </>
   )

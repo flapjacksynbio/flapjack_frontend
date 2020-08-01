@@ -216,6 +216,10 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
         return null
       })
 
+      if (analysisValues.biomass_signal) {
+        analysisValues.biomass_signal = analysisValues.biomass_signal.value
+      }
+
       if (!analysisValues) return
       form = { ...form, analysis: analysisValues }
     }
