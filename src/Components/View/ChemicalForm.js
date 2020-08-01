@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 /**
  * Select component that lists Chemicals provided by the API
  */
-const ChemicalForm = () => {
+const ChemicalForm = (props) => {
   const [chemicals, setChemicals] = React.useState([])
   const [lastFetchId, setLastFetchId] = React.useState(0)
   const [fetching, setFetching] = React.useState(false)
@@ -20,7 +20,7 @@ const ChemicalForm = () => {
 
       api.get('chemical/', null, { search }).then(({ results }) => {
         if (fetchId !== lastFetchId) return
-        setChemicals(results.map(({ id, names }) => ({ value: id, label: names[0] })))
+        setChemicals(results.map(({ id, name }) => ({ value: id, label: name })))
         setFetching(false)
       })
     }),
@@ -39,6 +39,7 @@ const ChemicalForm = () => {
       options={chemicals}
       showSearch
       style={{ width: '100%' }}
+      {...props}
     />
   )
 }
