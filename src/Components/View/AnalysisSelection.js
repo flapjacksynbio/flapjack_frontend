@@ -1,7 +1,7 @@
 import React from 'react'
 import analysisOptions from './analysisOptions'
 import PropTypes from 'prop-types'
-import { Select, Form } from 'antd'
+import { Select, Form, Input } from 'antd'
 
 /**
  * Selection of analysis parameters
@@ -13,6 +13,7 @@ const AnalysisSelection = ({ formInstance }) => {
 
   // Set initial values when either the form instance changes or the analysis type changes
   React.useEffect(() => {
+    formInstance.setFieldsValue({ type: selectedType })
     formInstance.setFieldsValue(
       analysisOptions[selectedType].reduce((acc, opt) => {
         return { ...acc, [opt.name]: opt.initial_value }
@@ -45,6 +46,9 @@ const AnalysisSelection = ({ formInstance }) => {
         size="small"
         onFinish={onSubmit}
       >
+        <Form.Item name="type" style={{ display: 'none' }}>
+          <Input value={selectedType} />
+        </Form.Item>
         {analysisOptions[selectedType].map(
           ({ name, label, renderer: Renderer, valuePropName, rules, ...other }, i) => (
             <Form.Item
