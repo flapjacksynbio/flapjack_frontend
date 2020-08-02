@@ -2,11 +2,14 @@ version: '3.3'
 services:
   web:
     container_name: flapjack_front
-    build: ./
+    build:
+      context: ./
+      args:
+        app_env: production
     ports:
       - '3000:3000' # expose ports - HOST:CONTAINER
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     env_file:
       - .env.prod
     volumes:

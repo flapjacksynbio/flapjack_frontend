@@ -2,7 +2,10 @@ version: '3.3'
 services:
   web:
     container_name: flapjack_front
-    build: ./
+    build:
+      context: ./
+      args:
+        app_env: development
     ports:
       - '3000:3000' # expose ports - HOST:CONTAINER
     environment:
