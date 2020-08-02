@@ -10,7 +10,7 @@ These files must contain the following fields:
 
 ```
 REACT_APP_HTTP_API="<API HTTP url>"
-REACT_APP_WS_API="<API WebSocket url"
+REACT_APP_WS_API="<API WebSocket url>"
 ```
 
 ## Build
