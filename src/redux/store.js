@@ -37,8 +37,14 @@ const rootReducer = combineReducers({
 
 const pReducer = persistReducer(persistConfig, rootReducer)
 
-// TODO: Use devToolsEnhancer only on dev environment
-export const store = createStore(pReducer, model, devToolsEnhancer())
+let store
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV === 'production') {
+  store = createStore(pReducer, model)
+} else {
+  store = createStore(pReducer, model, devToolsEnhancer())
+}
+
 export const persistor = persistStore(store)
 
 export default store
