@@ -70,5 +70,6 @@ class ApiWebsocket {
   }
 }
 
-// TODO: Get url from env
-export default new ApiWebsocket('ws://localhost:8000/ws/')
+// eslint-disable-next-line no-undef
+const HTTP_WS_URL = process.env.REACT_APP_WS_API
+export default new ApiWebsocket(HTTP_WS_URL)
