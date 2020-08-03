@@ -196,6 +196,11 @@ class Api {
       body: JSON.stringify({ refresh }),
     })
       .then((resp) => resp.json())
+      .catch(() => {
+        store.dispatch(logoutCurrentUser())
+        this.emitter.emit(READY_EVENT, true)
+        return null
+      })
       .finally((resp) => {
         store.dispatch(loggingIn(false))
         return resp
