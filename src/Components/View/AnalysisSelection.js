@@ -4,8 +4,16 @@ import PropTypes from 'prop-types'
 import { Select, Form, Input } from 'antd'
 
 /** Renders Analysis Selection form items */
-const renderItem = (props, i) => {
-  const { isFormItem = false, renderer: Renderer, ...otherProps } = props
+export const renderItem = (props, i, formInstance) => {
+  const {
+    isFormItem = false,
+    renderer: Renderer,
+    requiresForm = false,
+    ...otherProps
+  } = props
+
+  if (requiresForm) otherProps.formInstance = formInstance
+
   if (!isFormItem) {
     const { name, label, valuePropName, rules, ...other } = otherProps
     return (
@@ -26,6 +34,7 @@ const renderItem = (props, i) => {
 
 renderItem.propTypes = {
   isFormItem: PropTypes.bool,
+  requiresForm: PropTypes.bool,
   renderer: PropTypes.any.isRequired,
 }
 
@@ -48,7 +57,7 @@ const AnalysisSelection = ({ formInstance }) => {
   }, [selectedType, formInstance])
 
   const onSubmit = (values) => {
-    values['type'] = selectedType
+    values.type = selectedType
     return values
   }
 
@@ -75,7 +84,9 @@ const AnalysisSelection = ({ formInstance }) => {
         <Form.Item name="type" style={{ display: 'none' }}>
           <Input value={selectedType} />
         </Form.Item>
-        {analysisOptions[selectedType].map(renderItem)}
+        {analysisOptions[selectedType].map((fieldProps, i) =>
+          renderItem(fieldProps, i, formInstance),
+        )}
       </Form>
     </>
   )

@@ -1,12 +1,13 @@
-import { Input, Checkbox, Radio } from 'antd'
+import { Input, Checkbox } from 'antd'
 import ChemicalForm from './ChemicalForm'
 import SelectOrCreate from '../Forms/SelectOrCreate'
+import FunctionSelection from './FunctionSelection'
 
 /**
  * Contains forms for the different analysis options.
  * See src/Forms/Form.js
  */
-const analysisOptions = {
+export const baseAnalysisOptions = {
   'Mean Expression': [
     {
       name: 'bg_correction',
@@ -415,6 +416,9 @@ const analysisOptions = {
       renderer: Checkbox,
     },
   ],
+}
+
+export const functionAnalysisOptions = {
   'Induction Curve': [
     {
       name: 'chemical',
@@ -423,7 +427,7 @@ const analysisOptions = {
       rules: [{ required: true }],
     },
     {
-      name: 'measure',
+      name: 'function',
       label: 'Function',
       options: [
         { label: 'Mean Expression', value: 'mean_expression' },
@@ -431,7 +435,9 @@ const analysisOptions = {
         { label: 'Mean Expression Rate', value: 'mean_expression_rate' },
         { label: 'Mean Expression Rate Ratio', value: 'mean_expression_rate_ratio' },
       ],
-      renderer: Radio.Group,
+      requiresForm: true,
+      isFormItem: true,
+      renderer: FunctionSelection,
       rules: [{ required: true }],
     },
   ],
@@ -443,16 +449,18 @@ const analysisOptions = {
       rules: [{ required: true }],
     },
     {
-      name: 'measure',
+      name: 'function',
       label: 'Function',
       options: [
         { label: 'Expression Rate (direct)', value: 'exp_rate_dir' },
         { label: 'Expression Rate (indirect)', value: 'exp_rate_ind' },
       ],
-      renderer: Radio.Group,
+      requiresForm: true,
+      isFormItem: true,
+      renderer: FunctionSelection,
       rules: [{ required: true }],
     },
   ],
 }
 
-export default analysisOptions
+export default { ...baseAnalysisOptions, ...functionAnalysisOptions }

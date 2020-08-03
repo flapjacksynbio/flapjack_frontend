@@ -6,6 +6,7 @@ import ProviderSelection from './ProviderSelection'
 import PlotOptions from './PlotOptions'
 import AnalysisSelection from './AnalysisSelection'
 import api from '../../api'
+import _ from 'lodash'
 
 /** Renders the query form for plot creation */
 const Selection = ({ isAnalysis = false, onSubmit }) => {
@@ -211,14 +212,21 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
     form.plotOptions = { normalize, subplots, markers, plot }
 
     if (isAnalysis) {
-      const analysisValues = await analysisForm.validateFields().catch(() => {
-        message.warn('Please fill the fields in the analysis form.')
-        return null
-      })
-
-      if (analysisValues.biomass_signal) {
-        analysisValues.biomass_signal = analysisValues.biomass_signal.value
-      }
+      const analysisValues = await analysisForm
+        .validateFields()
+        .then((values) => {
+          return Object.entries(values).reduce((acc, [key, value]) => {
+            if (_.isPlainObject(value) && value.value) {
+              return { ...acc, [key]: value.value }
+            }
+            return { ...acc, [key]: value }
+          }, {})
+        })
+        .catch((e) => {
+          console.log(e)
+          message.warn('Please fill the fields in the analysis form.')
+        })
+      console.log(analysisValues)
 
       if (!analysisValues) return
       form = { ...form, analysis: analysisValues }
