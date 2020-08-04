@@ -225,5 +225,6 @@ class Api {
   }
 }
 
-// TODO: Get url from env
-export default new Api('http://localhost:8000/api/')
+// eslint-disable-next-line no-undef
+const HTTP_API_URL = process.env.REACT_APP_HTTP_API
+export default new Api(HTTP_API_URL)
