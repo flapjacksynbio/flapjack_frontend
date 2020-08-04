@@ -1,38 +1,25 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Dropdown, Menu, Space } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Button, Space } from 'antd'
 import BrowseTable from './BrowseTable'
 
 const Assays = () => {
   const history = useHistory()
 
   const renderActions = (text, record) => {
-    const handleMenuClick = (e) => {
+    const handleViewClick = () => {
       // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
         state: {
           assay: { id: record.id, name: record.name },
-          tabType: e.key,
         },
       })
     }
 
-    const menu = (
-      <Menu onClick={handleMenuClick}>
-        <Menu.Item key="data">Data Viewer</Menu.Item>
-        <Menu.Item key="analysis">Analysis</Menu.Item>
-      </Menu>
-    )
-
     return (
       <Space>
-        <Dropdown overlay={menu}>
-          <Button>
-            View <DownOutlined />
-          </Button>
-        </Dropdown>
+        <Button onClick={handleViewClick}>Data Viewer</Button>
       </Space>
     )
   }

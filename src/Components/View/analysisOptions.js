@@ -1,11 +1,14 @@
-import { Input, Checkbox, Radio } from 'antd'
+import { Input, Checkbox } from 'antd'
 import ChemicalForm from './ChemicalForm'
+import SelectOrCreate from '../Forms/SelectOrCreate'
+import FunctionSelection from './FunctionSelection'
 
 /**
  * Contains forms for the different analysis options.
  * See src/Forms/Form.js
  */
-const analysisOptions = {
+export const baseAnalysisOptions = {
+  None: [],
   'Mean Expression': [
     {
       name: 'bg_correction',
@@ -16,120 +19,22 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
-    },
-    {
-      name: 'remove_data',
-      label: 'Remove Data',
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
       showLabel: true,
-      valuePropName: 'checked',
-      initial_value: false,
-      renderer: Checkbox,
-    },
-  ],
-  'Mean Expression Ratio': [
-    {
-      name: 'bg_correction',
-      label: 'Std. Devs',
-      type: 'number',
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
       rules: [{ required: true }],
-      initial_value: 2,
-      renderer: Input,
-    },
-    {
-      name: 'min_density',
-      label: 'Min. Density',
-      type: 'number',
-      rules: [{ required: true }],
-      initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ref_name',
-      label: 'Reference Name',
-      renderer: Input,
-    },
-    {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
-    },
-    {
-      name: 'remove_data',
-      label: 'Remove Data',
-      showLabel: true,
-      valuePropName: 'checked',
-      initial_value: false,
-      renderer: Checkbox,
-    },
-  ],
-  'Mean Expression Rate': [
-    {
-      name: 'bg_correction',
-      label: 'Std. Devs',
-      type: 'number',
-      rules: [{ required: true }],
-      initial_value: 2,
-      renderer: Input,
-    },
-    {
-      name: 'min_density',
-      label: 'Min. Density',
-      type: 'number',
-      rules: [{ required: true }],
-      initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
-    },
-    {
-      name: 'remove_data',
-      label: 'Remove Data',
-      showLabel: true,
-      valuePropName: 'checked',
-      initial_value: false,
-      renderer: Checkbox,
-    },
-  ],
-  'Mean Expression Rate Ratio': [
-    {
-      name: 'bg_correction',
-      label: 'Std. Devs',
-      type: 'number',
-      rules: [{ required: true }],
-      initial_value: 2,
-      renderer: Input,
-    },
-    {
-      name: 'min_density',
-      label: 'Min. Density',
-      type: 'number',
-      rules: [{ required: true }],
-      initial_value: 0.05,
-      renderer: Input,
-    },
-    {
-      name: 'ref_name',
-      label: 'Reference Name',
-      renderer: Input,
-    },
-    {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
     },
     {
       name: 'remove_data',
@@ -228,17 +133,22 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -277,7 +187,7 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
+      name: 'min_biomass',
       label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
@@ -285,9 +195,14 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -308,23 +223,32 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
       renderer: Input,
     },
     {
-      name: 'ref_name',
-      label: 'Reference Name',
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
       rules: [{ required: true }],
-      renderer: Input,
     },
     {
-      name: 'density_name',
-      label: 'Density Name',
-      renderer: Input,
+      name: 'ref_signal',
+      label: 'Reference Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'remove_data',
@@ -345,12 +269,22 @@ const analysisOptions = {
       renderer: Input,
     },
     {
-      name: 'min_density',
-      label: 'Min. Density',
+      name: 'min_biomass',
+      label: 'Min. Biomass',
       type: 'number',
       rules: [{ required: true }],
       initial_value: 0.05,
       renderer: Input,
+    },
+    {
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
     },
     {
       name: 'ndt',
@@ -358,11 +292,6 @@ const analysisOptions = {
       type: 'number',
       initial_value: 2.0,
       rules: [{ required: true }],
-      renderer: Input,
-    },
-    {
-      name: 'density_name',
-      label: 'Density Name',
       renderer: Input,
     },
     {
@@ -374,6 +303,9 @@ const analysisOptions = {
       renderer: Checkbox,
     },
   ],
+}
+
+export const functionAnalysisOptions = {
   'Induction Curve': [
     {
       name: 'chemical',
@@ -382,15 +314,16 @@ const analysisOptions = {
       rules: [{ required: true }],
     },
     {
-      name: 'measure',
+      name: 'function',
       label: 'Function',
       options: [
         { label: 'Mean Expression', value: 'mean_expression' },
-        { label: 'Mean Expression Ratio', value: 'mean_expression_ratio' },
-        { label: 'Mean Expression Rate', value: 'mean_expression_rate' },
-        { label: 'Mean Expression Rate Ratio', value: 'mean_expression_rate_ratio' },
+        { label: 'Rho', value: 'rho' },
+        { label: 'Alpha', value: 'alpha' },
       ],
-      renderer: Radio.Group,
+      requiresForm: true,
+      isFormItem: true,
+      renderer: FunctionSelection,
       rules: [{ required: true }],
     },
   ],
@@ -402,16 +335,20 @@ const analysisOptions = {
       rules: [{ required: true }],
     },
     {
-      name: 'measure',
+      name: 'function',
       label: 'Function',
       options: [
         { label: 'Expression Rate (direct)', value: 'exp_rate_dir' },
         { label: 'Expression Rate (indirect)', value: 'exp_rate_ind' },
+        { label: 'Rho', value: 'rho' },
+        { label: 'Alpha', value: 'alpha' },
       ],
-      renderer: Radio.Group,
+      requiresForm: true,
+      isFormItem: true,
+      renderer: FunctionSelection,
       rules: [{ required: true }],
     },
   ],
 }
 
-export default analysisOptions
+export default { ...baseAnalysisOptions, ...functionAnalysisOptions }

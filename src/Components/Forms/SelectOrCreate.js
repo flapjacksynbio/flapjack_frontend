@@ -29,6 +29,7 @@ const SelectOrCreate = ({
   extraQueryParams = {},
   formInstance = null,
   dependencies = [],
+  selectionOnly = false,
   ...props
 }) => {
   const [data, setData] = React.useState([])
@@ -111,35 +112,39 @@ const SelectOrCreate = ({
           style={{ width: '100%' }}
         />
       </Form.Item>
-      <div className="select-or-create-field">
-        <Button onClick={() => setVisible(true)}>
-          <Typography.Text ellipsis style={{ maxWidth: '90%' }}>
-            <PlusOutlined /> Create new {label}
-          </Typography.Text>
-        </Button>
-      </div>
-      <Modal
-        title={`Create new ${buttonCreateLabel || label}`}
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        footer={null}
-      >
-        <FormFactory
-          name={`New${label}`}
-          onSubmit={onSubmit}
-          fields={createFields}
-          submitText={`Create ${buttonCreateLabel || label}`}
-          initialValues={{ public: false }} // 'public' default value isn't set on component mount
-          loading={loading}
-        />
-      </Modal>
+      {!selectionOnly && (
+        <>
+          <div className="select-or-create-field">
+            <Button onClick={() => setVisible(true)}>
+              <Typography.Text ellipsis style={{ maxWidth: '90%' }}>
+                <PlusOutlined /> Create new {label}
+              </Typography.Text>
+            </Button>
+          </div>
+          <Modal
+            title={`Create new ${buttonCreateLabel || label}`}
+            visible={visible}
+            onCancel={() => setVisible(false)}
+            footer={null}
+          >
+            <FormFactory
+              name={`New${label}`}
+              onSubmit={onSubmit}
+              fields={createFields}
+              submitText={`Create ${buttonCreateLabel || label}`}
+              initialValues={{ public: false }} // 'public' default value isn't set on component mount
+              loading={loading}
+            />
+          </Modal>
+        </>
+      )}
     </>
   )
 }
 
 SelectOrCreate.propTypes = {
   url: PropTypes.string.isRequired,
-  createFields: PropTypes.array.isRequired,
+  createFields: PropTypes.array,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   showLabel: PropTypes.bool,
@@ -149,6 +154,7 @@ SelectOrCreate.propTypes = {
   buttonCreateLabel: PropTypes.string,
   formInstance: PropTypes.any,
   dependencies: PropTypes.arrayOf(PropTypes.string),
+  selectionOnly: PropTypes.bool,
 }
 
 export default SelectOrCreate

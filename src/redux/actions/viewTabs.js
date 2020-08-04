@@ -9,8 +9,6 @@ export const ADD_PLOT_TO_TAB = 'ADD_PLOT_TO_TAB'
  * @param {string} tab.title
  * @param {string} tab.id
  * @param {string} tab.key Same value as id // TODO: Remove
- * @param {Object} tab.contentProps Props for displaying tab
- * @param {boolean} tab.contentProps.isAnalysis
  * @param {boolean} tab.closable Whether the tab should be closable (should always be true)
  */
 export const createTab = (tab) => ({
@@ -24,8 +22,6 @@ export const createTab = (tab) => ({
  * @param {string} tab.title
  * @param {string} tab.id
  * @param {string} tab.key Same value as id // TODO: Remove
- * @param {Object} tab.contentProps Props for displaying tab
- * @param {boolean} tab.contentProps.isAnalysis
  * @param {boolean} tab.closable Whether the tab should be closable (should always be true)
  */
 export const editTab = (tab) => ({
@@ -45,9 +41,9 @@ export const deleteTab = (tabId) => ({
 /**
  * Redux action for adding plot data to tab
  * @param {string} tabId Id of tab that contains the plot
- * @param {Object} plotData
- * @param {Object[]} plotData.traces Contains traces formatted for plotly
- * @param {number} plotData.n_subplots Number of subplots to render
+ * @param {object} plotData
+ * @param {object[]} plotData.data Contains traces formatted for plotly
+ * @param {object} plotData.layout Plot Layout
  */
 export const addPlotToTab = (tabId, plotData) => ({
   type: ADD_PLOT_TO_TAB,

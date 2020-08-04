@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Space } from 'antd'
+import { Space, Button } from 'antd'
 import api from '../../api'
 import BrowseTable from './BrowseTable'
 import ShareStudyModal from './ShareStudyModal'
@@ -17,52 +17,36 @@ const Studies = () => {
   )
 
   const renderActions = (text, record) => {
-    const handleViewMenuClick = (e) => {
+    const handleViewClick = () => {
       // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
-        state: { study: { id: record.id, name: record.name }, tabType: e.key },
+        state: { study: { id: record.id, name: record.name } },
       })
-    }
-
-    const viewOptions = {
-      data: {
-        label: 'Data Viewer',
-        onClick: handleViewMenuClick,
-      },
-      analysis: {
-        label: 'Analysis',
-        onClick: handleViewMenuClick,
-      },
     }
 
     const notPublic = record.public ? 'private' : 'public'
     const manageOptions = {
       share: {
         label: 'Share',
-        onClick: () => {
-          setModalStudy(record)
-        },
+        onClick: () => setModalStudy(record),
       },
       'toggle-public': {
         label: `Make ${notPublic}`,
         onClick: () =>
-          api.patch(`study/${record.id}/`, {
-            public: !record.public,
-          }),
+          api
+            .patch(`study/${record.id}/`, { public: !record.public })
+            .then(window.location.reload),
       },
       delete: {
         label: 'Delete',
-        onClick: () => {
-          api.delete(`study/${record.id}/`)
-          window.location.reload()
-        },
+        onClick: () => api.delete(`study/${record.id}/`).then(window.location.reload),
       },
     }
 
     return (
       <Space>
-        <DropdownButton label={'View'} options={viewOptions} />
+        <Button onClick={handleViewClick}>Data Viewer</Button>
         {record.is_owner && <DropdownButton label={'Manage'} options={manageOptions} />}
       </Space>
     )

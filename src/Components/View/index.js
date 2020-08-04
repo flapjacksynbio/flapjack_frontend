@@ -1,8 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { Tabs, Empty } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
-import AddTab from './AddTab'
+import { Tabs, Empty, Button } from 'antd'
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons'
 import DataView from './DataView'
 import { createTab, editTab, deleteTab } from '../../redux/actions/viewTabs'
 import { connect } from 'react-redux'
@@ -34,44 +33,21 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
   // Create new tab with query parameters
   React.useEffect(() => {
     if (location.state) {
-      const { tabType } = location.state
-
-      if (tabType) {
-        onAddTab(tabType)
-      }
+      onAddTab()
     }
     // eslint-disable-next-line
   }, [])
 
   // Create new tab
-  const onAddTab = (type) => {
-    let i, name
-
-    // Count existing tabs with type
-    if (type === 'data') {
-      // Data tab
-      const dataTabsCount = tabs.filter((t) => !t.contentProps.isAnalysis).length
-      i = dataTabsCount + 1
-      name = 'Data'
-    } else {
-      // Analysis tab
-      const analysisTabsCount = tabs.filter((t) => t.contentProps.isAnalysis).length
-      i = analysisTabsCount + 1
-      name = 'Analysis'
-    }
-
-    const title = `${name} ${i}`
+  const onAddTab = () => {
+    const tabsCount = tabs.length
+    const title = `Analysis ${tabsCount + 1}`
     const tabId = uuid()
-
-    const contentProps = {
-      isAnalysis: type !== 'data',
-    }
 
     createTab({
       title,
       id: tabId,
       key: tabId,
-      contentProps,
       closable: true,
       plotData: null,
     })
@@ -87,7 +63,9 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
   }
 
   const renderAddTab = (
-    <AddTab actions={[() => onAddTab('data'), () => onAddTab('analysis')]} />
+    <Button onClick={onAddTab}>
+      Add Tab <PlusOutlined />
+    </Button>
   )
 
   return (
@@ -100,7 +78,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
         onEdit={onTabEdit}
         tabBarExtraContent={renderAddTab}
       >
-        {tabs.map(({ contentProps, ...tab }) => (
+        {tabs.map((tab) => (
           <Tabs.TabPane
             tab={tab.title}
             key={tab.key}
@@ -112,7 +90,6 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
               plotId={tab.id}
               plotData={tab.plotData}
               onRename={(name) => onRenameTab(name, tab.key)}
-              {...contentProps}
             />
           </Tabs.TabPane>
         ))}
