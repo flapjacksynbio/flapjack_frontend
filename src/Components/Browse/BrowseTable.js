@@ -27,14 +27,15 @@ const BrowseTable = ({ dataUrl, columns }) => {
 
   const loadData = async (query) => {
     setLoading(true)
-    const { count: total, results: data } = await api.get(dataUrl, {}, query)
-    if (!data) {
+    let { count: total, results: data } = await api.get(dataUrl, {}, query).catch(() => {
       message.error(
         'There was an error comunicating with the server. Please refresh the webpage.',
       )
-      return
-    }
-    data.forEach((d) => (d.key = d.id))
+      setLoading(false)
+      return {}
+    })
+    if (!data) return
+    data = data.map((d) => ({ ...d, key: d.id }))
 
     setDataSource(data)
     setPagination((pag) => ({
