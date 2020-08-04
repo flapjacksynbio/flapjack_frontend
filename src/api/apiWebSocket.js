@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import store from '../redux/store'
+import api from '.'
 
 /**
  * @callback listener
@@ -25,8 +25,8 @@ class ApiWebsocket {
    * @param {string} path API path. (For ws://localhost:8000/ws/registry/plot, path='registry/plot')
    * @returns {string} url
    */
-  url(path) {
-    const token = store.getState().session.access
+  async url(path) {
+    const token = await api.getAccessToken()
     const url = new URL(`${this.baseUrl}${path}?token=${token}`)
     return url
   }
