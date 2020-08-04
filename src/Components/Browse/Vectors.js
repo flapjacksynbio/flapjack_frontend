@@ -1,7 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Dropdown, Menu, Space } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Button, Space } from 'antd'
 import BrowseTable from './BrowseTable'
 
 const DNAs = () => {
@@ -18,28 +17,17 @@ const DNAs = () => {
   )
 
   const renderActions = (text, record) => {
-    const handleMenuClick = (e) => {
+    const handleViewClick = () => {
       // Redirect to View screen with selected parameters
       history.push({
         pathname: '/view',
-        state: { vector: { id: record.id, name: record.name }, tabType: e.key },
+        state: { vector: { id: record.id, name: record.name } },
       })
     }
 
-    const menu = (
-      <Menu onClick={handleMenuClick}>
-        <Menu.Item key="data">Data Viewer</Menu.Item>
-        <Menu.Item key="analysis">Analysis</Menu.Item>
-      </Menu>
-    )
-
     return (
       <Space>
-        <Dropdown overlay={menu}>
-          <Button>
-            View <DownOutlined />
-          </Button>
-        </Dropdown>
+        <Button onClick={handleViewClick}>Data Viewer</Button>
       </Space>
     )
   }

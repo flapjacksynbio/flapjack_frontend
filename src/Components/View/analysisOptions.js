@@ -8,6 +8,7 @@ import FunctionSelection from './FunctionSelection'
  * See src/Forms/Form.js
  */
 export const baseAnalysisOptions = {
+  None: [],
   'Mean Expression': [
     {
       name: 'bg_correction',

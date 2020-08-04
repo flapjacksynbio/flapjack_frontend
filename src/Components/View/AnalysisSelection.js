@@ -44,7 +44,7 @@ renderItem.propTypes = {
  * @param {*} formInstance Ant Design form instance for analysis parameter selection
  */
 const AnalysisSelection = ({ formInstance }) => {
-  const [selectedType, setSelectedType] = React.useState('Mean Expression')
+  const [selectedType, setSelectedType] = React.useState('None')
 
   // Set initial values when either the form instance changes or the analysis type changes
   React.useEffect(() => {

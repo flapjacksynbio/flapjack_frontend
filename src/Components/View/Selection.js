@@ -9,7 +9,7 @@ import api from '../../api'
 import _ from 'lodash'
 
 /** Renders the query form for plot creation */
-const Selection = ({ isAnalysis = false, onSubmit }) => {
+const Selection = ({ onSubmit }) => {
   const location = useLocation()
   const history = useHistory()
 
@@ -211,26 +211,22 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 
     form.plotOptions = { normalize, subplots, markers, plot }
 
-    if (isAnalysis) {
-      const analysisValues = await analysisForm
-        .validateFields()
-        .then((values) => {
-          return Object.entries(values).reduce((acc, [key, value]) => {
-            if (_.isPlainObject(value) && value.value) {
-              return { ...acc, [key]: value.value }
-            }
-            return { ...acc, [key]: value }
-          }, {})
-        })
-        .catch((e) => {
-          console.log(e)
-          message.warn('Please fill the fields in the analysis form.')
-        })
-      console.log(analysisValues)
+    const analysisValues = await analysisForm
+      .validateFields()
+      .then((values) => {
+        return Object.entries(values).reduce((acc, [key, value]) => {
+          if (_.isPlainObject(value) && value.value) {
+            return { ...acc, [key]: value.value }
+          }
+          return { ...acc, [key]: value }
+        }, {})
+      })
+      .catch((e) => {
+        console.log(e)
+        message.warn('Please fill the fields in the analysis form.')
+      })
 
-      if (!analysisValues) return
-      form = { ...form, analysis: analysisValues }
-    }
+    if (analysisValues && analysisValues.type !== 'None') form.analysis = analysisValues
 
     onSubmit(form)
   }
@@ -252,11 +248,9 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
               ))}
             </Collapse>
           </Collapse.Panel>
-          {isAnalysis && (
-            <Collapse.Panel header="Analysis" key="2" forceRender>
-              <AnalysisSelection formInstance={analysisForm} />
-            </Collapse.Panel>
-          )}
+          <Collapse.Panel header="Analysis" key="2" forceRender>
+            <AnalysisSelection formInstance={analysisForm} />
+          </Collapse.Panel>
           <Collapse.Panel header="Plot Options" key="3">
             <PlotOptions fields={plotOptionsFields} />
           </Collapse.Panel>
@@ -272,7 +266,6 @@ const Selection = ({ isAnalysis = false, onSubmit }) => {
 }
 
 Selection.propTypes = {
-  isAnalysis: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 }
 

@@ -14,9 +14,8 @@ import apiWebSocket from '../../api/apiWebSocket'
  * @param {function(string)} props.onRename Function to change tab title
  * @param {object} props.plotData Contains data for showing a plotly plot
  * @param {function(plotId, plotData)} props.addPlot Function for creating a new plot and storing it in Redux store
- * @param {boolean} isAnalysis Whether the tab corresponds to an analysis tab or a data tab
  */
-const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = false }) => {
+const DataView = ({ title, onRename, plotData, plotId, addPlot }) => {
   const [loadingData, setLoadingData] = React.useState(null)
 
   const onPlot = (values) => {
@@ -87,7 +86,7 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
           >
             {title}
           </Typography.Title>
-          <Selection onSubmit={onPlot} isAnalysis={isAnalysis} />
+          <Selection onSubmit={onPlot} />
         </Col>
         <Col span={18} style={{ padding: 20 }}>
           <Row justify="center">{renderPlot()}</Row>
@@ -100,7 +99,6 @@ const DataView = ({ title, onRename, plotData, plotId, addPlot, isAnalysis = fal
 DataView.propTypes = {
   title: PropTypes.string.isRequired,
   onRename: PropTypes.func.isRequired,
-  isAnalysis: PropTypes.bool,
   plotData: PropTypes.object,
   addPlot: PropTypes.func.isRequired,
   plotId: PropTypes.string.isRequired,
