@@ -29,23 +29,18 @@ const Studies = () => {
     const manageOptions = {
       share: {
         label: 'Share',
-        onClick: () => {
-          setModalStudy(record)
-        },
+        onClick: () => setModalStudy(record),
       },
       'toggle-public': {
         label: `Make ${notPublic}`,
         onClick: () =>
-          api.patch(`study/${record.id}/`, {
-            public: !record.public,
-          }),
+          api
+            .patch(`study/${record.id}/`, { public: !record.public })
+            .then(window.location.reload),
       },
       delete: {
         label: 'Delete',
-        onClick: () => {
-          api.delete(`study/${record.id}/`)
-          window.location.reload()
-        },
+        onClick: () => api.delete(`study/${record.id}/`).then(window.location.reload),
       },
     }
 
