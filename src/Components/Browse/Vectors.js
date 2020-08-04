@@ -13,7 +13,7 @@ const DNAs = () => {
       if (sboluri)
         uri = (
           <Button type="link" href={sboluri} size="small">
-            {sboluri}
+            Go to SynBioHub
           </Button>
         )
       return (
