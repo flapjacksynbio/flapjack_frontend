@@ -1,20 +1,37 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Space } from 'antd'
+import { Button, Space, List, Row, Col } from 'antd'
 import BrowseTable from './BrowseTable'
 
 const DNAs = () => {
   const history = useHistory()
 
-  const renderUris = (uris) => (
-    <div style={{ display: 'block' }}>
-      {uris.map((uri, i) => (
-        <div key={i}>
-          <a href={uri}>{uri}</a>
-        </div>
-      ))}
-    </div>
-  )
+  const renderUris = (dnas) => {
+    // eslint-disable-next-line react/prop-types
+    const renderUri = ({ name, sboluri }) => {
+      let uri = 'No Sbol Uri'
+      if (sboluri)
+        uri = (
+          <Button type="link" href={sboluri} size="small">
+            {sboluri}
+          </Button>
+        )
+      return (
+        <Row gutter={10} style={{ width: '100%' }}>
+          <Col span={10}>{name}:</Col>
+          <Col span={14}>{uri}</Col>
+        </Row>
+      )
+    }
+
+    return (
+      <List size="small">
+        {dnas.map((dna, i) => (
+          <List.Item key={i}>{renderUri(dna)}</List.Item>
+        ))}
+      </List>
+    )
+  }
 
   const renderActions = (text, record) => {
     const handleViewClick = () => {
@@ -37,11 +54,11 @@ const DNAs = () => {
       title: 'Name',
       dataIndex: 'name',
     },
-    // {
-    //   title: 'Sbol Uris',
-    //   dataIndex: 'sboluris',
-    //   render: renderUris,
-    // },
+    {
+      title: 'Sbol Uris',
+      dataIndex: 'dnas',
+      render: renderUris,
+    },
     {
       title: 'Actions',
       key: 'actions',
