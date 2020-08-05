@@ -251,6 +251,14 @@ export const baseAnalysisOptions = {
       rules: [{ required: true }],
     },
     {
+      name: 'ndt',
+      label: 'Num. Doublings',
+      type: 'number',
+      initial_value: 2.0,
+      rules: [{ required: true }],
+      renderer: Input,
+    },
+    {
       name: 'remove_data',
       label: 'Remove Data',
       showLabel: true,
