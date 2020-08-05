@@ -9,6 +9,42 @@ import FunctionSelection from './FunctionSelection'
  */
 export const baseAnalysisOptions = {
   None: [],
+  'Max Expression': [
+    {
+      name: 'bg_correction',
+      label: 'Std. Devs',
+      type: 'number',
+      rules: [{ required: true }],
+      initial_value: 2,
+      renderer: Input,
+    },
+    {
+      name: 'min_biomass',
+      label: 'Min. Biomass',
+      type: 'number',
+      rules: [{ required: true }],
+      initial_value: 0.05,
+      renderer: Input,
+    },
+    {
+      name: 'biomass_signal',
+      label: 'Biomass Signal',
+      showLabel: true,
+      isFormItem: true,
+      renderer: SelectOrCreate,
+      url: 'signal/',
+      selectionOnly: true,
+      rules: [{ required: true }],
+    },
+    {
+      name: 'remove_data',
+      label: 'Remove Data',
+      showLabel: true,
+      valuePropName: 'checked',
+      initial_value: false,
+      renderer: Checkbox,
+    },
+  ],
   'Mean Expression': [
     {
       name: 'bg_correction',
