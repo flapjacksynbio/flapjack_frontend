@@ -40,9 +40,10 @@ class ApiWebsocket {
    * call onReceiveHandlers[message.type] when the event fires.
    * @param {listener} listeners.onError Socket onerror listener.
    */
-  connect(path, { onConnect, onReceiveHandlers, onError }) {
+  async connect(path, { onConnect, onReceiveHandlers, onError }) {
     // Create WebSocket
-    const socket = new WebSocket(this.url(path))
+    const url = await this.url(path)
+    const socket = new WebSocket(url)
 
     // onConnect
     socket.onopen = (event) => onConnect(event, socket)
