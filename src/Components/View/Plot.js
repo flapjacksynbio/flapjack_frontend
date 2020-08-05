@@ -103,7 +103,7 @@ const Plot = ({ data = {}, title = '' }) => {
           onDownloadJSON={(screen = true) =>
             downloadJSON(
               {
-                traces: screen ? traces : styleTraces(data.data, false),
+                data: screen ? traces : styleTraces(data.data, false),
                 layout: screen ? layout : paperWhiteLayout,
               },
               title,
