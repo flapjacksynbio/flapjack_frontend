@@ -120,6 +120,7 @@ export const paperLayout = (width = 3.3, height = 5, fontSize = 6, baseLayout = 
         ...value,
         title: { ...title, font: { ...font, size: _font_size } },
         tickfont: { ...tickfont, size: _font_size },
+        linewidth: 3,
         automargin: true,
       },
     }
