@@ -122,6 +122,7 @@ export const paperLayout = (width = 3.3, height = 5, fontSize = 6, baseLayout = 
         tickfont: { ...tickfont, size: _font_size },
         linewidth: 3,
         automargin: true,
+        showgrid: false
       },
     }
   }, {})
