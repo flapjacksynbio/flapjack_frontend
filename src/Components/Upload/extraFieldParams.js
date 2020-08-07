@@ -66,6 +66,12 @@ const getFieldParams = (type) => {
             rules: [{ required: true }],
             RenderField: TextArea,
           },
+          {
+            name: 'color',
+            label: 'Color',
+            showLabel: true,
+            rules: [{ required: true }],
+          }
         ],
       }
     default:
