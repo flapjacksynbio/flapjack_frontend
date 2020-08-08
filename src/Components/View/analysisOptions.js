@@ -352,7 +352,7 @@ export const baseAnalysisOptions = {
 export const functionAnalysisOptions = {
   'Induction Curve': [
     {
-      name: 'chemical',
+      name: 'analyte',
       label: 'Chemical',
       renderer: ChemicalForm,
       rules: [{ required: true }],
@@ -374,7 +374,7 @@ export const functionAnalysisOptions = {
   ],
   Kymograph: [
     {
-      name: 'chemical',
+      name: 'analyte',
       label: 'Chemical',
       renderer: ChemicalForm,
       rules: [{ required: true }],
