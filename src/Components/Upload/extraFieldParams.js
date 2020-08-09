@@ -1,4 +1,5 @@
 import TextArea from '../Forms/TextArea'
+import { Input, Checkbox } from 'antd'
 
 /**
  * Maps required metadata fields
@@ -38,6 +39,13 @@ const getFieldParams = (type) => {
             showLabel: true,
             rules: [{ required: true }],
             style: { width: '100%' },
+          },    
+          {
+            name: 'pubchemid',
+            label: 'PubChem ID',
+            type: 'number',
+            rules: [{ required: false }],
+            renderer: Input,
           },
           {
             name: 'description',
