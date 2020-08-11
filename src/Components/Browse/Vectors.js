@@ -66,7 +66,7 @@ const DNAs = () => {
     },
   ]
 
-  return <BrowseTable dataUrl="vector/" columns={columns} />
+  return <BrowseTable dataUrl="vectorall/" columns={columns} />
 }
 
 DNAs.propTypes = {}
