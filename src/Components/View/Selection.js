@@ -196,12 +196,12 @@ const Selection = ({ onSubmit }) => {
 
   const onPlot = async () => {
     let form = {
-      studyIds: selectedStudies.map(({ id }) => id),
-      assayIds: selectedAssays.map(({ id }) => id),
-      vectorIds: selectedVectors.map(({ id }) => id),
-      strainIds: selectedStrain.map(({ id }) => id),
-      mediaIds: selectedMedia.map(({ id }) => id),
-      signalIds: selectedSignals.map(({ id }) => id),
+      study: selectedStudies.map(({ id }) => id),
+      assay: selectedAssays.map(({ id }) => id),
+      vector: selectedVectors.map(({ id }) => id),
+      strain: selectedStrain.map(({ id }) => id),
+      media: selectedMedia.map(({ id }) => id),
+      signal: selectedSignals.map(({ id }) => id),
     }
 
     if (!Object.values(form).some((val) => val.length)) {
