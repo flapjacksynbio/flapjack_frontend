@@ -39,7 +39,6 @@ const Upload = () => {
     fr.addEventListener('loadend', () => {
       apiWebSocket.connect('registry/upload', {
         onConnect(event, socket) {
-          console.log('onConnect')
           setConnectionSocket(socket)
           // Send information to create assay in backend
           socket.send(JSON.stringify({ type: 'init_upload', data: form }))
@@ -57,7 +56,6 @@ const Upload = () => {
           },
           input_requests(msg) {
             // Backend asks for specific metadata for sample
-            console.log(msg.data)
             setExtraDataFields(msg.data)
             setExtraDataVisible(true)
           },
@@ -65,7 +63,6 @@ const Upload = () => {
             setProgress(+msg.data)
           },
           creation_done() {
-            console.log('creation_done')
             setLoading(false)
             setExtraDataLoading(false)
             message.success('Data uploaded successfully!')
