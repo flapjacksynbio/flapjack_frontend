@@ -56,9 +56,9 @@ const uploadSteps = [
         showLabel: true,
         placeholder: 'Machine',
         options: [
-          { key: 'htx', label: 'HTX Synergy' },
-          { key: 'bmg', label: 'BMG' },
-          { key: 'fluopi', label: 'FluoPi' },
+          { key: 'HTX Synergy', label: 'HTX Synergy' },
+          { key: 'BMG', label: 'BMG' },
+          { key: 'FluoPi', label: 'FluoPi' },
         ],
         RenderField: RadioGroup,
         rules: [{ required: true }],
