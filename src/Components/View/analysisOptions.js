@@ -372,6 +372,34 @@ export const functionAnalysisOptions = {
       rules: [{ required: true }],
     },
   ],
+  'Heatmap': [
+    {
+      name: 'analyte1',
+      label: 'Chemical 1',
+      renderer: ChemicalForm,
+      rules: [{ required: true }],
+    },
+    {
+      name: 'analyte2',
+      label: 'Chemical 2',
+      renderer: ChemicalForm,
+      rules: [{ required: true }],
+    },
+    {
+      name: 'function',
+      label: 'Function',
+      options: [
+        { label: 'Mean Expression', value: 'Mean Expression' },
+        { label: 'Max Expression', value: 'Max Expression' },
+        { label: 'Rho', value: 'Rho' },
+        { label: 'Alpha', value: 'Alpha' },
+      ],
+      requiresForm: true,
+      isFormItem: true,
+      renderer: FunctionSelection,
+      rules: [{ required: true }],
+    },
+  ],
   Kymograph: [
     {
       name: 'analyte',
