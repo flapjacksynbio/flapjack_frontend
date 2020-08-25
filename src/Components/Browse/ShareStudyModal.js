@@ -62,7 +62,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
         header={null}
         locale={{ emptyText: 'Study is not shared with any user' }}
       />
-      <Input.Search placeholder="User email" enterButton="Share" onSearch={handleShare} />
+      <Input.Search placeholder="User email" enterButton="Share" onSearch={handleShare}/>
     </Modal>
   )
 }
