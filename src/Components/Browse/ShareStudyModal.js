@@ -53,6 +53,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
       visible={!_.isEmpty(study)}
       onCancel={() => setModalStudy({})}
       footer={null}
+      destroyOnClose={true}
       title="Share study"
     >
       <List
