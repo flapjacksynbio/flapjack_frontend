@@ -58,12 +58,13 @@ const BrowseTable = ({ dataUrl, columns }) => {
 
   return (
     <div>
-      <div className="search-bar">
+      <div>
         <Input.Search
           placeholder="Search"
           enterButton
           loading={loading}
           onSearch={(val) => handleTableChange(pagination, val)}
+          allowClear
         />
       </div>
       <Table

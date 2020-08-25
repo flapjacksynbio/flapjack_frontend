@@ -36,11 +36,11 @@ const Studies = () => {
         onClick: () =>
           api
             .patch(`study/${record.id}/`, { public: !record.public })
-            .then(window.location.reload),
+            .then(history.go(0)),
       },
       delete: {
         label: 'Delete',
-        onClick: () => api.delete(`study/${record.id}/`).then(window.location.reload),
+        onClick: () => api.delete(`study/${record.id}/`).then(history.go(0)),
       },
     }
 

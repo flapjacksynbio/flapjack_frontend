@@ -21,6 +21,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
         } else {
           message.success('Study successfully shared')
         }
+        setModalStudy({})
       })
       .catch((err) => message.error(err.message))
   }
@@ -53,6 +54,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
       visible={!_.isEmpty(study)}
       onCancel={() => setModalStudy({})}
       footer={null}
+      destroyOnClose={true}
       title="Share study"
     >
       <List
@@ -61,7 +63,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
         header={null}
         locale={{ emptyText: 'Study is not shared with any user' }}
       />
-      <Input.Search placeholder="User email" enterButton="Share" onSearch={handleShare} />
+      <Input.Search placeholder="User email" enterButton="Share" onSearch={handleShare}/>
     </Modal>
   )
 }
