@@ -21,6 +21,7 @@ const ShareStudyModal = ({ study, setModalStudy }) => {
         } else {
           message.success('Study successfully shared')
         }
+        setModalStudy({})
       })
       .catch((err) => message.error(err.message))
   }
