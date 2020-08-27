@@ -51,45 +51,39 @@ const Selection = ({ onSubmit }) => {
     if (!checked) return
 
     api
-      .get('assay', null, {
-        study: value.id,
-      })
+      .get('assay', null, { study: value.id })
       .then(({ results }) =>
-        results.reduce((acc, value) => {
-          return { ...acc, [value.id]: value }
-        }, {}),
-      )
-      .then((res) =>
-        Promise.all(
-          Object.entries(res).forEach(([, value]) =>
-            // setAssaysAndChildDNA({ id: +id, name: value.name }, true),
-            addSelected(value, true, setSelectedAssays),
-          ),
-        ),
+        results.forEach(({ id, name }) => setAssaysAndChildren({ id: +id, name }, true)),
       )
       .catch(() => null)
   }
 
-  // const setAssaysAndChildDNA = async (value, checked) => {
-  //   addSelected(value, checked, setSelectedAssays)
-  //   if (!checked) return
+  const url_to_setter = {
+    vector_in_assay: setSelectedVectors,
+    strain_in_assay: setSelectedStrain,
+    media_in_assay: setSelectedMedia,
+    signal_in_assay: setSelectedSignals,
+  }
 
-  //   api
-  //     .get('dna', null, { assays: value.id })
-  //     .then(({ results }) =>
-  //       results.reduce((acc, value) => {
-  //         value.name = value.names.join(', ')
-  //         return { ...acc, [value.id]: value }
-  //       }, {}),
-  //     )
-  //     .then((res) =>
-  //       setSelectedVectors((selected) => [
-  //         ...selected.filter(({ id }) => !res[id]),
-  //         ...Object.values(res),
-  //       ]),
-  //     )
-  //     .catch(() => null)
-  // }
+  const setAssaysAndChildren = async (value, checked) => {
+    addSelected(value, checked, setSelectedAssays)
+    if (!checked) return
+
+    Object.entries(url_to_setter).forEach(([url, setter]) => {
+      api
+        .get(url, null, { id: value.id })
+        .then(({ results }) =>
+          results.reduce((acc, { id, name }) => ({ ...acc, [id]: { id, name } }), {}),
+        )
+        .then((res) =>
+          setter((selected) => [
+            ...selected.filter(({ id }) => !res[id]),
+            ...Object.values(res),
+          ]),
+        )
+        .catch(() => null)
+    })
+  }
 
   const queryFields = [
     {
@@ -106,8 +100,8 @@ const Selection = ({ onSubmit }) => {
       header: 'Assays',
       selected: selectedAssays,
       _selectedSetter: setSelectedAssays,
-      setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
-      // setSelected: setAssaysAndChildDNA,
+      // setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
+      setSelected: setAssaysAndChildren,
     },
     {
       url: 'vector',
