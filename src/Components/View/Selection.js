@@ -65,6 +65,7 @@ const Selection = ({ onSubmit }) => {
     signal_in_assay: setSelectedSignals,
   }
 
+  // Set an assay and all related vectors, strains, media and signals
   const setAssaysAndChildren = async (value, checked) => {
     addSelected(value, checked, setSelectedAssays)
     if (!checked) return
@@ -100,7 +101,6 @@ const Selection = ({ onSubmit }) => {
       header: 'Assays',
       selected: selectedAssays,
       _selectedSetter: setSelectedAssays,
-      // setSelected: (value, checked) => addSelected(value, checked, setSelectedAssays),
       setSelected: setAssaysAndChildren,
     },
     {
