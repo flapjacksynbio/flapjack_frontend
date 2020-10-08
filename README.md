@@ -1,4 +1,4 @@
-## Front end project for Flapjack web application
+## Front end project for Flapjack data management system
 
 For instructions on the API installation, you can go to our [API Wiki](https://github.com/SynBioUC/flapjack_api/wiki).
 
