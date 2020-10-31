@@ -19,10 +19,11 @@ ADD . /usr/src/app
 # start app
 CMD if [ ${APP_ENV} = production ]; \
 	then \
+	npx browserslist@latest --update-db \
 	npm install -g http-server && \
 	npm run build && \
 	cd build && \
-	hs -p 3000; \
+	hs -p 3000 -S; \
 	else \
 	npm run start; \
 	fi
