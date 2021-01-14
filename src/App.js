@@ -29,7 +29,7 @@ function App({ loggedIn }) {
       </Content>
       <Footer className="footer" theme="dark">
         <span>
-          © 2019 Copyright: <a href="https://rudge-lab.org/">Flapjack Technologies</a>
+          © 2020 Copyright: <a href="https://rudge-lab.org/">Rudge Lab - Pontificia Universidad  Católica de Chile</a>
         </span>
       </Footer>
     </Layout>

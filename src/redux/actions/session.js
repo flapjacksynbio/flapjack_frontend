@@ -13,7 +13,7 @@ export const FINISHED_LOGIN = 'FINISHED_LOGIN'
  */
 export const receiveAccessTokens = (tokens) => {
   // Refresh access token
-  setTimeout(() => api.refresh().catch(() => null), 4.5 * 60 * 1000) // Every 4.5 minutes
+  setTimeout(() => api.refresh().catch(() => null), 60 * 60 * 1000) // Every 60 minutes
 
   return {
     type: RECEIVE_ACCESS_TOKENS,

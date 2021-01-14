@@ -35,12 +35,12 @@ const Studies = () => {
         label: `Make ${notPublic}`,
         onClick: () =>
           api
-            .patch(`study/${record.id}/`, { public: !record.public })
-            .then(() => history.go(0)),
+            .patch(`study/${record.id}`, { public: !record.public })
+            .then(history.go(0)),
       },
       delete: {
         label: 'Delete',
-        onClick: () => api.delete(`study/${record.id}/`).then(() => history.go(0)),
+        onClick: () => api.delete(`study/${record.id}`).then(history.go(0)),
       },
     }
 
