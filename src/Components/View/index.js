@@ -32,7 +32,7 @@ const View = ({ tabs, createTab, editTab, deleteTab }) => {
 
   // Create new tab with query parameters
   React.useEffect(() => {
-    if (location.state) {
+    if (location.state || window.location.search) {
       onAddTab()
     }
     // eslint-disable-next-line
