@@ -3,6 +3,9 @@ import { Tabs, BackTop } from 'antd'
 import Studies from './Studies'
 import Assays from './Assays'
 import Vectors from './Vectors'
+import Medias from './Medias'
+import Strains from './Strains'
+import Signals from './Signals'
 
 const Browse = () => {
   return (
@@ -17,6 +20,15 @@ const Browse = () => {
         </Tabs.TabPane>
         <Tabs.TabPane tab="Vectors" key="3">
           <Vectors />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Medias" key="4">
+          <Medias />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Strains" key="5">
+          <Strains />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Signals" key="6">
+          <Signals />
         </Tabs.TabPane>
       </Tabs>
     </>
