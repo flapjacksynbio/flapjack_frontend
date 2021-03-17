@@ -31,6 +31,10 @@ const Selection = ({ onSubmit }) => {
       const study_id = parseInt(urlParams.get('study'));
       const assay_id = parseInt(urlParams.get('assay'));
       const vector_id = parseInt(urlParams.get('vector'));
+      const media_id = parseInt(urlParams.get('media'));
+      const strain_id = parseInt(urlParams.get('strain'));
+      const signal_id = parseInt(urlParams.get('signal'));
+
       if (study_id) {
         api
           .get('study', null, { id: study_id })
@@ -52,6 +56,30 @@ const Selection = ({ onSubmit }) => {
           .get('vector', null, { id: vector_id })
           .then(({ results }) =>
           results.forEach(({ id, name }) => setSelectedVectors([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      if (media_id) {
+        api
+          .get('media', null, { id: media_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedMedia([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      if (strain_id) {
+        api
+          .get('strain', null, { id: strain_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedStrain([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      if (signal_id) {
+        api
+          .get('signal', null, { id: signal_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedSignals([{ id: +id, name }])),
         )
         .catch(() => null)
       }
