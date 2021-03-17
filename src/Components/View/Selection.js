@@ -12,7 +12,7 @@ import _ from 'lodash'
 const Selection = ({ onSubmit }) => {
   const location = useLocation()
   const history = useHistory()
-
+  
   // Query
   const [selectedStudies, setSelectedStudies] = React.useState([])
   const [selectedAssays, setSelectedAssays] = React.useState([])
@@ -25,6 +25,41 @@ const Selection = ({ onSubmit }) => {
 
   // Set initial values based on url query parameters
   React.useEffect(() => {
+    const queryString = window.location.search;
+    if (queryString) {
+      const urlParams = new URLSearchParams(queryString);
+      const study_id = parseInt(urlParams.get('study'));
+      const assay_id = parseInt(urlParams.get('assay'));
+      const vector_id = parseInt(urlParams.get('vector'));
+      if (study_id) {
+        api
+          .get('study', null, { id: study_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedStudies([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      if (assay_id) {
+        api
+          .get('assay', null, { id: assay_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedAssays([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      if (vector_id) {
+        api
+          .get('vector', null, { id: vector_id })
+          .then(({ results }) =>
+          results.forEach(({ id, name }) => setSelectedVectors([{ id: +id, name }])),
+        )
+        .catch(() => null)
+      }
+      history.replace({
+        pathname: location.pathname,
+        state: null,
+      })
+    }
     if (location.state) {
       const { study, assay, vector } = location.state
       if (study) setSelectedStudies([study])
