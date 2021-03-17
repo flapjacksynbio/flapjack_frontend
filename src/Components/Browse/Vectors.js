@@ -55,6 +55,11 @@ const DNAs = () => {
       dataIndex: 'name',
     },
     {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
       title: 'Sbol Uris',
       dataIndex: 'dnas',
       render: renderUris,

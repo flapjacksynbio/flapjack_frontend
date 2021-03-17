@@ -60,6 +60,11 @@ const Studies = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
