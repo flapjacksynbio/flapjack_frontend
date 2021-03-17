@@ -93,9 +93,9 @@ const Selection = ({ onSubmit }) => {
       if (study) setSelectedStudies([study])
       if (assay) setSelectedAssays([assay])
       if (vector) setSelectedVectors([vector])
-      if (media) setSelectedStudies([media])
-      if (strain) setSelectedAssays([strain])
-      if (signal) setSelectedVectors([signal])
+      if (media) setSelectedMedia([media])
+      if (strain) setSelectedStrain([strain])
+      if (signal) setSelectedSignals([signal])
       history.replace({
         pathname: location.pathname,
         state: null,
