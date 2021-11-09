@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:14
 
 ARG app_env
 ENV APP_ENV $app_env
