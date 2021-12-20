@@ -1,32 +1,47 @@
+import { Layout } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from 'react-router-dom'
-import Home from './Components/Home'
+import { connect } from 'react-redux'
+import { Route, Switch, useHistory } from 'react-router-dom'
+import './App.scss'
+import FlapHeader from './Components/Header'
+import routes from './routes'
 
-function App() {
+const { Content, Footer } = Layout
+
+function App({ loggedIn }) {
+  const history = useHistory()
+  const availableRoutes = routes(loggedIn)
+
+  const contentClass = history.location.pathname === '/view' ? 'full-width' : ''
+
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <Switch>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
+    <Layout className="layout">
+      <FlapHeader routes={availableRoutes} />
+      <Content id="flapjack-content" className={contentClass}>
+        <div className="site-layout-content">
+          <Switch>
+            {[...availableRoutes].reverse().map(({ route, viewRenderer: Renderer }) => (
+              <Route path={route} key={`route-${route}`} component={Renderer} />
+            ))}
+          </Switch>
+        </div>
+      </Content>
+      <Footer className="footer" theme="dark">
+        <span>
+          © 2020 Copyright: <a href="https://rudge-lab.org/">Rudge Lab - Pontificia Universidad  Católica de Chile</a>
+        </span>
+      </Footer>
+    </Layout>
   )
 }
 
-export default App
+App.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+  loggedIn: !!state.session.access,
+})
+
+export default connect(mapStateToProps)(App)

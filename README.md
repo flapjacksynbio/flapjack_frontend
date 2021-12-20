@@ -1,19 +1,30 @@
-## Front end project for Flapjack data management system
+# Flapjack Fronted
 
-### API
+Front end project for Flapjack web application
 
-For instructions on the API installation, you can go to our [API Wiki](https://github.com/SynBioUC/flapjack_api/wiki).
+## Environment Variables
 
-### Web interface
+To run the aplication, an environment variable file must be created in the root directory of the project. These files must be named `.env.prod` for production environment and `.env.dev` for development environment.
 
-For instructions on installation and use of the web interface, you can go to our [UI Wiki](https://github.com/SynBioUC/flapjack_frontend/wiki).
+These files must contain the following fields:
 
-### Python package
+```
+REACT_APP_HTTP_API="<API HTTP url>"
+REACT_APP_WS_API="<API WebSocket url>"
+```
 
-For instructions on package installation, you can go to our [Package Wiki](https://github.com/SynBioUC/flapjack/wiki/Installation).
+## Build
 
-For tutorials on how to use the Python package for accessing the API, you can go to our [Jupyter tutorials](https://github.com/SynBioUC/flapjack/tree/master/notebooks).
+The app must be built before running, for this run:
 
-### Frontend's full documentation
+`docker-compose -f <docker-compose path> build`
 
-For a comprehensive documentation of the User Interface you can access the [Flapjack frontend documentation](https://github.com/SynBioUC/flapjack_frontend/blob/gh-pages/Flapjack_doc_frontend.pdf).
+Where `<docker-compose path>` is `./docker-compose.dev.yml` for development environment and `./docker-compose.prod.yml` for production environment.
+
+## Run
+
+To run the aplication:
+
+`docker-compose -f <docker-compose path> up`
+
+Where `<docker-compose path>` is `./docker-compose.dev.yml` for development environment and `./docker-compose.prod.yml` for production environment.

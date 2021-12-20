@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { override, fixBabelImports } = require('customize-cra')
+const { override, fixBabelImports, addBabelPlugin } = require('customize-cra')
 
 module.exports = override(
   fixBabelImports('import', {
@@ -7,4 +7,5 @@ module.exports = override(
     libraryDirectory: 'es',
     style: 'css',
   }),
+  addBabelPlugin('babel-plugin-root-import'),
 )

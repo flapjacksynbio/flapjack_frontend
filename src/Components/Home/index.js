@@ -1,28 +1,38 @@
+import { Card, Col, Row, Typography } from 'antd'
+import PropTypes from 'prop-types'
 import React from 'react'
-import logo from '../../logo.svg'
-import './Home.css'
+import { connect } from 'react-redux'
+import logo from '~/src/assets/images/logo.png'
+import './Home.scss'
+import LoggedInCards from './LoggedInCards'
+import NotLoggedInCards from './NotLoggedInCards'
 
-const Home = () => {
+const { Title } = Typography
+
+const Home = ({ loggedIn }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Card className="home-header">
+        <Row align="middle" className="home-content" gutter={16}>
+          <Col sm={24} md={8}>
+            <img alt="FlapJack Logo" src={logo} />
+          </Col>
+          <Col sm={24} md={16}>
+            <Title className={'home-title'}>FlapJack</Title>
+          </Col>
+        </Row>
+      </Card>
+      {loggedIn ? <LoggedInCards /> : <NotLoggedInCards />}
     </div>
   )
 }
 
-Home.propTypes = {}
+Home.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
+}
 
-export default Home
+const mapStateToProps = (state) => ({
+  loggedIn: !!state.session.access,
+})
+
+export default connect(mapStateToProps)(Home)
