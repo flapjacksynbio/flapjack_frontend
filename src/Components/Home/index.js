@@ -15,10 +15,10 @@ const Home = ({ loggedIn }) => {
       <Card className="home-header">
         <Row align="middle" className="home-content" gutter={16}>
           <Col sm={24} md={8}>
-            <img alt="FlapJack Logo" src={logo} />
+            <img alt="Flapjack Logo" src={logo} />
           </Col>
           <Col sm={24} md={16}>
-            <Title className={'home-title'}>FlapJack</Title>
+            <Title className={'home-title'}>Flapjack</Title>
           </Col>
         </Row>
       </Card>

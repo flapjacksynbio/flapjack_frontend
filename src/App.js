@@ -29,7 +29,12 @@ function App({ loggedIn }) {
       </Content>
       <Footer className="footer" theme="dark">
         <span>
-          © 2020 Copyright: <a href="https://rudge-lab.org/">Rudge Lab - Pontificia Universidad  Católica de Chile</a>
+          © 2022 Copyright: <a href="http://rudge-lab.org/">Rudge Lab</a> — Newcastle University
+          <br />
+          <br />
+          Please reference our <a href="https://pubs.acs.org/doi/10.1021/acssynbio.0c00554">paper</a> as follows:
+          <br />
+          Guillermo Yáñez Feliú, Benjamín Earle Gómez, Verner Codoceo Berrocal, Macarena Muñoz Silva, Isaac N. Nuñez,<br />Tamara F. Matute, Anibal Arce Medina, Gonzalo Vidal, Carlos Vidal-Céspedes, Jonathan Dahlin, Fernán Federici,<br />and Timothy J. Rudge <i>ACS Synthetic Biology</i> <b>2021 10</b> (1), 183-191 DOI: 10.1021/acssynbio.0c00554
         </span>
       </Footer>
     </Layout>

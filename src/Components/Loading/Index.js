@@ -5,7 +5,7 @@ import './Loading.scss'
 const Loading = () => {
   return (
     <div className="loading-container">
-      <img alt="FlapJack Logo" src={logo} className="loading-logo" />
+      <img alt="Flapjack Logo" src={logo} className="loading-logo" />
     </div>
   )
 }

@@ -76,7 +76,7 @@ const Signup = ({ goToLogin }) => {
   return (
     <Row align="middle" className="auth-form-container">
       <Col xs={22} md={16} lg={12}>
-        <Card title="Register on FlapJack">
+        <Card title="Register on Flapjack">
           {errors.length > 0 && showAlerts(errors)}
           <FormFactory
             name="Signup"

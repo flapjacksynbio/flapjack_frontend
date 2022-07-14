@@ -39,7 +39,7 @@ const FlapHeader = ({ routes = [] }) => {
       <div className="logo">
         <Link to="/">
           <img src={logo} alt="Flapjack Logo" />
-          <span className="logo-title">FlapJack</span>
+          <span className="logo-title">Flapjack</span>
         </Link>
       </div>
       {smallScreen && (
