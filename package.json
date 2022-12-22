@@ -15,7 +15,7 @@
     "antd": "^4.1.2",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "plotly.js": "^1.54.7",
