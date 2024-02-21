@@ -21,6 +21,8 @@ The app must be built before running, for this run:
 
 Where `<docker-compose path>` is `./docker-compose.dev.yml` for development environment and `./docker-compose.prod.yml` for production environment.
 
+It should look like this `docker-compose -f docker-compose.prod.yml build`
+
 ## Run
 
 To run the aplication:
